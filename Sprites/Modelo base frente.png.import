@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bjdsp583wukou"
-path="res://.godot/imported/Caminosv3.png-dc9a60b8cc73a3d3488382cab76b0a8d.ctex"
+uid="uid://b650wd6dnou71"
+path="res://.godot/imported/Modelo base frente.png-8bc94123050998fc81d65782a1aa1271.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Caminosv3.png"
-dest_files=["res://.godot/imported/Caminosv3.png-dc9a60b8cc73a3d3488382cab76b0a8d.ctex"]
+source_file="res://Sprites/Modelo base frente.png"
+dest_files=["res://.godot/imported/Modelo base frente.png-8bc94123050998fc81d65782a1aa1271.ctex"]
 
 [params]
 
