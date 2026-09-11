@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://cdrghfle1oh1a"]
+
+[ext_resource type="Texture2D" uid="uid://dlq1ce08mqfhk" path="res://Sprites/Caminar derecha1.png" id="1_0u0ms"]
+[ext_resource type="Script" uid="uid://d0pcgbxd5tqx1" path="res://area_2d.gd" id="2_gw7q4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qnkqk"]
+size = Vector2(19, 26)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p22yc"]
+size = Vector2(34, 38)
+
+[node name="NPC1" type="CharacterBody2D" unique_id=188928111]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1149960261]
+texture = ExtResource("1_0u0ms")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1626304489]
+position = Vector2(-0.5, -1)
+shape = SubResource("RectangleShape2D_qnkqk")
+
+[node name="Area2D" type="Area2D" parent="CollisionShape2D" unique_id=1838975643]
+position = Vector2(0.5, 1)
+script = ExtResource("2_gw7q4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionShape2D/Area2D" unique_id=1966735925]
+position = Vector2(-1, -1)
+shape = SubResource("RectangleShape2D_p22yc")
+
+[connection signal="body_entered" from="CollisionShape2D/Area2D" to="CollisionShape2D/Area2D" method="_on_body_entered"]
+[connection signal="body_exited" from="CollisionShape2D/Area2D" to="CollisionShape2D/Area2D" method="_on_body_exited"]

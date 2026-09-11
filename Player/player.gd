@@ -23,19 +23,19 @@ func update_animation(direction: Vector2) -> void:
 		# Guardamos la última dirección en la que caminó
 		last_direction = direction
 		
-		# Determinar hacia dónde se mueve y poner la animación estática correspondiente
+		# Priorizar la animación según el eje de movimiento principal
 		if abs(direction.x) > abs(direction.y):
 			if direction.x > 0:
-				animated_sprite.play("idle_right")
+				animated_sprite.play("walk_right")
 			else:
-				animated_sprite.play("idle_left")
+				animated_sprite.play("walk_left")
 		else:
 			if direction.y > 0:
-				animated_sprite.play("idle_down")
+				animated_sprite.play("walk_down")
 			else:
-				animated_sprite.play("idle_up")
+				animated_sprite.play("walk_up")
 	else:
-		# Si se detiene, mantiene la animación idle según el último lado al que miró
+		# Si está quieto, reproducir la animación idle según hacia dónde miraba
 		if abs(last_direction.x) > abs(last_direction.y):
 			if last_direction.x > 0:
 				animated_sprite.play("idle_right")

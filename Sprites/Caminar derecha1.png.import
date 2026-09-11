@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btnc2iu2u7lf0"
-path="res://.godot/imported/Modelo base Espalda caminando-Sheet.png-3a71fcd7098acd145c962651e9ea6470.ctex"
+uid="uid://dlq1ce08mqfhk"
+path="res://.godot/imported/Caminar derecha1.png-24db8c98e82b274e1d38d6445588f760.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Modelo base Espalda caminando-Sheet.png"
-dest_files=["res://.godot/imported/Modelo base Espalda caminando-Sheet.png-3a71fcd7098acd145c962651e9ea6470.ctex"]
+source_file="res://Sprites/Caminar derecha1.png"
+dest_files=["res://.godot/imported/Caminar derecha1.png-24db8c98e82b274e1d38d6445588f760.ctex"]
 
 [params]
 
