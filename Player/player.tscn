@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://c1x6a46u32iqy" path="res://Sprites/Modelo Protagonista inicio Espalda caminando-Sheet.png" id="8_5htga"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qnkqk"]
-size = Vector2(20, 27)
+size = Vector2(10, 12)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_00tjw"]
 load_path = "res://.godot/imported/Modelo base frente.png-8bc94123050998fc81d65782a1aa1271.ctex"
@@ -128,7 +128,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"walk_down",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -145,7 +145,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"walk_left",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -162,7 +162,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"walk_right",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -179,18 +179,17 @@ animations = [{
 }],
 "loop": 1,
 "name": &"walk_up",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [node name="Player" type="CharacterBody2D" unique_id=376763523]
 script = ExtResource("1_4ntmi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1057345105]
-position = Vector2(0, -0.5)
+position = Vector2(0, 7)
 shape = SubResource("RectangleShape2D_qnkqk")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=865758014]
 sprite_frames = SubResource("SpriteFrames_qnkqk")
-animation = &"walk_right"
-frame = 2
-frame_progress = 0.436397
+animation = &"walk_down"
+frame_progress = 0.67104226

@@ -1,0 +1,136 @@
+[gd_scene format=3 uid="uid://cv2xvfado8vhj"]
+
+[ext_resource type="Script" uid="uid://dkpn8hcy163wo" path="res://vicente.gd" id="1_0lej1"]
+[ext_resource type="Texture2D" uid="uid://ccs7ocd07o62h" path="res://Sprites/Modelo vicho frente-Sheet.png" id="2_arikt"]
+[ext_resource type="Texture2D" uid="uid://bl06oehkpro0c" path="res://Sprites/Modelo Vicho izquierda-Sheet.png" id="3_kcacx"]
+[ext_resource type="Texture2D" uid="uid://qdxvxitjso2v" path="res://Sprites/Modelo Vocho Derecha-Sheet.png" id="4_i2fbn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w0ev6"]
+size = Vector2(12, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4tcat"]
+size = Vector2(46, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vwe3e"]
+atlas = ExtResource("2_arikt")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7oakg"]
+atlas = ExtResource("3_kcacx")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8k5gf"]
+atlas = ExtResource("3_kcacx")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tmt15"]
+atlas = ExtResource("3_kcacx")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_68f5e"]
+atlas = ExtResource("3_kcacx")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_usela"]
+atlas = ExtResource("3_kcacx")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_falyh"]
+atlas = ExtResource("3_kcacx")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fv80w"]
+atlas = ExtResource("3_kcacx")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ylolr"]
+atlas = ExtResource("3_kcacx")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j1mu7"]
+atlas = ExtResource("3_kcacx")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3wu8q"]
+atlas = ExtResource("3_kcacx")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hsqdp"]
+atlas = ExtResource("4_i2fbn")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b22k2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vwe3e")
+}],
+"loop": 1,
+"name": &"idle_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7oakg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8k5gf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tmt15")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_68f5e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_usela")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_falyh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fv80w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ylolr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j1mu7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3wu8q")
+}],
+"loop": 1,
+"name": &"idle_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hsqdp")
+}],
+"loop": 1,
+"name": &"idle_right",
+"speed": 5.0
+}]
+
+[node name="Vicente" type="CharacterBody2D" unique_id=1999279374]
+script = ExtResource("1_0lej1")
+texto_dialogo = "¡Hola! Soy Vicente, el tutor de punteros (0x00FF)."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1275296511]
+position = Vector2(0, 11)
+shape = SubResource("RectangleShape2D_w0ev6")
+
+[node name="Area2D" type="Area2D" parent="CollisionShape2D" unique_id=1896392482]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionShape2D/Area2D" unique_id=1513527968]
+position = Vector2(0, -10.5)
+shape = SubResource("RectangleShape2D_4tcat")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1033925508]
+sprite_frames = SubResource("SpriteFrames_b22k2")
+animation = &"idle_right"
+autoplay = "idle_down"
+
+[connection signal="body_entered" from="CollisionShape2D/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="CollisionShape2D/Area2D" to="." method="_on_area_2d_body_exited"]

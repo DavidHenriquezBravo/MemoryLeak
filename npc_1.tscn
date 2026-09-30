@@ -7,7 +7,7 @@
 size = Vector2(19, 26)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p22yc"]
-size = Vector2(34, 38)
+size = Vector2(19, 26)
 
 [node name="NPC1" type="CharacterBody2D" unique_id=188928111]
 
@@ -23,7 +23,7 @@ position = Vector2(0.5, 1)
 script = ExtResource("2_gw7q4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionShape2D/Area2D" unique_id=1966735925]
-position = Vector2(-1, -1)
+position = Vector2(-0.5, -1)
 shape = SubResource("RectangleShape2D_p22yc")
 
 [connection signal="body_entered" from="CollisionShape2D/Area2D" to="CollisionShape2D/Area2D" method="_on_body_entered"]

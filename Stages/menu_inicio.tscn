@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://d0x6oh8shxftf"]
+
+[ext_resource type="Script" uid="uid://sgf3selfoqd1" path="res://Stages/menu_inicio.gd" id="1_6bnhk"]
+[ext_resource type="Texture2D" uid="uid://c0y3rrva53jkb" path="res://Sprites/fondo iniciov2.png" id="1_dsutm"]
+[ext_resource type="FontFile" uid="uid://cwd5rqrucvgov" path="res://Fuentes/upheavtt.ttf" id="2_dsutm"]
+
+[node name="MenuInicio" type="Control" unique_id=1353816913]
+propagate_maximum_size = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6bnhk")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=922904251]
+layout_mode = 0
+offset_right = 1278.0
+offset_bottom = 721.0
+color = Color(0.002971993, 0.037228648, 0.052892152, 1)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1588846042]
+layout_mode = 0
+offset_right = 1279.0
+offset_bottom = 721.0
+texture = ExtResource("1_dsutm")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1526511638]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -171.25
+offset_top = -143.75
+offset_right = 171.25
+offset_bottom = 143.75
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 28
+
+[node name="Jugar" type="Button" parent="VBoxContainer" unique_id=1071737885]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_dsutm")
+theme_override_font_sizes/font_size = 50
+text = "Jugar"
+
+[node name="Opciones" type="Button" parent="VBoxContainer" unique_id=1799686576]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_dsutm")
+theme_override_font_sizes/font_size = 50
+text = "Opciones
+
+"
+
+[node name="Salir" type="Button" parent="VBoxContainer" unique_id=823832618]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_dsutm")
+theme_override_font_sizes/font_size = 50
+text = "Salir"

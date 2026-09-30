@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://omtmn2b8ujcm"]
+
+[ext_resource type="Texture2D" uid="uid://cnycy5gigjxqc" path="res://Sprites/Jefe Memory Leak reposo-Sheet.png" id="1_ahm47"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wr2xq"]
+atlas = ExtResource("1_ahm47")
+region = Rect2(0, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sgw2h"]
+atlas = ExtResource("1_ahm47")
+region = Rect2(112, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_40p6b"]
+atlas = ExtResource("1_ahm47")
+region = Rect2(224, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sqglc"]
+atlas = ExtResource("1_ahm47")
+region = Rect2(336, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nn6vw"]
+atlas = ExtResource("1_ahm47")
+region = Rect2(448, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n82bn"]
+atlas = ExtResource("1_ahm47")
+region = Rect2(560, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_canev"]
+atlas = ExtResource("1_ahm47")
+region = Rect2(672, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o8tku"]
+atlas = ExtResource("1_ahm47")
+region = Rect2(784, 0, 112, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nf42h"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wr2xq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sgw2h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_40p6b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sqglc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nn6vw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n82bn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_canev")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o8tku")
+}],
+"loop": 1,
+"name": &"Idle",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oo53c"]
+size = Vector2(64, 38)
+
+[node name="Boss Stage1" type="CharacterBody2D" unique_id=452424636]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1787896125]
+sprite_frames = SubResource("SpriteFrames_nf42h")
+animation = &"Idle"
+autoplay = "Idle"
+frame = 7
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=280631501]
+position = Vector2(1, 22)
+shape = SubResource("RectangleShape2D_oo53c")
