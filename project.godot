@@ -17,14 +17,25 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Transicion="*uid://r3kinl17cp5c"
+EventBus="*uid://e3e5dvfh6d0j"
+GameState="*uid://nwhcmltite3y"
+MissionManager="*uid://d0xnibr3j1qnq"
+Dialogue="*uid://bhlrdktfu0k5j"
+Transicion="*uid://t5wrf75b7o7r"
 
 [display]
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+window/stretch/scale_mode="integer"
+
+[gui]
+
+theme/default_font_antialiasing=0
+theme/default_font_hinting=0
+theme/default_font_subpixel_positioning=0
+theme/custom_font="uid://cwd5rqrucvgov"
 
 [input]
 

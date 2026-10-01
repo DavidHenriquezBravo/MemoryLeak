@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://bqjb2txm7b6ls"]
 
-[ext_resource type="Script" uid="uid://bbd6ngecaafx" path="res://scripts/andres.gd" id="1_8fneg"]
+[ext_resource type="Script" uid="uid://bbud48lf24uev" path="res://scripts/npc.gd" id="1_auals"]
 [ext_resource type="Texture2D" uid="uid://dbcq6t15xeiwt" path="res://Sprites/Modelo Andy frente-Sheet.png" id="1_e4um3"]
 [ext_resource type="Texture2D" uid="uid://dwewhoe3b3j2s" path="res://Sprites/Modelo andy Izquierda-Sheet.png" id="2_8fneg"]
+[ext_resource type="Resource" uid="uid://bidb5ju8t4swn" path="res://scripts/data/andres.tres" id="2_hyvb8"]
 [ext_resource type="Texture2D" uid="uid://be6wmlclay478" path="res://Sprites/Modelo Andy Derecha-Sheet.png" id="3_naepv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p22yc"]
@@ -268,7 +269,10 @@ animations = [{
 }]
 
 [node name="Andres" type="CharacterBody2D" unique_id=1167419763]
-script = ExtResource("1_8fneg")
+script = ExtResource("1_auals")
+npc_data = ExtResource("2_hyvb8")
+lines = Array[String](["Necesito mi {addr:0x0004}. Cuelga en el pozo, con una placa de metal atornillada al borde.", "Si lo encuentras, te lo agradeceré mucho."])
+registro_text = "REGISTRO 0/1"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=787129934]
 position = Vector2(0, 11)

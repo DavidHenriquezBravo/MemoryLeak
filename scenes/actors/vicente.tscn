@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://cv2xvfado8vhj"]
 
-[ext_resource type="Script" uid="uid://dkpn8hcy163wo" path="res://scripts/vicente.gd" id="1_0lej1"]
+[ext_resource type="Script" uid="uid://bbud48lf24uev" path="res://scripts/npc.gd" id="1_mxvxm"]
 [ext_resource type="Texture2D" uid="uid://ccs7ocd07o62h" path="res://Sprites/Modelo vicho frente-Sheet.png" id="2_arikt"]
+[ext_resource type="Resource" uid="uid://bwlkbk8jci3yq" path="res://scripts/data/juan.tres" id="2_v0il7"]
 [ext_resource type="Texture2D" uid="uid://bl06oehkpro0c" path="res://Sprites/Modelo Vicho izquierda-Sheet.png" id="3_kcacx"]
 [ext_resource type="Texture2D" uid="uid://qdxvxitjso2v" path="res://Sprites/Modelo Vocho Derecha-Sheet.png" id="4_i2fbn"]
 
@@ -114,8 +115,11 @@ animations = [{
 }]
 
 [node name="Vicente" type="CharacterBody2D" unique_id=1999279374]
-script = ExtResource("1_0lej1")
-texto_dialogo = "¡Hola! Soy Vicente, el tutor de punteros (0x00FF)."
+script = ExtResource("1_mxvxm")
+npc_data = ExtResource("2_v0il7")
+lines = Array[String](["¡Hola! Soy Vicente, el tutor de punteros."])
+registro_text = "REGISTRO 0/1"
+default_anim = &"idle_left"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1275296511]
 position = Vector2(0, 11)

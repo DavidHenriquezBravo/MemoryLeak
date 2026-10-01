@@ -1,0 +1,151 @@
+[gd_scene format=3 uid="uid://bhlrdktfu0k5j"]
+
+[ext_resource type="Texture2D" uid="uid://bnk27djkefgqt" path="res://Sprites/caja_dialogo_608x96.png" id="1_pyby6"]
+[ext_resource type="Script" uid="uid://c6braf60l0wn8" path="res://scenes/ui/dialogue_box.gd" id="1_w1v8g"]
+[ext_resource type="Texture2D" uid="uid://cv8ekp4702ma7" path="res://Sprites/retrato_andres_64x48.png" id="2_w1v8g"]
+[ext_resource type="FontFile" uid="uid://cwd5rqrucvgov" path="res://Fuentes/upheavtt.ttf" id="3_ob1aq"]
+[ext_resource type="Texture2D" uid="uid://cdwnjsxtnpaqx" path="res://Sprites/flecha_continuar-Sheet.png" id="4_31x7b"]
+[ext_resource type="Texture2D" uid="uid://5uib0e2ytss1" path="res://Sprites/pestana_nombre_9slice.png" id="5_3bb3i"]
+[ext_resource type="Texture2D" uid="uid://w602bw16yjw3" path="res://Sprites/pestana_registro_ok_9slice.png" id="6_up15v"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ffk2c"]
+atlas = ExtResource("4_31x7b")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ug424"]
+atlas = ExtResource("4_31x7b")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iawww"]
+atlas = ExtResource("4_31x7b")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jrbu0"]
+atlas = ExtResource("4_31x7b")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3d4wl"]
+atlas = ExtResource("4_31x7b")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ojvu0"]
+atlas = ExtResource("4_31x7b")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qnkqk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ffk2c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ug424")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iawww")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrbu0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3d4wl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ojvu0")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="dialogue_box" type="CanvasLayer" unique_id=690803873]
+layer = 10
+scale = Vector2(2, 2)
+transform = Transform2D(2, 0, 0, 2, 0, 0)
+script = ExtResource("1_w1v8g")
+
+[node name="Box" type="Control" parent="." unique_id=1350209244]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
+mouse_filter = 2
+
+[node name="CuadroDialogo" type="NinePatchRect" parent="Box" unique_id=2136209744]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 256.0
+offset_right = 624.0
+offset_bottom = 352.0
+texture = ExtResource("1_pyby6")
+
+[node name="Portrait" type="TextureRect" parent="Box" unique_id=1573483974]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 28.0
+offset_top = 280.0
+offset_right = 92.0
+offset_bottom = 328.0
+texture = ExtResource("2_w1v8g")
+expand_mode = 1
+
+[node name="Text" type="RichTextLabel" parent="Box" unique_id=529601402]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 104.0
+offset_top = 270.0
+offset_right = 602.0
+offset_bottom = 340.0
+theme_override_fonts/normal_font = ExtResource("3_ob1aq")
+theme_override_font_sizes/normal_font_size = 15
+bbcode_enabled = true
+scroll_active = false
+
+[node name="Arrow" type="AnimatedSprite2D" parent="Box" unique_id=666775981]
+unique_name_in_owner = true
+position = Vector2(602, 334)
+sprite_frames = SubResource("SpriteFrames_qnkqk")
+autoplay = "default"
+frame_progress = 0.8827588
+
+[node name="Nombre" type="NinePatchRect" parent="Box" unique_id=1699255070]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 243.0
+offset_right = 85.5
+offset_bottom = 259.0
+texture = ExtResource("5_3bb3i")
+
+[node name="NameLabel" type="Label" parent="Box/Nombre" unique_id=1827227071]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 0
+offset_left = 7.5
+offset_top = 3.0
+offset_right = 43.5
+offset_bottom = 13.0
+theme_override_fonts/font = ExtResource("3_ob1aq")
+theme_override_font_sizes/font_size = 12
+text = "Andrés"
+
+[node name="Registro" type="NinePatchRect" parent="Box" unique_id=1931852965]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 520.0
+offset_top = 243.0
+offset_right = 610.5
+offset_bottom = 259.0
+texture = ExtResource("6_up15v")
+
+[node name="RegistroLabel" type="Label" parent="Box/Registro" unique_id=648595363]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 0
+offset_left = 10.5
+offset_top = 4.0
+offset_right = 63.5
+offset_bottom = 14.0
+theme_override_fonts/font = ExtResource("3_ob1aq")
+theme_override_font_sizes/font_size = 12
+text = "Registros"

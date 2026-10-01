@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="NpcData" format=3 uid="uid://bidb5ju8t4swn"]
+
+[ext_resource type="Script" uid="uid://bsrhg4nm18307" path="res://scripts/data/npc_data.gd" id="1_rsesi"]
+[ext_resource type="Texture2D" uid="uid://cv8ekp4702ma7" path="res://Sprites/retrato_andres_64x48.png" id="1_wwkf2"]
+
+[resource]
+script = ExtResource("1_rsesi")
+display_name = "Andrés"
+portrait = ExtResource("1_wwkf2")
+metadata/_custom_type_script = "uid://bsrhg4nm18307"

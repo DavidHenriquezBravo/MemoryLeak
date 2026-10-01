@@ -1,0 +1,97 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://hyanihm1fxx"]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_mqygn"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_l2bts"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_l2phv"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_svd1u"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_6wbe1"]
+
+[sub_resource type="Resource" id="Resource_qjrqd"]
+script = ExtResource("1_mqygn")
+address = "0x0010"
+value = "10"
+label = "vida"
+
+[sub_resource type="Resource" id="Resource_vx5vf"]
+script = ExtResource("1_mqygn")
+address = "0x0014"
+value = "0x0010"
+label = "p"
+points_to = "0x0010"
+
+[sub_resource type="Resource" id="Resource_6bsti"]
+script = ExtResource("1_mqygn")
+address = "0x0020"
+value = "1"
+label = "cerradura"
+
+[sub_resource type="Resource" id="Resource_p0s5u"]
+script = ExtResource("1_mqygn")
+address = "0x0024"
+value = "0x0020"
+label = "ptr"
+points_to = "0x0020"
+
+[sub_resource type="Resource" id="Resource_oamdh"]
+script = ExtResource("2_l2bts")
+text = "`ptr = 0;`"
+wrong_feedback = "Moviste la daga a otra dirección en vez de golpear la que apuntabas. La cerradura sigue en 1."
+concept_on_error = "Asignar a `ptr` cambia adónde apunta, no el valor apuntado."
+hint = "El candado ni se mueve: tu golpe cayó en otra parte."
+
+[sub_resource type="Resource" id="Resource_udvd7"]
+script = ExtResource("2_l2bts")
+text = "`*ptr = 0;`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_bkktc"]
+script = ExtResource("2_l2bts")
+text = "`&ptr = 0;`"
+wrong_feedback = "Intentaste cambiar la placa del propio puntero. Las placas no se reescriben a golpes."
+concept_on_error = "`&ptr` es la dirección de `ptr`: no es algo a lo que se pueda asignar."
+hint = "Una placa dice dónde vive algo; no se puede cambiar."
+
+[sub_resource type="Resource" id="Resource_d2a3i"]
+script = ExtResource("3_l2phv")
+amount = 5.0
+
+[sub_resource type="Resource" id="Resource_0solo"]
+script = ExtResource("4_svd1u")
+title = "CASILLA DE MEMORIA"
+code = "int cerradura = 1;
+int *ptr = &cerradura;"
+question = "¿Cuál línea deja `cerradura` en 0?"
+memory_cells = Array[ExtResource("1_mqygn")]([SubResource("Resource_6bsti"), SubResource("Resource_p0s5u")])
+options = Array[ExtResource("2_l2bts")]([SubResource("Resource_oamdh"), SubResource("Resource_udvd7"), SubResource("Resource_bkktc")])
+conceptual_hint = "`*` viaja a la dirección guardada y trabaja sobre lo que hay allí."
+example_code = "int vida = 10;
+int *p = &vida;
+*p = 0;"
+example_cells = Array[ExtResource("1_mqygn")]([SubResource("Resource_qjrqd"), SubResource("Resource_vx5vf")])
+example_text = "`*p = 0` viaja a la placa `0x0010` y escribe 0 en `vida`."
+example_followup = "Mismo concepto, otra variable. Vuelve a tu candado: ¿qué línea escribe en `cerradura`?"
+success_title = "¡ESCRITURA POR REFERENCIA!"
+success_text = "El candado cede. Juan entra a su taller y te forja una mejora de daño."
+concept_text = "`*ptr = 0` escribe en la variable original, no en una copia."
+reward = SubResource("Resource_d2a3i")
+
+[sub_resource type="Resource" id="Resource_4gx67"]
+script = ExtResource("1_mqygn")
+address = "0x0020"
+value = "0"
+label = "cerradura de Juan (antes 1)"
+
+[resource]
+script = ExtResource("5_6wbe1")
+id = &"EJ-N1-05"
+oa_code = "OA2.4"
+title = "La Puerta de la Herrería"
+objective = "→ Abre la casilla `0x0020`"
+requires_mission = &"EJ-N1-02"
+cell_address = "0x0020"
+intro_dialogue = Array[String](["Me quedé fuera de mi propio taller. El candado marca {addr:0x0020} y no cede."])
+reminder_dialogue = Array[String](["¿Pudiste abrir la casilla `0x0020`? El candado sigue sin ceder."])
+success_dialogue = Array[String](["¡Clic! El candado ahora marca {addr:0x0020}. ¡Estoy dentro!"])
+done_dialogue = Array[String](["Gracias a ti volví a mi taller. ¡Sigue forjando tu daga!"])
+exercise = SubResource("Resource_0solo")
+reveals = Array[ExtResource("1_mqygn")]([SubResource("Resource_4gx67")])

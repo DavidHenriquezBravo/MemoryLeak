@@ -1,0 +1,85 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://qjdurbgefv8w"]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_h6b5w"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_cm31c"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_i6d62"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_5uuef"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_y2b4q"]
+
+[sub_resource type="Resource" id="Resource_1c32t"]
+script = ExtResource("1_h6b5w")
+address = "0x0010"
+value = "5"
+label = "trigo"
+
+[sub_resource type="Resource" id="Resource_8bfdh"]
+script = ExtResource("1_h6b5w")
+address = "0x0014"
+value = "0x0010"
+label = "p"
+points_to = "0x0010"
+
+[sub_resource type="Resource" id="Resource_4kkbo"]
+script = ExtResource("1_h6b5w")
+address = "0x0004"
+value = "30"
+label = "balde"
+
+[sub_resource type="Resource" id="Resource_5hc57"]
+script = ExtResource("1_h6b5w")
+address = "0x0040"
+value = "?"
+label = "daga"
+masked = true
+
+[sub_resource type="Resource" id="Resource_yuubh"]
+script = ExtResource("2_cm31c")
+text = "La dirección de una variable de tipo `int`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_b8sks"]
+script = ExtResource("2_cm31c")
+text = "Un número entero cualquiera"
+wrong_feedback = "Intentaste meter el agua en la ranura de la placa. La daga la rechaza."
+concept_on_error = "Un puntero no guarda números cualquiera: guarda direcciones."
+hint = "La ranura de la hoja tiene el tamaño exacto de una placa del pozo."
+
+[sub_resource type="Resource" id="Resource_xofjo"]
+script = ExtResource("2_cm31c")
+text = "El valor de un `int` junto con su nombre"
+wrong_feedback = "Querías cargar el balde entero, con su agua y su nombre. En la ranura solo cabe una placa."
+concept_on_error = "Un puntero guarda solo la dirección, no el contenido ni el nombre de la variable."
+hint = "Una placa solo dice dónde está el balde; no lleva el balde adentro."
+
+[sub_resource type="Resource" id="Resource_pbcbx"]
+script = ExtResource("3_i6d62")
+amount = 2.0
+
+[sub_resource type="Resource" id="Resource_722ky"]
+script = ExtResource("4_5uuef")
+title = "PRUEBA DEL HERRERO"
+code = "int *daga;"
+question = "¿Qué es capaz de guardar `daga`?"
+memory_cells = Array[ExtResource("1_h6b5w")]([SubResource("Resource_4kkbo"), SubResource("Resource_5hc57")])
+options = Array[ExtResource("2_cm31c")]([SubResource("Resource_yuubh"), SubResource("Resource_b8sks"), SubResource("Resource_xofjo")])
+conceptual_hint = "Todo tiene contenido (el 30) y lugar (su placa `0x0004`). La daga guarda lugares."
+example_code = "int trigo = 5;
+int *p = &trigo;"
+example_cells = Array[ExtResource("1_h6b5w")]([SubResource("Resource_1c32t"), SubResource("Resource_8bfdh")])
+example_text = "`p` no guarda un 5: guarda la placa `0x0010`, el lugar donde vive el 5."
+example_followup = "Mismo concepto, otra variable. Vuelve a tu daga: `int *daga;` ¿qué puede guardar?"
+success_title = "¡PUNTERO RECONOCIDO!"
+success_text = "La daga sostiene placas, no contenidos."
+concept_text = "`int *daga` guarda la dirección de un `int`."
+reward = SubResource("Resource_pbcbx")
+
+[resource]
+script = ExtResource("5_y2b4q")
+id = &"EJ-N1-02"
+oa_code = "OA2.1"
+title = "La Daga que forjó Juan"
+objective = "→ Muéstrale la daga a Juan"
+intro_dialogue = Array[String](["Mira la inscripción del mango: `int *daga;`. La hoja está hueca a propósito: no corta, sostiene."])
+success_dialogue = Array[String](["Exacto. Déjame afilarla un poco… Así sostiene mejor."])
+done_dialogue = Array[String](["La daga ya sostiene bien. ¡Gracias por tu ayuda!"])
+exercise = SubResource("Resource_722ky")

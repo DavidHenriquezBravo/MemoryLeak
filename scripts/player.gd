@@ -8,6 +8,10 @@ extends CharacterBody2D
 var last_direction: Vector2 = Vector2.DOWN
 
 func _physics_process(_delta: float) -> void:
+	if Dialogue.is_open:
+		velocity = Vector2.ZERO
+		update_animation(Vector2.ZERO)
+		return
 	# 1. Obtener dirección del movimiento
 	var input_direction := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	
