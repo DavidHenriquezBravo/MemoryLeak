@@ -1,0 +1,89 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://dvd7velq8jv4o"]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_6xsae"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_1qy3i"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_amm83"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_2qkj8"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_d3s46"]
+
+[sub_resource type="Resource" id="Resource_1rxp2"]
+script = ExtResource("1_6xsae")
+address = "0x0010"
+value = "'R'"
+label = "inicial"
+
+[sub_resource type="Resource" id="Resource_lnq3g"]
+script = ExtResource("1_6xsae")
+address = "0x0014"
+value = "0x0010"
+label = "p"
+points_to = "0x0010"
+
+[sub_resource type="Resource" id="Resource_sojlr"]
+script = ExtResource("1_6xsae")
+address = "0x0030"
+value = "12.5"
+label = "cosecha"
+
+[sub_resource type="Resource" id="Resource_f6cre"]
+script = ExtResource("2_1qy3i")
+text = "`double *`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_vhlmy"]
+script = ExtResource("2_1qy3i")
+text = "`double`"
+wrong_feedback = "Te quedaste con el balde, no con su placa. `&` agrega un nivel: `double` pasa a ser `double *`."
+concept_on_error = "`&` no te da el contenido: te da su dirección."
+hint = "Tu daga rechaza la placa: no calza con el tamaño del balde."
+
+[sub_resource type="Resource" id="Resource_bg4b5"]
+script = ExtResource("2_1qy3i")
+text = "`int *`"
+wrong_feedback = "La placa dice «balde de 8 bytes» y tu daga de int solo sostiene placas de 4. El compilador rechaza el enlace."
+concept_on_error = "`&` no cambia el tipo del balde: le agrega un nivel de indirección."
+hint = "Tu daga rechaza la placa: no calza con el tamaño del balde."
+
+[sub_resource type="Resource" id="Resource_di7ts"]
+script = ExtResource("3_amm83")
+stat = 3
+amount = 10.0
+
+[sub_resource type="Resource" id="Resource_af1wg"]
+script = ExtResource("4_2qkj8")
+title = "CASILLA DE MEMORIA"
+code = "double cosecha = 12.5;"
+question = "¿De qué tipo es la expresión `&cosecha`?"
+memory_cells = Array[ExtResource("1_6xsae")]([SubResource("Resource_sojlr")])
+options = Array[ExtResource("2_1qy3i")]([SubResource("Resource_f6cre"), SubResource("Resource_vhlmy"), SubResource("Resource_bg4b5")])
+conceptual_hint = "`&` le agrega un `*` al tipo: si `x` es `T`, `&x` es `T *`."
+example_code = "char inicial = 'R';
+char *p = &inicial;"
+example_cells = Array[ExtResource("1_6xsae")]([SubResource("Resource_1rxp2"), SubResource("Resource_lnq3g")])
+example_text = "`inicial` es `char`, así que `&inicial` es `char *`: la placa lleva escrito el tipo."
+example_followup = "Mismo concepto, otra variable. Vuelve al balde grande: ¿de qué tipo es `&cosecha`?"
+success_title = "¡TIPO CORRECTO!"
+success_text = "La placa dice «balde de tipo double». Tu daga de doubles la acepta."
+concept_text = "Si `x` es de tipo `T`, `&x` es de tipo `T *`."
+reward = SubResource("Resource_di7ts")
+
+[sub_resource type="Resource" id="Resource_lkvyi"]
+script = ExtResource("1_6xsae")
+address = "0x0030"
+value = "12.5"
+label = "litros del balde grande"
+
+[resource]
+script = ExtResource("5_d3s46")
+id = &"EJ-N1-07"
+oa_code = "OA1.3"
+title = "El Balde Grande de Andrés"
+objective = "→ Abre la casilla `0x0030`"
+requires_mission = &"EJ-N1-01"
+cell_address = "0x0030"
+intro_dialogue = Array[String](["Gracias a ti el agua ya no se evapora. Pero la cosecha la guardo en otro balde, uno más grande.", "Ahí caben {addr:0x0030} litros: es un `double cosecha;`. Te ofrezco su placa, pero tu daga podría no aceptarla.", "No todas las placas caben en todas las dagas. La mía dice el lugar, sí, pero también de qué tamaño es lo que hay ahí.", "Una placa siempre lleva escrito el tipo del balde al que pertenece."])
+reminder_dialogue = Array[String](["El balde grande está junto al granero, en la casilla `0x0030`."])
+success_dialogue = Array[String](["¡{addr:0x0030} litros! La mejor cosecha en años.", "Llévate un poco. Quien come bien, aguanta más."])
+done_dialogue = Array[String](["Con {addr:0x0030} litros tenemos para todo el invierno."])
+exercise = SubResource("Resource_af1wg")
+reveals = Array[ExtResource("1_6xsae")]([SubResource("Resource_lkvyi")])

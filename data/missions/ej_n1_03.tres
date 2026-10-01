@@ -1,0 +1,95 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://dmyccj1tdkxpu"]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_yc18u"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_hpy7g"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_6v3uo"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ni84o"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_44jpc"]
+
+[sub_resource type="Resource" id="Resource_x8ohl"]
+script = ExtResource("1_yc18u")
+address = "0x0010"
+value = "8"
+label = "antidoto"
+
+[sub_resource type="Resource" id="Resource_dck72"]
+script = ExtResource("1_yc18u")
+address = "0x0014"
+value = "0x0010"
+label = "q"
+points_to = "0x0010"
+
+[sub_resource type="Resource" id="Resource_h5b4o"]
+script = ExtResource("1_yc18u")
+address = "0x0018"
+value = "15"
+label = "amuleto"
+
+[sub_resource type="Resource" id="Resource_pomti"]
+script = ExtResource("1_yc18u")
+address = "0x001C"
+value = "?"
+label = "p"
+masked = true
+
+[sub_resource type="Resource" id="Resource_4088s"]
+script = ExtResource("2_hpy7g")
+text = "`int *p = amuleto;`"
+wrong_feedback = "Le entregaste el contenido a la daga en vez de la placa. La daga no sabe dónde está el {addr:0x0018}."
+concept_on_error = "Sin `&`, el puntero recibe el valor (15), no la dirección."
+hint = "Vicente saca otro {addr:0x0018} falso: la daga recibió un 15, no un lugar."
+
+[sub_resource type="Resource" id="Resource_3x606"]
+script = ExtResource("2_hpy7g")
+text = "`int *p = &amuleto;`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_03rut"]
+script = ExtResource("2_hpy7g")
+text = "`int p = &amuleto;`"
+wrong_feedback = "Guardaste la placa en un balde común. Sin el `*` no es una daga: no puede seguirla."
+concept_on_error = "Para guardar una dirección, la variable debe ser puntero (`int *`)."
+hint = "Vicente saca otro {addr:0x0018} falso: la daga recibió un 15, no un lugar."
+
+[sub_resource type="Resource" id="Resource_8mjwd"]
+script = ExtResource("3_6v3uo")
+stat = 2
+amount = 0.05
+
+[sub_resource type="Resource" id="Resource_smdsh"]
+script = ExtResource("4_ni84o")
+title = "CASILLA DE MEMORIA"
+code = "int amuleto = 15;"
+question = "¿Cuál declaración enlaza correctamente la daga al amuleto?"
+memory_cells = Array[ExtResource("1_yc18u")]([SubResource("Resource_h5b4o"), SubResource("Resource_pomti")])
+options = Array[ExtResource("2_hpy7g")]([SubResource("Resource_4088s"), SubResource("Resource_3x606"), SubResource("Resource_03rut")])
+conceptual_hint = "Enlazar pide dos cosas: que sea daga (`*` al declarar) y que reciba una placa (`&`)."
+example_code = "int antidoto = 8;
+int *q = &antidoto;"
+example_cells = Array[ExtResource("1_yc18u")]([SubResource("Resource_x8ohl"), SubResource("Resource_dck72")])
+example_text = "`&antidoto` entrega la placa `0x0010` y `q` la guarda: la daga queda enlazada."
+example_followup = "Mismo concepto, otra variable. Vuelve a tu casilla: ¿cuál declaración enlaza la daga al amuleto?"
+success_title = "¡DAGA ENLAZADA!"
+success_text = "La daga queda enlazada al amuleto real. Vicente lo saca del estanque."
+concept_text = "Enlazar un puntero: `int *p = &variable;`"
+reward = SubResource("Resource_8mjwd")
+
+[sub_resource type="Resource" id="Resource_mved3"]
+script = ExtResource("1_yc18u")
+address = "0x0018"
+value = "amuleto"
+label = "amuleto de Vicente"
+
+[resource]
+script = ExtResource("5_44jpc")
+id = &"EJ-N1-03"
+oa_code = "OA2.2"
+title = "El Amuleto de Vicente"
+objective = "→ Abre la casilla `0x0018`"
+cell_address = "0x0018"
+intro_dialogue = Array[String](["¡Oye, oye! ¡Ayúdame! Se me cayó mi {addr:0x0018} de la suerte al estanque.", "Cada vez que meto la mano saco un duplicado falso… ¡y se deshace en el agua!", "No puedo agarrarlo. Necesito que tu daga apunte a mi {addr:0x0018}, no que lo copie. Pídeme la dirección con `&`."])
+reminder_dialogue = Array[String](["Mi {addr:0x0018} sigue en el agua… La casilla `0x0018` está en la orilla."])
+success_dialogue = Array[String](["¡Mi {addr:0x0018}! ¡El de verdad! Este no se deshace.", "Toma este trébol, venía enredado en la cuerda. Dicen que da suerte."])
+done_dialogue = Array[String](["¡Mi {addr:0x0018} me trae suerte desde que lo recuperaste!"])
+exercise = SubResource("Resource_smdsh")
+reveals = Array[ExtResource("1_yc18u")]([SubResource("Resource_mved3")])

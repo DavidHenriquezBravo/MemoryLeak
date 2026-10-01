@@ -3,7 +3,7 @@ extends CanvasLayer
 ## Se añade como Autoload con el nombre "Transicion" y se usa así:
 ##     Transicion.ir_a_pelea("res://Stages/Pelea.tscn")
 
-const TAMANO_PIXEL := 1.0  # súbelo a 2 o 3 si las gotas se ven muy finas
+const TAMANO_PIXEL := 3.0  # igual al zoom de la cámara del Player, así las gotas tienen el mismo píxel que el arte
 
 const SHADER_CODE := """
 shader_type canvas_item;

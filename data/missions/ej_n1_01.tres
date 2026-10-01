@@ -1,0 +1,81 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://gp6nrb71cve6"]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_dffey"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_0qmcd"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_jdqpr"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_6rnlh"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_x4lxr"]
+
+[sub_resource type="Resource" id="Resource_kape0"]
+script = ExtResource("1_dffey")
+address = "0x0010"
+value = "5"
+label = "trigo"
+
+[sub_resource type="Resource" id="Resource_nf4fd"]
+script = ExtResource("1_dffey")
+address = "0x0004"
+value = "30"
+label = "vida_aldeano"
+
+[sub_resource type="Resource" id="Resource_wcblk"]
+script = ExtResource("2_0qmcd")
+text = "El valor 30"
+wrong_feedback = "Sacaste agua, no la placa. `&` no te entrega el agua: te entrega dónde cuelga el {addr:0x0004}."
+concept_on_error = "`&` devuelve la dirección, no el valor."
+hint = "El agua sigue evaporándose: estás llenando un {addr:0x0004} que no es el de Andrés."
+
+[sub_resource type="Resource" id="Resource_5nhjh"]
+script = ExtResource("2_0qmcd")
+text = "Una copia del aldeano"
+wrong_feedback = "El duplicado se evapora apenas sueltas la cuerda. `&` no copia nada: señala el lugar."
+concept_on_error = "Una dirección no es una copia del dato."
+hint = "El agua sigue evaporándose: estás llenando un {addr:0x0004} que no es el de Andrés."
+
+[sub_resource type="Resource" id="Resource_vfnpe"]
+script = ExtResource("2_0qmcd")
+text = "La dirección de memoria donde está guardado el 30"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_j3yif"]
+script = ExtResource("3_jdqpr")
+stat = 3
+amount = 10.0
+
+[sub_resource type="Resource" id="Resource_tidb4"]
+script = ExtResource("4_6rnlh")
+title = "CASILLA DE MEMORIA"
+code = "int vida_aldeano = 30;"
+question = "¿Qué representa `&vida_aldeano`?"
+memory_cells = Array[ExtResource("1_dffey")]([SubResource("Resource_nf4fd")])
+options = Array[ExtResource("2_0qmcd")]([SubResource("Resource_wcblk"), SubResource("Resource_5nhjh"), SubResource("Resource_vfnpe")])
+conceptual_hint = "Todo tiene contenido (el 30) y lugar (su placa). `&` pide el lugar."
+example_code = "int trigo = 5;
+&trigo  →  0x0010"
+example_cells = Array[ExtResource("1_dffey")]([SubResource("Resource_kape0")])
+example_text = "`&trigo` no es 5: es la placa `0x0010`, el lugar donde vive el 5."
+example_followup = "Mismo concepto, otra variable. Vuelve a tu casilla: ¿qué representa `&vida_aldeano`?"
+success_title = "¡DIRECCIÓN OBTENIDA!"
+success_text = "Tomaste la placa, no el balde. Eso hace `&`."
+concept_text = "`&x` entrega la dirección de x, no su valor."
+reward = SubResource("Resource_j3yif")
+
+[sub_resource type="Resource" id="Resource_6rntl"]
+script = ExtResource("1_dffey")
+address = "0x0004"
+value = "balde"
+label = "balde de Andrés"
+
+[resource]
+script = ExtResource("5_x4lxr")
+id = &"EJ-N1-01"
+oa_code = "OA1.1"
+title = "El Pozo de los Baldes"
+objective = "→ Abre la casilla `0x0004`"
+cell_address = "0x0004"
+intro_dialogue = Array[String](["¡Por fin alguien despierto! Soy Andrés. Riego esta tierra desde antes del colapso.", "Mis cultivos se secan. Por más agua que echo, vuelve a cero apenas me voy.", "Necesito mi {addr:0x0004}. Cuelga en el pozo, con una placa de metal atornillada al borde.", "Todo lo que existe tiene dos cosas: lo que contiene y el lugar donde está. Aprende a pedir lo segundo con `&`."])
+reminder_dialogue = Array[String](["¿Ya abriste la casilla `0x0004`? Está junto al pozo."])
+success_dialogue = Array[String](["¡El agua se queda! Tu daga tocó mi {addr:0x0004} real, no una copia.", "Toma, fruta del huerto. Te devolverá las fuerzas."])
+done_dialogue = Array[String](["El agua ya no se evapora. ¡Mis cultivos están sanos!"])
+exercise = SubResource("Resource_tidb4")
+reveals = Array[ExtResource("1_dffey")]([SubResource("Resource_6rntl")])

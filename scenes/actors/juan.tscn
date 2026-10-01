@@ -4,6 +4,9 @@
 [ext_resource type="Resource" uid="uid://bwlkbk8jci3yq" path="res://scripts/data/juan.tres" id="2_ojgrw"]
 [ext_resource type="Texture2D" uid="uid://cvt5rtbcfbbkh" path="res://Sprites/Modelo Juan frente-Sheet.png" id="2_uu7c1"]
 [ext_resource type="Texture2D" uid="uid://cgiojhsc26xwi" path="res://Sprites/Modelo Juan Izquierda-Sheet.png" id="3_jjyqd"]
+[ext_resource type="Script" path="res://scripts/data/mission_data.gd" id="m_script"]
+[ext_resource type="Resource" path="res://data/missions/ej_n1_02.tres" id="m_0"]
+[ext_resource type="Resource" path="res://data/missions/ej_n1_05.tres" id="m_1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ol6m"]
 size = Vector2(12, 4)
@@ -104,8 +107,8 @@ animations = [{
 [node name="Juan" type="CharacterBody2D" unique_id=2074397685]
 script = ExtResource("1_0c40b")
 npc_data = ExtResource("2_ojgrw")
+missions = Array[ExtResource("m_script")]([ExtResource("m_0"), ExtResource("m_1")])
 lines = Array[String](["Mira la inscripción del mango: int *daga;.", "La hoja está hueca a propósito: no corta, sostiene."])
-registro_text = "REGISTRO 0/1"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=726668174]
 position = Vector2(0, 11)

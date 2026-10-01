@@ -1,0 +1,768 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/exercise_panel.gd" id="1_script"]
+[ext_resource type="Script" path="res://scripts/memory_view.gd" id="2_memview"]
+[ext_resource type="FontFile" path="res://Fuentes/upheavtt.ttf" id="3_uph"]
+[ext_resource type="SystemFont" path="res://Fuentes/texto_dialogo.tres" id="4_texto"]
+[ext_resource type="SystemFont" path="res://Fuentes/codigo.tres" id="5_codigo"]
+[ext_resource type="Texture2D" path="res://Sprites/caja_dialogo_9slice.png" id="6_caja"]
+[ext_resource type="Texture2D" path="res://Sprites/caja_error_9slice.png" id="7_error"]
+[ext_resource type="Texture2D" path="res://Sprites/caja_ejemplo_9slice.png" id="8_ejemplo"]
+[ext_resource type="Texture2D" path="res://Sprites/caja_acierto_9slice.png" id="9_acierto"]
+[ext_resource type="Texture2D" path="res://Sprites/opcion_seleccionada_9slice.png" id="10_sel"]
+[ext_resource type="Texture2D" path="res://Sprites/boton_9slice.png" id="11_boton"]
+[ext_resource type="Texture2D" path="res://Sprites/cursor_opcion-Sheet.png" id="12_cursor"]
+[ext_resource type="Texture2D" path="res://Sprites/icono_error.png" id="13_x"]
+[ext_resource type="Texture2D" path="res://Sprites/icono_ok.png" id="14_ok"]
+[ext_resource type="Texture2D" path="res://Sprites/espada.png" id="15_premio"]
+
+[sub_resource type="StyleBoxFlat" id="Style_codigo"]
+content_margin_left = 6.0
+content_margin_top = 4.0
+content_margin_right = 6.0
+content_margin_bottom = 4.0
+bg_color = Color(0.047, 0.055, 0.11, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.165, 0.165, 0.345, 1)
+
+[sub_resource type="AtlasTexture" id="Cursor_0"]
+atlas = ExtResource("12_cursor")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="Cursor_1"]
+atlas = ExtResource("12_cursor")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="Cursor_2"]
+atlas = ExtResource("12_cursor")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="Cursor_3"]
+atlas = ExtResource("12_cursor")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="Cursor_4"]
+atlas = ExtResource("12_cursor")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="Cursor_5"]
+atlas = ExtResource("12_cursor")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="Cursor_frames"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Cursor_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Cursor_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Cursor_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Cursor_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Cursor_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Cursor_5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="ExercisePanel" type="CanvasLayer"]
+layer = 11
+scale = Vector2(2, 2)
+transform = Transform2D(2, 0, 0, 2, 0, 0)
+script = ExtResource("1_script")
+
+[node name="Oscuro" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
+mouse_filter = 2
+color = Color(0.04, 0.04, 0.1, 0.62)
+
+[node name="Pregunta" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
+mouse_filter = 2
+
+[node name="Marco" type="NinePatchRect" parent="Pregunta"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 10.0
+offset_right = 628.0
+offset_bottom = 350.0
+texture = ExtResource("6_caja")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="Titulo" type="Label" parent="Pregunta"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 0
+offset_left = 24.0
+offset_top = 18.0
+offset_right = 200.0
+offset_bottom = 38.0
+theme_override_colors/font_color = Color(0.239, 0.894, 0.867, 1)
+theme_override_fonts/font = ExtResource("3_uph")
+theme_override_font_sizes/font_size = 20
+text = "CASILLA DE MEMORIA"
+
+[node name="Direccion" type="Label" parent="Pregunta"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 210.0
+offset_top = 21.0
+offset_right = 280.0
+offset_bottom = 39.0
+theme_override_colors/font_color = Color(0.239, 0.894, 0.867, 1)
+theme_override_fonts/font = ExtResource("5_codigo")
+theme_override_font_sizes/font_size = 14
+text = "0x0000"
+
+[node name="IdOa" type="Label" parent="Pregunta"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 400.0
+offset_top = 22.0
+offset_right = 616.0
+offset_bottom = 38.0
+theme_override_colors/font_color = Color(0.61, 0.61, 0.77, 1)
+theme_override_fonts/font = ExtResource("5_codigo")
+theme_override_font_sizes/font_size = 10
+text = "EJ-N1-00 · OA0.0"
+horizontal_alignment = 2
+
+[node name="Linea1" type="ColorRect" parent="Pregunta"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 43.0
+offset_right = 624.0
+offset_bottom = 44.0
+mouse_filter = 2
+color = Color(0.306, 0.306, 0.69, 1)
+
+[node name="Izquierda" type="VBoxContainer" parent="Pregunta"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 52.0
+offset_right = 332.0
+offset_bottom = 222.0
+theme_override_constants/separation = 10
+
+[node name="CodigoFondo" type="PanelContainer" parent="Pregunta/Izquierda"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("Style_codigo")
+
+[node name="Codigo" type="Label" parent="Pregunta/Izquierda/CodigoFondo"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.965, 0.796, 0.306, 1)
+theme_override_fonts/font = ExtResource("5_codigo")
+theme_override_font_sizes/font_size = 13
+text = "int x = 0;"
+
+[node name="Enunciado" type="RichTextLabel" parent="Pregunta/Izquierda"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/default_color = Color(0.933, 0.933, 0.965, 1)
+theme_override_fonts/normal_font = ExtResource("4_texto")
+theme_override_fonts/mono_font = ExtResource("5_codigo")
+theme_override_font_sizes/normal_font_size = 14
+theme_override_font_sizes/mono_font_size = 13
+bbcode_enabled = true
+text = "¿Pregunta?"
+fit_content = true
+scroll_active = false
+
+[node name="Linea2" type="ColorRect" parent="Pregunta"]
+layout_mode = 0
+offset_left = 340.0
+offset_top = 48.0
+offset_right = 341.0
+offset_bottom = 222.0
+mouse_filter = 2
+color = Color(0.306, 0.306, 0.69, 1)
+
+[node name="MemoriaTitulo" type="Label" parent="Pregunta"]
+layout_mode = 0
+offset_left = 352.0
+offset_top = 48.0
+offset_right = 452.0
+offset_bottom = 62.0
+theme_override_colors/font_color = Color(0.61, 0.61, 0.77, 1)
+theme_override_fonts/font = ExtResource("4_texto")
+theme_override_font_sizes/font_size = 10
+text = "MEMORIA"
+
+[node name="Memoria" type="Control" parent="Pregunta"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 352.0
+offset_top = 66.0
+offset_right = 620.0
+offset_bottom = 222.0
+mouse_filter = 2
+script = ExtResource("2_memview")
+font = ExtResource("5_codigo")
+
+[node name="Linea3" type="ColorRect" parent="Pregunta"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 226.0
+offset_right = 624.0
+offset_bottom = 227.0
+mouse_filter = 2
+color = Color(0.306, 0.306, 0.69, 1)
+
+[node name="Opciones" type="VBoxContainer" parent="Pregunta"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 20.0
+offset_top = 231.0
+offset_right = 620.0
+offset_bottom = 318.0
+theme_override_constants/separation = 2
+
+[node name="Opcion0" type="Control" parent="Pregunta/Opciones"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(600, 26)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Fondo" type="NinePatchRect" parent="Pregunta/Opciones/Opcion0"]
+layout_mode = 0
+offset_right = 600.0
+offset_bottom = 26.0
+texture = ExtResource("10_sel")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+
+[node name="Cursor" type="AnimatedSprite2D" parent="Pregunta/Opciones/Opcion0"]
+position = Vector2(11, 13)
+sprite_frames = SubResource("Cursor_frames")
+autoplay = "default"
+
+[node name="Letra" type="Label" parent="Pregunta/Opciones/Opcion0"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 3.0
+offset_right = 44.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0.61, 0.61, 0.77, 1)
+theme_override_fonts/font = ExtResource("4_texto")
+theme_override_font_sizes/font_size = 14
+text = "A)"
+
+[node name="Texto" type="RichTextLabel" parent="Pregunta/Opciones/Opcion0"]
+layout_mode = 0
+offset_left = 44.0
+offset_top = 3.0
+offset_right = 596.0
+offset_bottom = 25.0
+theme_override_colors/default_color = Color(0.933, 0.933, 0.965, 1)
+theme_override_fonts/normal_font = ExtResource("4_texto")
+theme_override_fonts/mono_font = ExtResource("5_codigo")
+theme_override_font_sizes/normal_font_size = 14
+theme_override_font_sizes/mono_font_size = 13
+bbcode_enabled = true
+text = "Opción"
+scroll_active = false
+
+[node name="Linea4" type="ColorRect" parent="Pregunta"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 322.0
+offset_right = 624.0
+offset_bottom = 323.0
+mouse_filter = 2
+color = Color(0.306, 0.306, 0.69, 1)
+
+[node name="Intento" type="Label" parent="Pregunta"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 24.0
+offset_top = 327.0
+offset_right = 360.0
+offset_bottom = 343.0
+theme_override_colors/font_color = Color(0.933, 0.659, 0.251, 1)
+theme_override_fonts/font = ExtResource("4_texto")
+theme_override_font_sizes/font_size = 11
+text = "Intento 1"
+
+[node name="Controles" type="Label" parent="Pregunta"]
+layout_mode = 0
+offset_left = 330.0
+offset_top = 328.0
+offset_right = 616.0
+offset_bottom = 342.0
+theme_override_colors/font_color = Color(0.61, 0.61, 0.77, 1)
+theme_override_fonts/font = ExtResource("5_codigo")
+theme_override_font_sizes/font_size = 10
+text = "↑↓ elegir   E confirmar   Esc salir"
+horizontal_alignment = 2
+
+[node name="Error" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
+mouse_filter = 2
+
+[node name="MarcoError" type="NinePatchRect" parent="Error"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 56.0
+offset_top = 40.0
+offset_right = 584.0
+offset_bottom = 320.0
+texture = ExtResource("7_error")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="ContenidoError" type="VBoxContainer" parent="Error"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 72.0
+offset_top = 54.0
+offset_right = 568.0
+offset_bottom = 308.0
+theme_override_constants/separation = 8
+
+[node name="Cabecera" type="HBoxContainer" parent="Error/ContenidoError"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="IconoX" type="TextureRect" parent="Error/ContenidoError/Cabecera"]
+layout_mode = 2
+texture = ExtResource("13_x")
+stretch_mode = 5
+
+[node name="ErrorTitulo" type="Label" parent="Error/ContenidoError/Cabecera"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.353, 0.353, 1)
+theme_override_fonts/font = ExtResource("3_uph")
+theme_override_font_sizes/font_size = 20
+text = "RESPUESTA A"
+
+[node name="Elegiste" type="RichTextLabel" parent="Error/ContenidoError"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/default_color = Color(0.61, 0.61, 0.77, 1)
+theme_override_fonts/normal_font = ExtResource("4_texto")
+theme_override_fonts/mono_font = ExtResource("5_codigo")
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/mono_font_size = 11
+bbcode_enabled = true
+text = "Elegiste: ..."
+fit_content = true
+scroll_active = false
+
+[node name="Retro" type="RichTextLabel" parent="Error/ContenidoError"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/default_color = Color(0.933, 0.933, 0.965, 1)
+theme_override_fonts/normal_font = ExtResource("4_texto")
+theme_override_fonts/mono_font = ExtResource("5_codigo")
+theme_override_font_sizes/normal_font_size = 14
+theme_override_font_sizes/mono_font_size = 13
+bbcode_enabled = true
+text = "Lo que pasó en el mundo."
+fit_content = true
+scroll_active = false
+
+[node name="FilaConcepto" type="HBoxContainer" parent="Error/ContenidoError"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Etiqueta" type="Label" parent="Error/ContenidoError/FilaConcepto"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.239, 0.894, 0.867, 1)
+theme_override_fonts/font = ExtResource("4_texto")
+theme_override_font_sizes/font_size = 11
+text = "CONCEPTO"
+
+[node name="ConceptoError" type="RichTextLabel" parent="Error/ContenidoError/FilaConcepto"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0.933, 0.933, 0.965, 1)
+theme_override_fonts/normal_font = ExtResource("4_texto")
+theme_override_fonts/mono_font = ExtResource("5_codigo")
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/mono_font_size = 11
+bbcode_enabled = true
+text = "Concepto."
+fit_content = true
+scroll_active = false
+
+[node name="FilaPista" type="HBoxContainer" parent="Error/ContenidoError"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PistaEtiqueta" type="Label" parent="Error/ContenidoError/FilaPista"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.933, 0.659, 0.251, 1)
+theme_override_fonts/font = ExtResource("4_texto")
+theme_override_font_sizes/font_size = 11
+text = "PISTA 1"
+
+[node name="PistaTexto" type="RichTextLabel" parent="Error/ContenidoError/FilaPista"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0.933, 0.659, 0.251, 1)
+theme_override_fonts/normal_font = ExtResource("4_texto")
+theme_override_fonts/mono_font = ExtResource("5_codigo")
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/mono_font_size = 11
+bbcode_enabled = true
+text = "Pista."
+fit_content = true
+scroll_active = false
+
+[node name="Pie" type="HBoxContainer" parent="Error/ContenidoError"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Espera" type="Label" parent="Error/ContenidoError/Pie"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.61, 0.61, 0.77, 1)
+theme_override_fonts/font = ExtResource("4_texto")
+theme_override_font_sizes/font_size = 11
+text = "La casilla se reabre en 5 s"
+
+[node name="Boton" type="NinePatchRect" parent="Error/ContenidoError/Pie"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(168, 22)
+layout_mode = 2
+texture = ExtResource("11_boton")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+
+[node name="BotonTexto" type="Label" parent="Error/ContenidoError/Pie/Boton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.239, 0.894, 0.867, 1)
+theme_override_fonts/font = ExtResource("4_texto")
+theme_override_font_sizes/font_size = 12
+text = "VOLVER A INTENTAR"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Ejemplo" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
+mouse_filter = 2
+
+[node name="Marco" type="NinePatchRect" parent="Ejemplo"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 24.0
+offset_right = 612.0
+offset_bottom = 336.0
+texture = ExtResource("8_ejemplo")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="EjemploTitulo" type="Label" parent="Ejemplo"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 44.0
+offset_top = 34.0
+offset_right = 300.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(0.933, 0.659, 0.251, 1)
+theme_override_fonts/font = ExtResource("3_uph")
+theme_override_font_sizes/font_size = 20
+text = "EJEMPLO RESUELTO"
+
+[node name="EjemploNota" type="Label" parent="Ejemplo"]
+layout_mode = 0
+offset_left = 380.0
+offset_top = 37.0
+offset_right = 598.0
+offset_bottom = 51.0
+theme_override_colors/font_color = Color(0.61, 0.61, 0.77, 1)
+theme_override_fonts/font = ExtResource("4_texto")
+theme_override_font_sizes/font_size = 11
+text = "tercer error: andamio"
+horizontal_alignment = 2
+
+[node name="Linea" type="ColorRect" parent="Ejemplo"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 59.0
+offset_right = 608.0
+offset_bottom = 60.0
+mouse_filter = 2
+color = Color(0.306, 0.306, 0.69, 1)
+
+[node name="EjemploCodigoFondo" type="PanelContainer" parent="Ejemplo"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 44.0
+offset_top = 70.0
+offset_right = 320.0
+offset_bottom = 96.0
+theme_override_styles/panel = SubResource("Style_codigo")
+
+[node name="EjemploCodigo" type="Label" parent="Ejemplo/EjemploCodigoFondo"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.965, 0.796, 0.306, 1)
+theme_override_fonts/font = ExtResource("5_codigo")
+theme_override_font_sizes/font_size = 13
+text = "int trigo = 5;"
+
+[node name="EjemploMemoria" type="Control" parent="Ejemplo"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 340.0
+offset_top = 70.0
+offset_right = 600.0
+offset_bottom = 170.0
+mouse_filter = 2
+script = ExtResource("2_memview")
+font = ExtResource("5_codigo")
+
+[node name="EjemploTextos" type="VBoxContainer" parent="Ejemplo"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 44.0
+offset_top = 176.0
+offset_right = 596.0
+offset_bottom = 290.0
+theme_override_constants/separation = 10
+
+[node name="EjemploTexto" type="RichTextLabel" parent="Ejemplo/EjemploTextos"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/default_color = Color(0.933, 0.933, 0.965, 1)
+theme_override_fonts/normal_font = ExtResource("4_texto")
+theme_override_fonts/mono_font = ExtResource("5_codigo")
+theme_override_font_sizes/normal_font_size = 14
+theme_override_font_sizes/mono_font_size = 13
+bbcode_enabled = true
+text = "Explicación."
+fit_content = true
+scroll_active = false
+
+[node name="EjemploSigue" type="RichTextLabel" parent="Ejemplo/EjemploTextos"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/default_color = Color(0.61, 0.61, 0.77, 1)
+theme_override_fonts/normal_font = ExtResource("4_texto")
+theme_override_fonts/mono_font = ExtResource("5_codigo")
+theme_override_font_sizes/normal_font_size = 13
+theme_override_font_sizes/mono_font_size = 12
+bbcode_enabled = true
+text = "Mismo concepto, otra variable."
+fit_content = true
+scroll_active = false
+
+[node name="EjemploBoton" type="NinePatchRect" parent="Ejemplo"]
+layout_mode = 0
+offset_left = 228.0
+offset_top = 300.0
+offset_right = 412.0
+offset_bottom = 322.0
+texture = ExtResource("11_boton")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+
+[node name="Texto" type="Label" parent="Ejemplo/EjemploBoton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.239, 0.894, 0.867, 1)
+theme_override_fonts/font = ExtResource("4_texto")
+theme_override_font_sizes/font_size = 12
+text = "VOLVER AL EJERCICIO"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Acierto" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
+mouse_filter = 2
+
+[node name="Marco" type="NinePatchRect" parent="Acierto"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 16.0
+offset_top = 8.0
+offset_right = 624.0
+offset_bottom = 104.0
+texture = ExtResource("9_acierto")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="AciertoContenido" type="VBoxContainer" parent="Acierto"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 28.0
+offset_top = 16.0
+offset_right = 500.0
+offset_bottom = 98.0
+theme_override_constants/separation = 5
+
+[node name="Cabecera" type="HBoxContainer" parent="Acierto/AciertoContenido"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="IconoOk" type="TextureRect" parent="Acierto/AciertoContenido/Cabecera"]
+layout_mode = 2
+texture = ExtResource("14_ok")
+stretch_mode = 5
+
+[node name="AciertoTitulo" type="Label" parent="Acierto/AciertoContenido/Cabecera"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.439, 0.902, 0.439, 1)
+theme_override_fonts/font = ExtResource("3_uph")
+theme_override_font_sizes/font_size = 20
+text = "¡CORRECTO!"
+
+[node name="AciertoTexto" type="RichTextLabel" parent="Acierto/AciertoContenido"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/default_color = Color(0.933, 0.933, 0.965, 1)
+theme_override_fonts/normal_font = ExtResource("4_texto")
+theme_override_fonts/mono_font = ExtResource("5_codigo")
+theme_override_font_sizes/normal_font_size = 13
+theme_override_font_sizes/mono_font_size = 12
+bbcode_enabled = true
+text = "Lo que pasó."
+fit_content = true
+scroll_active = false
+
+[node name="FilaConceptoOk" type="HBoxContainer" parent="Acierto/AciertoContenido"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Etiqueta" type="Label" parent="Acierto/AciertoContenido/FilaConceptoOk"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.239, 0.894, 0.867, 1)
+theme_override_fonts/font = ExtResource("4_texto")
+theme_override_font_sizes/font_size = 11
+text = "CONCEPTO"
+
+[node name="ConceptoOk" type="RichTextLabel" parent="Acierto/AciertoContenido/FilaConceptoOk"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0.933, 0.933, 0.965, 1)
+theme_override_fonts/normal_font = ExtResource("4_texto")
+theme_override_fonts/mono_font = ExtResource("5_codigo")
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/mono_font_size = 11
+bbcode_enabled = true
+text = "Concepto."
+fit_content = true
+scroll_active = false
+
+[node name="LineaV" type="ColorRect" parent="Acierto"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 508.0
+offset_top = 14.0
+offset_right = 509.0
+offset_bottom = 98.0
+mouse_filter = 2
+color = Color(0.165, 0.165, 0.345, 1)
+
+[node name="PremioIcono" type="TextureRect" parent="Acierto"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 550.0
+offset_top = 16.0
+offset_right = 582.0
+offset_bottom = 49.0
+texture = ExtResource("15_premio")
+stretch_mode = 5
+
+[node name="Premio" type="Label" parent="Acierto"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 512.0
+offset_top = 54.0
+offset_right = 620.0
+offset_bottom = 72.0
+theme_override_colors/font_color = Color(0.933, 0.659, 0.251, 1)
+theme_override_fonts/font = ExtResource("4_texto")
+theme_override_font_sizes/font_size = 12
+text = "+5 DAÑO"
+horizontal_alignment = 1
+
+[node name="Continuar" type="Label" parent="Acierto"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 512.0
+offset_top = 80.0
+offset_right = 616.0
+offset_bottom = 94.0
+theme_override_colors/font_color = Color(0.61, 0.61, 0.77, 1)
+theme_override_fonts/font = ExtResource("4_texto")
+theme_override_font_sizes/font_size = 10
+text = "E: continuar"
+horizontal_alignment = 2

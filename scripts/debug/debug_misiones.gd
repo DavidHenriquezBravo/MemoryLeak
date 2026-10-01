@@ -21,22 +21,22 @@ func _ready() -> void:
 	GameState.stats_changed.connect(_print_stats)
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if not (event is InputEventKey and event.pressed) or Dialogue.is_open:
-		return
-	match event.keycode:
-		KEY_Y:
-			MissionManager.start(missions[0], npc)
-		KEY_U:
-			MissionManager.start(missions[1], npc)
-		KEY_C:
-			print("casilla abierta: ", MissionManager.open_cell(missions[1].cell_address))
-		KEY_1, KEY_2, KEY_3:
-			_answer(event.keycode - KEY_1)
-		KEY_F:
-			MissionManager.finish_success()
-		KEY_P:
-			_print_stats()
+#func _unhandled_input(event: InputEvent) -> void:
+#	if not (event is InputEventKey and event.pressed) or Dialogue.is_open:
+	#	return
+	#match event.keycode:
+	#	KEY_Y:
+	#		MissionManager.start(missions[0], npc)
+	#	KEY_U:
+	#		MissionManager.start(missions[1], npc)
+	#	KEY_C:
+	#		print("casilla abierta: ", MissionManager.open_cell(missions[1].cell_address))
+	#	KEY_1, KEY_2, KEY_3:
+	#		_answer(event.keycode - KEY_1)
+	#	KEY_F:
+	#		MissionManager.finish_success()
+	#	KEY_P:
+	#		_print_stats()
 
 
 func _answer(i: int) -> void:

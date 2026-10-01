@@ -1,0 +1,6 @@
+[gd_resource type="SystemFont" format=3]
+
+[resource]
+font_names = PackedStringArray("Consolas", "Courier New")
+font_weight = 700
+multichannel_signed_distance_field = true

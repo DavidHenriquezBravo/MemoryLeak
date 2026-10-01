@@ -1,0 +1,92 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://cqq0iouq3nuc3"]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_x67h8"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_o6l8q"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_aupe7"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_1qt53"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_iwcqt"]
+
+[sub_resource type="Resource" id="Resource_b7v8a"]
+script = ExtResource("1_x67h8")
+address = "0x0104"
+value = "NULL"
+label = "p"
+points_to = "NULL"
+
+[sub_resource type="Resource" id="Resource_p3u13"]
+script = ExtResource("1_x67h8")
+address = "0x00FF"
+value = "???"
+label = "id_guardia"
+masked = true
+
+[sub_resource type="Resource" id="Resource_nqn6o"]
+script = ExtResource("1_x67h8")
+address = "0x0104"
+value = "NULL"
+label = "mente"
+points_to = "NULL"
+
+[sub_resource type="Resource" id="Resource_0dvap"]
+script = ExtResource("2_o6l8q")
+text = "Que no apunta a nada válido; desreferenciarlo rompe el programa"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_ylruo"]
+script = ExtResource("2_o6l8q")
+text = "Que apunta a la dirección 0, que es válida y usable"
+wrong_feedback = "Empujaste a Rivera a seguir una placa en blanco. El mundo parpadea: eso es un Segmentation Fault."
+concept_on_error = "`NULL` no es una dirección usable: desreferenciarlo rompe el programa."
+hint = "Rivera tiembla: seguir esa placa lo haría caer al vacío."
+
+[sub_resource type="Resource" id="Resource_npd7p"]
+script = ExtResource("2_o6l8q")
+text = "Que guarda un espacio en blanco como valor"
+wrong_feedback = "Rivera busca un espacio en blanco en su mente y no encuentra nada: no hay casilla que leer."
+concept_on_error = "`NULL` no es un valor guardado: es la ausencia de destino."
+hint = "Rivera tiembla: seguir esa placa lo haría caer al vacío."
+
+[sub_resource type="Resource" id="Resource_nysog"]
+script = ExtResource("3_aupe7")
+stat = 1
+amount = 0.05
+
+[sub_resource type="Resource" id="Resource_jluyb"]
+script = ExtResource("4_1qt53")
+title = "CASILLA DE MEMORIA"
+code = "int *mente = NULL;"
+question = "¿Qué significa que un puntero valga `NULL`?"
+memory_cells = Array[ExtResource("1_x67h8")]([SubResource("Resource_p3u13"), SubResource("Resource_nqn6o")])
+options = Array[ExtResource("2_o6l8q")]([SubResource("Resource_0dvap"), SubResource("Resource_ylruo"), SubResource("Resource_npd7p")])
+conceptual_hint = "Un puntero en `NULL` no apunta a ninguna casilla. Usar `*` sobre él rompe el programa."
+example_code = "int *p = NULL;
+if (p != NULL) {
+    *p = 5;
+}"
+example_cells = Array[ExtResource("1_x67h8")]([SubResource("Resource_b7v8a")])
+example_text = "`p` vale `NULL`: no apunta a ninguna casilla. Por eso se comprueba antes de usar `*`."
+example_followup = "Mismo concepto, otra variable. Vuelve con Rivera: ¿qué significa que un puntero valga `NULL`?"
+success_title = "¡PELIGRO EVITADO!"
+success_text = "Entendiste el peligro. Rivera baja la lanza: no lo obligaste a seguir una placa vacía."
+concept_text = "`NULL` = sin destino válido. Compruébalo antes de usar `*`."
+reward = SubResource("Resource_nysog")
+
+[sub_resource type="Resource" id="Resource_1v33d"]
+script = ExtResource("1_x67h8")
+address = "0x00FF"
+value = "Rivera"
+label = "nombre del guardia"
+
+[resource]
+script = ExtResource("5_iwcqt")
+id = &"EJ-N1-06"
+oa_code = "OA2.5"
+title = "El Nombre del Guardia"
+objective = "→ Abre la casilla `0x00FF`"
+cell_address = "0x00FF"
+intro_dialogue = Array[String](["Alto ahí. Nadie cruza la salida de la aldea.", "Mi placa dice que me llamo {addr:0x00FF}… pero no logro recordarlo. Mi registro quedó en la garita.", "Mi mente es un puntero sin asignar: apunta a `NULL`.", "Y sé que si intento seguir esta placa vacía, algo terrible pasará."])
+reminder_dialogue = Array[String](["Sigo sin recordar mi nombre. Mi registro está en la casilla `0x00FF`, en la garita."])
+success_dialogue = Array[String](["{addr:0x00FF}. Me llamo {addr:0x00FF}. ¡Ahora lo recuerdo!", "Gracias, viajero. Toma mi escudo de repuesto. Vuelve cuando estés listo para salir."])
+done_dialogue = Array[String](["Soy {addr:0x00FF}, guardián de Nullville. Gracias otra vez."])
+exercise = SubResource("Resource_jluyb")
+reveals = Array[ExtResource("1_x67h8")]([SubResource("Resource_1v33d")])

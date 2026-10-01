@@ -1,0 +1,100 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://bh30v8tg7d3lw"]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_wd5c2"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_wsmxp"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_3u57j"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_q3q86"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_u4h3a"]
+
+[sub_resource type="Resource" id="Resource_x2dil"]
+script = ExtResource("1_wd5c2")
+address = "0x0050"
+value = "3"
+label = "x"
+
+[sub_resource type="Resource" id="Resource_cfqh2"]
+script = ExtResource("1_wd5c2")
+address = "------"
+value = "7"
+label = "(sin casilla)"
+
+[sub_resource type="Resource" id="Resource_6xfo7"]
+script = ExtResource("1_wd5c2")
+address = "0x0050"
+value = "3"
+label = "contador"
+
+[sub_resource type="Resource" id="Resource_vfkno"]
+script = ExtResource("1_wd5c2")
+address = "0x0060"
+value = "…"
+label = "arreglo[0]"
+
+[sub_resource type="Resource" id="Resource_pw87i"]
+script = ExtResource("1_wd5c2")
+address = "0x006C"
+value = "…"
+label = "arreglo[3]"
+
+[sub_resource type="Resource" id="Resource_u2qkb"]
+script = ExtResource("1_wd5c2")
+address = "------"
+value = "10"
+label = "(sin casilla)"
+
+[sub_resource type="Resource" id="Resource_rsfic"]
+script = ExtResource("2_wsmxp")
+text = "`&contador`"
+wrong_feedback = "Esa expresión sí tiene un balde detrás: `contador` vive en su casilla. Busca la que no ocupa lugar."
+concept_on_error = "Toda variable tiene dirección."
+hint = "El portón no se mueve: esa expresión sí tiene un balde detrás."
+
+[sub_resource type="Resource" id="Resource_24hrl"]
+script = ExtResource("2_wsmxp")
+text = "`&arreglo[3]`"
+wrong_feedback = "Cada elemento del arreglo es un balde en la fila: `arreglo[3]` tiene su propia placa."
+concept_on_error = "Los elementos de un arreglo también tienen dirección."
+hint = "El portón no se mueve: esa expresión sí tiene un balde detrás."
+
+[sub_resource type="Resource" id="Resource_xyckq"]
+script = ExtResource("2_wsmxp")
+text = "`&10`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_ccib7"]
+script = ExtResource("3_3u57j")
+stat = 1
+amount = 0.05
+
+[sub_resource type="Resource" id="Resource_g3qos"]
+script = ExtResource("4_q3q86")
+title = "PRUEBA DE LA SALIDA"
+code = "int contador = 3;
+int arreglo[10];"
+question = "¿Cuál expresión NO es válida en C?"
+memory_cells = Array[ExtResource("1_wd5c2")]([SubResource("Resource_6xfo7"), SubResource("Resource_vfkno"), SubResource("Resource_pw87i"), SubResource("Resource_u2qkb")])
+options = Array[ExtResource("2_wsmxp")]([SubResource("Resource_rsfic"), SubResource("Resource_24hrl"), SubResource("Resource_xyckq")])
+conceptual_hint = "Un número suelto (un literal) no está guardado en ninguna casilla."
+example_code = "int x = 3;
+&x;         // válido
+&(3 + 4);   // inválido"
+example_cells = Array[ExtResource("1_wd5c2")]([SubResource("Resource_x2dil"), SubResource("Resource_cfqh2")])
+example_text = "`x` vive en una casilla y tiene placa. `3 + 4` es un resultado suelto: no hay placa que tomar."
+example_followup = "Mismo concepto, otra expresión. Vuelve con Rivera: ¿cuál expresión NO es válida?"
+success_title = "¡EXPRESIÓN INVÁLIDA HALLADA!"
+success_text = "Rivera abre el portón. Un literal no vive en una casilla con etiqueta: no hay placa que tomar."
+concept_text = "`&` solo se aplica a lo que ocupa memoria: variables y elementos."
+reward = SubResource("Resource_ccib7")
+
+[resource]
+script = ExtResource("5_u4h3a")
+id = &"EJ-N1-08"
+oa_code = "OA1.4"
+title = "La Prueba de la Salida"
+objective = "→ Supera la prueba de Rivera"
+requires_mission = &"EJ-N1-06"
+intro_dialogue = Array[String](["Soy Rivera, guardián de Nullville. Gracias a ti, ahora lo recuerdo.", "Antes de abrir el portón, una última prueba. Hallé tres expresiones entre los escombros del colapso.", "Una nunca pudo existir: intenta tomar la placa de algo que jamás tuvo balde.", "Solo lo que ocupa un lugar tiene un lugar que pedir."])
+reminder_dialogue = Array[String](["¿Listo para la prueba? Solo lo que ocupa un lugar tiene un lugar que pedir."])
+success_dialogue = Array[String](["El camino está abierto. Más allá empieza el Distrito de las Funciones.", "Si llegas, busca a mi hermano. Vive en {addr:0x03F0}."])
+done_dialogue = Array[String](["El portón está abierto. Suerte allá afuera."])
+exercise = SubResource("Resource_g3qos")

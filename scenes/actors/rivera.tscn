@@ -5,6 +5,9 @@
 [ext_resource type="Texture2D" uid="uid://c65qxipdx6tl0" path="res://Sprites/Modelo Rivera frente-Sheet.png" id="2_ncftf"]
 [ext_resource type="Texture2D" uid="uid://c8ce2k2oqskhk" path="res://Sprites/Modelo Rivera Izquierda-Sheet.png" id="3_ymd6k"]
 [ext_resource type="Texture2D" uid="uid://dallbs6e7wju8" path="res://Sprites/Modelo Rivera derecha-Sheet.png" id="4_dai8q"]
+[ext_resource type="Script" path="res://scripts/data/mission_data.gd" id="m_script"]
+[ext_resource type="Resource" path="res://data/missions/ej_n1_06.tres" id="m_0"]
+[ext_resource type="Resource" path="res://data/missions/ej_n1_08.tres" id="m_1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wbbx0"]
 size = Vector2(12, 4)
@@ -299,8 +302,8 @@ animations = [{
 [node name="Rivera" type="CharacterBody2D" unique_id=301910931]
 script = ExtResource("1_sssny")
 npc_data = ExtResource("2_36fyh")
+missions = Array[ExtResource("m_script")]([ExtResource("m_0"), ExtResource("m_1")])
 lines = Array[String](["Mi placa dice que me llamo {addr:0x00FF}... pero no logro recordarlo", "Mi registro quedó en la garita."])
-registro_text = "REGISTRO 0/1"
 default_anim = &"idle_right"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1801665840]

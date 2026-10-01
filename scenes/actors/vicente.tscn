@@ -5,6 +5,9 @@
 [ext_resource type="Resource" uid="uid://bwlkbk8jci3yq" path="res://scripts/data/juan.tres" id="2_v0il7"]
 [ext_resource type="Texture2D" uid="uid://bl06oehkpro0c" path="res://Sprites/Modelo Vicho izquierda-Sheet.png" id="3_kcacx"]
 [ext_resource type="Texture2D" uid="uid://qdxvxitjso2v" path="res://Sprites/Modelo Vocho Derecha-Sheet.png" id="4_i2fbn"]
+[ext_resource type="Script" path="res://scripts/data/mission_data.gd" id="m_script"]
+[ext_resource type="Resource" path="res://data/missions/ej_n1_03.tres" id="m_0"]
+[ext_resource type="Resource" path="res://data/missions/ej_n1_04.tres" id="m_1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w0ev6"]
 size = Vector2(12, 4)
@@ -117,8 +120,8 @@ animations = [{
 [node name="Vicente" type="CharacterBody2D" unique_id=1999279374]
 script = ExtResource("1_mxvxm")
 npc_data = ExtResource("2_v0il7")
+missions = Array[ExtResource("m_script")]([ExtResource("m_0"), ExtResource("m_1")])
 lines = Array[String](["¡Hola! Soy Vicente, el tutor de punteros."])
-registro_text = "REGISTRO 0/1"
 default_anim = &"idle_left"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1275296511]

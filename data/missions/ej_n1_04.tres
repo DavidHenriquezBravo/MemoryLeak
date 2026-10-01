@@ -1,0 +1,97 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://dovuuuqvcpynb"]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_8ni14"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_brmc1"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_n076y"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_mnfio"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_seb24"]
+
+[sub_resource type="Resource" id="Resource_ueo2k"]
+script = ExtResource("1_8ni14")
+address = "0x0010"
+value = "21"
+label = "gemas"
+
+[sub_resource type="Resource" id="Resource_o3oy0"]
+script = ExtResource("1_8ni14")
+address = "0x0014"
+value = "0x0010"
+label = "q"
+points_to = "0x0010"
+
+[sub_resource type="Resource" id="Resource_2jhhj"]
+script = ExtResource("1_8ni14")
+address = "0x002A"
+value = "50"
+label = "oro"
+
+[sub_resource type="Resource" id="Resource_4up82"]
+script = ExtResource("1_8ni14")
+address = "0x0034"
+value = "0x002A"
+label = "p"
+points_to = "0x002A"
+
+[sub_resource type="Resource" id="Resource_bw8lq"]
+script = ExtResource("2_brmc1")
+text = "La dirección `0x002A`"
+wrong_feedback = "Leíste la etiqueta en vez de abrir el cofre. `*` es lo que entra."
+concept_on_error = "`p` es la dirección; `*p` es el contenido."
+hint = "El cofre sigue cerrado: solo leíste lo que dice por fuera."
+
+[sub_resource type="Resource" id="Resource_3ob1t"]
+script = ExtResource("2_brmc1")
+text = "Un Segmentation Fault"
+wrong_feedback = "El cofre sigue ahí, intacto: la daga apunta a una casilla válida. Seguirla es seguro."
+concept_on_error = "Solo falla desreferenciar punteros inválidos, como `NULL`."
+hint = "El cofre sigue cerrado: solo leíste lo que dice por fuera."
+
+[sub_resource type="Resource" id="Resource_oe0dq"]
+script = ExtResource("2_brmc1")
+text = "50"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_p81cf"]
+script = ExtResource("3_n076y")
+stat = 2
+amount = 0.05
+
+[sub_resource type="Resource" id="Resource_y8aqe"]
+script = ExtResource("4_mnfio")
+title = "CASILLA DE MEMORIA"
+code = "int oro = 50;
+int *p = &oro;"
+question = "¿Qué imprime `printf(\"%d\", *p);`?"
+memory_cells = Array[ExtResource("1_8ni14")]([SubResource("Resource_2jhhj"), SubResource("Resource_4up82")])
+options = Array[ExtResource("2_brmc1")]([SubResource("Resource_bw8lq"), SubResource("Resource_3ob1t"), SubResource("Resource_oe0dq")])
+conceptual_hint = "`p` guarda `0x002A` (la etiqueta). `*p` entra y lee lo que hay adentro."
+example_code = "int gemas = 21;
+int *q = &gemas;"
+example_cells = Array[ExtResource("1_8ni14")]([SubResource("Resource_ueo2k"), SubResource("Resource_o3oy0")])
+example_text = "`q` guarda la etiqueta `0x0010`. `*q` entra al cofre y lee 21."
+example_followup = "Mismo concepto, otra variable. Vuelve a tu cofre: ¿qué imprime `printf(\"%d\", *p);`?"
+success_title = "¡DESREFERENCIACIÓN CORRECTA!"
+success_text = "Seguiste la placa hasta el contenido. El cofre se abre."
+concept_text = "Desreferenciar: `*p` lee el valor guardado en la dirección."
+reward = SubResource("Resource_p81cf")
+
+[sub_resource type="Resource" id="Resource_wmrvs"]
+script = ExtResource("1_8ni14")
+address = "0x002A"
+value = "50"
+label = "cofre del estanque"
+
+[resource]
+script = ExtResource("5_seb24")
+id = &"EJ-N1-04"
+oa_code = "OA2.3"
+title = "El Cofre del Estanque"
+objective = "→ Abre la casilla `0x002A`"
+requires_mission = &"EJ-N1-03"
+cell_address = "0x002A"
+intro_dialogue = Array[String](["¡Mira! Al sacar el amuleto vi un cofre sellado en el fondo del estanque.", "Por fuera tiene grabado `0x002A`. Dicen que adentro hay {addr:0x002A} monedas de oro.", "Tu daga ya quedó enlazada a él: `int *p = &oro;`", "La etiqueta nos trajo hasta acá. Ahora hay que seguirla hacia adentro, con `*`."])
+reminder_dialogue = Array[String](["El cofre sigue cerrado. Busca la casilla `0x002A` en el estanque."])
+success_dialogue = Array[String](["¡{addr:0x002A} monedas! ¡Somos ricos!", "Bueno… tú más que yo. Toma tu parte."])
+done_dialogue = Array[String](["Todavía no gasto ni una moneda del cofre."])
+exercise = SubResource("Resource_y8aqe")
+reveals = Array[ExtResource("1_8ni14")]([SubResource("Resource_wmrvs")])

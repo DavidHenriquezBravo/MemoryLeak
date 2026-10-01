@@ -1,0 +1,102 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/mission_hud.gd" id="1_script"]
+[ext_resource type="FontFile" path="res://Fuentes/upheavtt.ttf" id="2_uph"]
+[ext_resource type="SystemFont" path="res://Fuentes/texto_dialogo.tres" id="3_texto"]
+[ext_resource type="SystemFont" path="res://Fuentes/codigo.tres" id="4_codigo"]
+[ext_resource type="Texture2D" path="res://Sprites/caja_mision_9slice.png" id="5_mision"]
+
+[node name="MissionHud" type="CanvasLayer"]
+layer = 9
+scale = Vector2(2, 2)
+transform = Transform2D(2, 0, 0, 2, 0, 0)
+script = ExtResource("1_script")
+
+[node name="Caja" type="NinePatchRect" parent="."]
+unique_name_in_owner = true
+offset_left = 424.0
+offset_top = 8.0
+offset_right = 632.0
+offset_bottom = 64.0
+texture = ExtResource("5_mision")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="Contenido" type="VBoxContainer" parent="Caja"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 8.0
+offset_top = 5.0
+offset_right = 200.0
+offset_bottom = 52.0
+theme_override_constants/separation = 1
+
+[node name="Etiqueta" type="Label" parent="Caja/Contenido"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.933, 0.659, 0.251, 1)
+theme_override_fonts/font = ExtResource("3_texto")
+theme_override_font_sizes/font_size = 10
+text = "MISIÓN"
+
+[node name="Titulo" type="Label" parent="Caja/Contenido"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.933, 0.933, 0.965, 1)
+theme_override_fonts/font = ExtResource("3_texto")
+theme_override_font_sizes/font_size = 12
+text = "Título de la misión"
+autowrap_mode = 3
+
+[node name="Objetivo" type="RichTextLabel" parent="Caja/Contenido"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/default_color = Color(0.239, 0.894, 0.867, 1)
+theme_override_fonts/normal_font = ExtResource("3_texto")
+theme_override_fonts/mono_font = ExtResource("4_codigo")
+theme_override_font_sizes/normal_font_size = 11
+theme_override_font_sizes/mono_font_size = 10
+bbcode_enabled = true
+text = "→ Objetivo"
+fit_content = true
+scroll_active = false
+
+[node name="Aviso" type="NinePatchRect" parent="."]
+unique_name_in_owner = true
+offset_left = 180.0
+offset_top = 60.0
+offset_right = 460.0
+offset_bottom = 108.0
+texture = ExtResource("5_mision")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="AvisoTitulo" type="Label" parent="Aviso"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 0
+offset_left = 8.0
+offset_top = 6.0
+offset_right = 272.0
+offset_bottom = 26.0
+theme_override_colors/font_color = Color(0.933, 0.659, 0.251, 1)
+theme_override_fonts/font = ExtResource("2_uph")
+theme_override_font_sizes/font_size = 20
+text = "¡NUEVA MISIÓN!"
+horizontal_alignment = 1
+
+[node name="AvisoTexto" type="Label" parent="Aviso"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 8.0
+offset_top = 27.0
+offset_right = 272.0
+offset_bottom = 43.0
+theme_override_colors/font_color = Color(0.933, 0.933, 0.965, 1)
+theme_override_fonts/font = ExtResource("3_texto")
+theme_override_font_sizes/font_size = 12
+text = "El Pozo de los Baldes"
+horizontal_alignment = 1
