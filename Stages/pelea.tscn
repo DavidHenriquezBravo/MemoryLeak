@@ -1,3 +1,405 @@
 [gd_scene format=3 uid="uid://557rrk0wpwg2"]
 
-[node name="Pelea" type="Node2D" unique_id=1639343270]
+[ext_resource type="FontFile" uid="uid://cwd5rqrucvgov" path="res://Fuentes/upheavtt.ttf" id="1_l1dj6"]
+[ext_resource type="Script" uid="uid://t1fb0qh36bm0" path="res://Stages/pelea.gd" id="1_umc4s"]
+[ext_resource type="Texture2D" uid="uid://cnycy5gigjxqc" path="res://Sprites/Jefe Memory Leak reposo-Sheet.png" id="2_umc4s"]
+[ext_resource type="Texture2D" uid="uid://t8jshqwry32n" path="res://Sprites/Barra de vida llena.png" id="4_xr8ce"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uwkk3"]
+atlas = ExtResource("2_umc4s")
+region = Rect2(0, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jnhol"]
+atlas = ExtResource("2_umc4s")
+region = Rect2(112, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bxhjy"]
+atlas = ExtResource("2_umc4s")
+region = Rect2(224, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e5d6y"]
+atlas = ExtResource("2_umc4s")
+region = Rect2(336, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uwrnm"]
+atlas = ExtResource("2_umc4s")
+region = Rect2(448, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_srswg"]
+atlas = ExtResource("2_umc4s")
+region = Rect2(560, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s1n2g"]
+atlas = ExtResource("2_umc4s")
+region = Rect2(672, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kn3f8"]
+atlas = ExtResource("2_umc4s")
+region = Rect2(784, 0, 112, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8r2l7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uwkk3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jnhol")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bxhjy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e5d6y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uwrnm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_srswg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s1n2g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kn3f8")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8r2l7"]
+bg_color = Color(0.3665946, 0.3665946, 0.36659458, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gwiht"]
+bg_color = Color(0.3647059, 0.3647059, 0.3647059, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jgspf"]
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4g3yi"]
+bg_color = Color(0.820667, 0.73317474, 0.21532494, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nqvmq"]
+content_margin_left = 47.0
+content_margin_top = 3.0
+content_margin_right = 23.0
+content_margin_bottom = 3.0
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.827451, 0.007843138, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l1dj6"]
+content_margin_left = 47.0
+content_margin_top = 3.0
+content_margin_right = 23.0
+content_margin_bottom = 3.0
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.827451, 0.007843138, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kuc7h"]
+content_margin_left = 47.0
+content_margin_top = 3.0
+content_margin_right = 23.0
+content_margin_bottom = 3.0
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.39215687, 0.007843138, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_woyj1"]
+content_margin_left = 47.0
+content_margin_top = 3.0
+content_margin_right = 23.0
+content_margin_bottom = 3.0
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.12941177, 0.6156863, 0.09019608, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v3bb0"]
+bg_color = Color(0.3647059, 0.3647059, 0.3647059, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fue60"]
+bg_color = Color(1, 0, 0, 1)
+
+[node name="Pelea" type="Control" unique_id=1620924691]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_umc4s")
+
+[node name="Fondo" type="ColorRect" parent="." unique_id=2100054181]
+layout_mode = 0
+offset_right = 1281.0
+offset_bottom = 721.0
+color = Color(0, 0, 0, 1)
+
+[node name="CosasJefe" type="Control" parent="." unique_id=1715385692]
+anchors_preset = 0
+offset_left = 97.0
+offset_top = -29.0
+offset_right = 137.0
+offset_bottom = 11.0
+
+[node name="NombreJefe" type="Label" parent="CosasJefe" unique_id=270603490]
+layout_mode = 0
+offset_left = 344.0
+offset_top = 70.0
+offset_right = 694.0
+offset_bottom = 106.0
+theme_override_fonts/font = ExtResource("1_l1dj6")
+theme_override_font_sizes/font_size = 40
+text = "THE MEMORY LEAK"
+
+[node name="Jefe" type="AnimatedSprite2D" parent="CosasJefe" unique_id=81525287]
+position = Vector2(537, 176)
+scale = Vector2(2.2589285, 2.3333333)
+sprite_frames = SubResource("SpriteFrames_8r2l7")
+autoplay = "default"
+frame_progress = 0.5761647
+
+[node name="ProgressBar" type="ProgressBar" parent="CosasJefe" unique_id=525793344]
+custom_minimum_size = Vector2(100, 23)
+layout_mode = 0
+offset_left = 279.0
+offset_top = 311.0
+offset_right = 791.0
+offset_bottom = 339.0
+theme_override_styles/background = SubResource("StyleBoxFlat_8r2l7")
+theme_override_styles/fill = SubResource("StyleBoxFlat_gwiht")
+value = 100.0
+show_percentage = false
+
+[node name="BarraHP" type="TextureProgressBar" parent="CosasJefe" unique_id=1109171916]
+custom_minimum_size = Vector2(120, 14)
+layout_mode = 0
+offset_left = 277.0
+offset_top = 277.0
+offset_right = 535.0
+offset_bottom = 398.0
+scale = Vector2(2, 2)
+value = 50.0
+nine_patch_stretch = true
+stretch_margin_left = 2
+stretch_margin_top = 2
+stretch_margin_right = 2
+stretch_margin_bottom = 2
+texture_progress = ExtResource("4_xr8ce")
+tint_under = Color(0.3647059, 0.3647059, 0.3647059, 1)
+tint_over = Color(0.3647059, 0.3647059, 0.3647059, 1)
+
+[node name="CajaCentral" type="PanelContainer" parent="." unique_id=1580623248]
+layout_mode = 0
+offset_left = 138.0
+offset_top = 400.0
+offset_right = 1169.0
+offset_bottom = 576.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jgspf")
+
+[node name="Menu" type="VBoxContainer" parent="CajaCentral" unique_id=1808455251]
+layout_mode = 2
+
+[node name="TextoSuperior" type="RichTextLabel" parent="CajaCentral/Menu" unique_id=1762100380]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_l1dj6")
+theme_override_font_sizes/normal_font_size = 40
+text = "* THE MEMORY LEAK GOTEA BYTES SOBRE EL SUELO."
+fit_content = true
+tab_size = 20
+
+[node name="TextoInferior" type="Label" parent="CajaCentral/Menu" unique_id=2063222287]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4045111, 0.40451115, 0.4045111, 1)
+theme_override_fonts/font = ExtResource("1_l1dj6")
+theme_override_font_sizes/font_size = 40
+text = "* ELIGE: ATACAR, DEFENDER O RECUPERAR."
+
+[node name="Ataque" type="Control" parent="CajaCentral" unique_id=151870274]
+layout_mode = 2
+
+[node name="Pregunta" type="Label" parent="CajaCentral/Ataque" unique_id=340242943]
+layout_mode = 0
+offset_left = -5.0
+offset_top = -88.0
+offset_right = 1022.0
+offset_bottom = -12.0
+theme_override_fonts/font = ExtResource("1_l1dj6")
+theme_override_font_sizes/font_size = 23
+
+[node name="Opciones" type="HBoxContainer" parent="CajaCentral/Ataque" unique_id=2017273867]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 0
+offset_left = 3.0
+offset_top = 126.0
+offset_right = 1021.0
+offset_bottom = 166.0
+
+[node name="Button" type="Button" parent="CajaCentral/Ataque/Opciones" unique_id=484276614]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("1_l1dj6")
+theme_override_font_sizes/font_size = 23
+text = "1"
+
+[node name="Button2" type="Button" parent="CajaCentral/Ataque/Opciones" unique_id=439207908]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("1_l1dj6")
+theme_override_font_sizes/font_size = 23
+text = "2"
+
+[node name="Button3" type="Button" parent="CajaCentral/Ataque/Opciones" unique_id=816401147]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("1_l1dj6")
+theme_override_font_sizes/font_size = 23
+text = "3"
+
+[node name="Defensa" type="Control" parent="CajaCentral" unique_id=681511429]
+layout_mode = 2
+
+[node name="HUDJugador" type="VBoxContainer" parent="." unique_id=175793232]
+layout_mode = 0
+offset_left = 136.0
+offset_top = 588.0
+offset_right = 1170.0
+offset_bottom = 693.0
+
+[node name="Stats" type="HBoxContainer" parent="HUDJugador" unique_id=1606137131]
+layout_mode = 2
+
+[node name="HP" type="Label" parent="HUDJugador/Stats" unique_id=1151726732]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_l1dj6")
+theme_override_font_sizes/font_size = 23
+text = "HP"
+
+[node name="ProgressBar" type="ProgressBar" parent="HUDJugador/Stats" unique_id=1099937008]
+custom_minimum_size = Vector2(100, 23)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_8r2l7")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4g3yi")
+value = 100.0
+show_percentage = false
+
+[node name="Cantidad" type="Label" parent="HUDJugador/Stats" unique_id=807200593]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_l1dj6")
+theme_override_font_sizes/font_size = 23
+text = "100/100"
+
+[node name="Espacio" type="Control" parent="HUDJugador/Stats" unique_id=2137439520]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Daño" type="Label" parent="HUDJugador/Stats" unique_id=245562805]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_l1dj6")
+theme_override_font_sizes/font_size = 23
+text = "Daño 25"
+
+[node name="Espacio2" type="Control" parent="HUDJugador/Stats" unique_id=1811650963]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Armadura" type="Label" parent="HUDJugador/Stats" unique_id=500786007]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_l1dj6")
+theme_override_font_sizes/font_size = 23
+text = "ARMADURA 20%"
+
+[node name="Botones" type="HBoxContainer" parent="HUDJugador" unique_id=665022775]
+layout_mode = 2
+
+[node name="Ataque" type="Button" parent="HUDJugador/Botones" unique_id=1121680762]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.827451, 0.007843138, 1)
+theme_override_fonts/font = ExtResource("1_l1dj6")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_nqvmq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_l1dj6")
+text = "ATACAR"
+
+[node name="Espacio" type="Control" parent="HUDJugador/Botones" unique_id=1105758521]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Defender" type="Button" parent="HUDJugador/Botones" unique_id=915717676]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.39215687, 0.007843138, 1)
+theme_override_fonts/font = ExtResource("1_l1dj6")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_kuc7h")
+text = "DEFENDER"
+
+[node name="Espacio2" type="Control" parent="HUDJugador/Botones" unique_id=365722105]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Recuperar" type="Button" parent="HUDJugador/Botones" unique_id=1129922951]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12941177, 0.6156863, 0.09019608, 1)
+theme_override_fonts/font = ExtResource("1_l1dj6")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_woyj1")
+text = "RECUPERAR"
+
+[node name="BarraSuperior" type="HBoxContainer" parent="." unique_id=790241172]
+layout_mode = 0
+offset_right = 1281.0
+offset_bottom = 40.0
+
+[node name="Control" type="Control" parent="BarraSuperior" unique_id=379499275]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Fase" type="Label" parent="BarraSuperior" unique_id=226599608]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_l1dj6")
+theme_override_font_sizes/font_size = 23
+text = "ATAQUE"
+
+[node name="Timer" type="ProgressBar" parent="BarraSuperior" unique_id=223213114]
+custom_minimum_size = Vector2(100, 23)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_v3bb0")
+theme_override_styles/fill = SubResource("StyleBoxFlat_fue60")
+value = 80.0
+show_percentage = false
+
+[node name="Tiempo" type="Label" parent="BarraSuperior" unique_id=1834085924]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_l1dj6")
+theme_override_font_sizes/font_size = 23
+text = "7 S"
+
+[node name="Control2" type="Control" parent="BarraSuperior" unique_id=935544895]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
