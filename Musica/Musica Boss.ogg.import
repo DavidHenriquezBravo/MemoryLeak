@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://clo6f5rieeglg"
+path="res://.godot/imported/Musica Boss.ogg-2b2df4b805e7775c476b92f4bbf56f0a.oggvorbisstr"
+
+[deps]
+
+source_file="res://Musica/Musica Boss.ogg"
+dest_files=["res://.godot/imported/Musica Boss.ogg-2b2df4b805e7775c476b92f4bbf56f0a.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

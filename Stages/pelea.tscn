@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://t1fb0qh36bm0" path="res://Stages/pelea.gd" id="1_umc4s"]
 [ext_resource type="Texture2D" uid="uid://cnycy5gigjxqc" path="res://Sprites/Jefe Memory Leak reposo-Sheet.png" id="2_umc4s"]
 [ext_resource type="Texture2D" uid="uid://t8jshqwry32n" path="res://Sprites/Barra de vida llena.png" id="4_xr8ce"]
+[ext_resource type="AudioStream" uid="uid://clo6f5rieeglg" path="res://Musica/Musica Boss.ogg" id="5_umc4s"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uwkk3"]
 atlas = ExtResource("2_umc4s")
@@ -403,3 +404,8 @@ text = "7 S"
 [node name="Control2" type="Control" parent="BarraSuperior" unique_id=935544895]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=755461984]
+stream = ExtResource("5_umc4s")
+volume_db = -8.541
+autoplay = true
