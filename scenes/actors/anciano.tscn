@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c18fqn7wd6omt"]
 
 [ext_resource type="Texture2D" uid="uid://dd8agvk34jrjw" path="res://Sprites/Modelo Anciano frente (1)-Sheet.png" id="1_16itu"]
-[ext_resource type="Script" uid="uid://bofarp5wkq47f" path="res://Player/anciano.gd" id="1_sups2"]
+[ext_resource type="Script" uid="uid://bofarp5wkq47f" path="res://scripts/anciano.gd" id="1_sups2"]
 [ext_resource type="Texture2D" uid="uid://b7i8ps888fhx0" path="res://Sprites/Modelo Anciano Izquierda (1)-Sheet.png" id="2_sups2"]
 [ext_resource type="Texture2D" uid="uid://cvqdl014dj6ex" path="res://Sprites/Modelo Anciano Derecha (1)-Sheet.png" id="3_y4jnj"]
 

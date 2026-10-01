@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://557rrk0wpwg2"]
 
 [ext_resource type="FontFile" uid="uid://cwd5rqrucvgov" path="res://Fuentes/upheavtt.ttf" id="1_l1dj6"]
-[ext_resource type="Script" uid="uid://t1fb0qh36bm0" path="res://Stages/pelea.gd" id="1_umc4s"]
+[ext_resource type="Script" uid="uid://t1fb0qh36bm0" path="res://scripts/pelea.gd" id="1_umc4s"]
 [ext_resource type="Texture2D" uid="uid://cnycy5gigjxqc" path="res://Sprites/Jefe Memory Leak reposo-Sheet.png" id="2_umc4s"]
 [ext_resource type="Texture2D" uid="uid://t8jshqwry32n" path="res://Sprites/Barra de vida llena.png" id="4_xr8ce"]
 [ext_resource type="AudioStream" uid="uid://clo6f5rieeglg" path="res://Musica/Musica Boss.ogg" id="5_umc4s"]

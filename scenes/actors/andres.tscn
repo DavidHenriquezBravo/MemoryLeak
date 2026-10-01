@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bqjb2txm7b6ls"]
 
-[ext_resource type="Script" uid="uid://bbd6ngecaafx" path="res://Player/andres.gd" id="1_8fneg"]
+[ext_resource type="Script" uid="uid://bbd6ngecaafx" path="res://scripts/andres.gd" id="1_8fneg"]
 [ext_resource type="Texture2D" uid="uid://dbcq6t15xeiwt" path="res://Sprites/Modelo Andy frente-Sheet.png" id="1_e4um3"]
 [ext_resource type="Texture2D" uid="uid://dwewhoe3b3j2s" path="res://Sprites/Modelo andy Izquierda-Sheet.png" id="2_8fneg"]
 [ext_resource type="Texture2D" uid="uid://be6wmlclay478" path="res://Sprites/Modelo Andy Derecha-Sheet.png" id="3_naepv"]

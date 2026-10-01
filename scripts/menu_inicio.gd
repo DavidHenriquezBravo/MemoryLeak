@@ -2,7 +2,7 @@ extends Control
 
 # Ruta a la escena principal de tu juego (Gameplay/Mundo)
 # Asegúrate de cambiar esta ruta por la de tu archivo .tscn real
-const ESCENA_JUEGO_PATH: String = "res://Stages/stage_1.tscn"
+const ESCENA_JUEGO_PATH: String = "res://scenes/levels/stage_1.tscn"
 
 # Referencias a los nodos de la interfaz
 @onready var boton_jugar: Button = $VBoxContainer/Jugar

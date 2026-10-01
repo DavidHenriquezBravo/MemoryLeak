@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b1ny2grkxsprv"]
 
-[ext_resource type="Script" uid="uid://cbx1i0dd5twr3" path="res://Player/player.gd" id="1_4ntmi"]
+[ext_resource type="Script" uid="uid://cbx1i0dd5twr3" path="res://scripts/player.gd" id="1_4ntmi"]
 [ext_resource type="Texture2D" uid="uid://djctxf6nwqbgb" path="res://Sprites/Modelo Protagonista Izquierda.png" id="3_fhl08"]
 [ext_resource type="Texture2D" uid="uid://dfglofxs6tbih" path="res://Sprites/Modelo Protagonista Derecha.png" id="4_vtle1"]
 [ext_resource type="Texture2D" uid="uid://cy2lbunc6i6vs" path="res://Sprites/Modelo Protagonista inicio Frente-Sheet.png" id="5_00tjw"]

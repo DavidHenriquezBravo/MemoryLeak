@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c5bv8a6ljrotv"]
 
-[ext_resource type="Script" uid="uid://5xmcc4dqt2fb" path="res://rivera.gd" id="1_e5g6q"]
+[ext_resource type="Script" uid="uid://5xmcc4dqt2fb" path="res://scripts/rivera.gd" id="1_e5g6q"]
 [ext_resource type="Texture2D" uid="uid://c65qxipdx6tl0" path="res://Sprites/Modelo Rivera frente-Sheet.png" id="2_ncftf"]
 [ext_resource type="Texture2D" uid="uid://c8ce2k2oqskhk" path="res://Sprites/Modelo Rivera Izquierda-Sheet.png" id="3_ymd6k"]
 [ext_resource type="Texture2D" uid="uid://dallbs6e7wju8" path="res://Sprites/Modelo Rivera derecha-Sheet.png" id="4_dai8q"]

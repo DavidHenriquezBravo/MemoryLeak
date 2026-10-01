@@ -78,4 +78,4 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 		print("-> Jugador salió del área de Andrés")
 		jugador_cerca = null
 		ocultar_dialogo()
-		anim.play("idle_ri")
+		anim.play("idle_right")

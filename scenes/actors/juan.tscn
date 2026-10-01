@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bqe5wkma6pyy5"]
 
-[ext_resource type="Script" uid="uid://sfmieb3pg3at" path="res://juan.gd" id="1_4stxg"]
+[ext_resource type="Script" uid="uid://sfmieb3pg3at" path="res://scripts/juan.gd" id="1_4stxg"]
 [ext_resource type="Texture2D" uid="uid://cvt5rtbcfbbkh" path="res://Sprites/Modelo Juan frente-Sheet.png" id="2_uu7c1"]
 [ext_resource type="Texture2D" uid="uid://cgiojhsc26xwi" path="res://Sprites/Modelo Juan Izquierda-Sheet.png" id="3_jjyqd"]
 
