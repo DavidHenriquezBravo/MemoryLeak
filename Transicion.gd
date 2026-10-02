@@ -116,6 +116,13 @@ func _ready() -> void:
 	add_child(rect)
 
 func ir_a_pelea(ruta_escena: String) -> void:
+	await _ir(ruta_escena, true)
+
+## El mismo goteo, sin los destellos de pelea (para pasar de un stage a otro).
+func ir_a(ruta_escena: String) -> void:
+	await _ir(ruta_escena, false)
+
+func _ir(ruta_escena: String, destellos: bool) -> void:
 	if ocupado:
 		return
 	ocupado = true
@@ -125,20 +132,21 @@ func ir_a_pelea(ruta_escena: String) -> void:
 	_destello(0.0)
 	rect.visible = true
 
-	# 1. dos destellos rápidos
 	var t := create_tween()
-	for i in 2:
-		t.tween_method(_destello, 0.0, 0.8, 0.06)
-		t.tween_method(_destello, 0.8, 0.0, 0.06)
+	# 1. dos destellos rápidos (solo al entrar a una pelea)
+	if destellos:
+		for i in 2:
+			t.tween_method(_destello, 0.0, 0.8, 0.06)
+			t.tween_method(_destello, 0.8, 0.0, 0.06)
 	# 2. el negro gotea desde arriba
 	t.tween_method(_cubrir, 0.0, 1.0, 0.9).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	await t.finished
 
-	# 3. con la pantalla en negro se cambia a la pelea
+	# 3. con la pantalla en negro se cambia de escena
 	get_tree().change_scene_to_file(ruta_escena)
 	await get_tree().create_timer(0.4).timeout
 
-	# 4. el negro se escurre hacia abajo y aparece la pelea
+	# 4. el negro se escurre hacia abajo y aparece la escena nueva
 	var t2 := create_tween()
 	t2.tween_method(_descubrir, 0.0, 1.0, 0.8).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	await t2.finished

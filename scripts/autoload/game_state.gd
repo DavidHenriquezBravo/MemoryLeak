@@ -19,6 +19,7 @@ var revealed: Dictionary = {}     # "0x0020" -> {"value": "0", "label": "cerradu
 var boss_defeated: bool = false     # el jefe ya murió
 var final_visto: bool = false       # ya se vio la animación de la corrupción desapareciendo
 var en_cinematica: bool = false     # congela al jugador durante animaciones
+var preguntas_jefe_resueltas: Array[String] = []   # ids del banco del jefe ya respondidos bien (no se repiten)
  
 var max_hp: int:
 	get:

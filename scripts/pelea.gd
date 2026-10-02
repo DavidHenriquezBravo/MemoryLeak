@@ -1,7 +1,8 @@
 extends Control
 
-enum Estado { MENU, ACCION_COMBATE, RESULTADO, VICTORIA }
+enum Estado { MENU, ACCION_COMBATE, RESULTADO, VICTORIA, DERROTA }
 enum Accion { ATACAR, DEFENDER, RECUPERAR }
+enum Intencion { NADA, ATAQUE, ROBO }   # lo que hace el jefe al empezar cada turno
 
 var estado_actual: Estado = Estado.MENU
 var accion_actual: Accion = Accion.ATACAR
@@ -15,6 +16,14 @@ var accion_actual: Accion = Accion.ATACAR
 @export var responder_al_tocar := false
 ## Cantidad y velocidad de los bytes (1 = normal, 0 = sin bytes).
 @export_range(0.0, 2.0, 0.1) var intensidad_esquiva := 1.0
+
+@export_group("Jefe")
+## Banco de preguntas del jefe (ver data/jefes/banco_jefe_1.gd).
+@export_file("*.gd") var banco_preguntas: String = "res://data/jefes/banco_jefe_1.gd"
+## Probabilidad por turno de que el jefe anuncie un ataque (ese turno solo se puede defender).
+@export_range(0.0, 1.0, 0.05) var prob_ataque := 0.3
+## Probabilidad por turno de que el jefe te robe vida o una estadística.
+@export_range(0.0, 1.0, 0.05) var prob_robo := 0.25
 
 @export_group("Final del jefe")
 ## Nivel al que se vuelve al ganar (ej. res://scenes/stages/stage_1.tscn). Obligatorio.
@@ -30,6 +39,7 @@ const TEX_BYTE_ROSA := preload("res://Sprites/Pelea/byte_rosa.png")
 const TEX_BYTE_CIAN := preload("res://Sprites/Pelea/byte_cian.png")
 # Upheaval no tiene "&" (lo dibuja como "€") ni minúsculas: el código va en monoespaciada
 const FUENTE_CODIGO := preload("res://Fuentes/fuente_codigo.tres")
+const ESCENA_GAME_OVER := preload("res://scenes/ui/game_over.tscn")
 
 const ESCALA := 2.0                  # los sprites de la pelea se ven a 2x
 const VELOCIDAD_PUNTERO := 260.0
@@ -38,6 +48,11 @@ const DANIO_BYTE := 3
 const INVULNERABLE_S := 0.8
 const LECTURA_S := 1.5               # segundos sin bytes para leer la pregunta
 const VEL_TEXTO := 45.0              # letras por segundo del texto de la caja
+
+# Robo de memoria: cuánto se lleva el jefe de cada cosa
+const ROBO_VIDA := 10                # HP que te quita (y que el jefe se cura)
+const ROBO_DANIO := 5
+const ROBO_ARMADURA := 0.10
 
 const CAJA_MENU := Rect2(64, 362, 1152, 182)
 const CAJA_PREGUNTA := Rect2(282, 344, 716, 196)
@@ -81,6 +96,7 @@ const COLOR_NARANJO := Color("ff8a1f")
 @onready var btn_ataque = $HUDJugador/Botones/Ataque
 @onready var btn_defender = $HUDJugador/Botones/Defender
 @onready var btn_recuperar = $HUDJugador/Botones/Recuperar
+@onready var musica: AudioStreamPlayer = $Musica
 
 # --- Estadísticas del Informe ---
 # Las del jugador se cargan desde GameState en _ready (así cuentan las recompensas de misiones)
@@ -92,10 +108,12 @@ var suerte: float = 0.15   # probabilidad de golpe crítico
 var boss_max_hp: int = 100
 var boss_hp: int = 100
 
-# --- Estados alterados del Jefe ---
-var boss_cargando_ataque_pesado: bool = false
-var ataque_corrompido: bool = false
-var vida_corrompida: bool = false
+# --- Turno del Jefe ---
+var turno := 0
+var intencion: Intencion = Intencion.NADA
+## Lo que el jefe te robó y todavía no recuperas: "vida" / "danio" / "armadura" -> cantidad
+var robos := {}
+var acciones_bloqueadas: Array[int] = []   # índices del menú que no se pueden elegir este turno
 
 # --- Temporizador ---
 var tiempo_maximo: float = 15.0
@@ -119,68 +137,16 @@ var estilo_marcada: StyleBoxFlat
 var estilo_bien: StyleBoxFlat
 var estilo_mal: StyleBoxFlat
 
-# --- Bancos de Preguntas (Nivel 1: The Memory Leak) ---
-var banco_atacar: Array[Dictionary] = [
-	{
-		"enunciado": "int vida_jefe = 70;  int *ptr = &vida_jefe;\n¿CÓMO BAJAS VIDA_JEFE A 45?",
-		"opciones": ["ptr = 45;", "&ptr = 45;", "*ptr = 45;"],
-		"correcta": 2,
-		"mensaje_error": "MOVISTE EL PUNTERO EN VEZ DE MODIFICAR EL VALOR."
-	},
-	{
-		"enunciado": "int cerradura = 1;  int *p = &cerradura;\n¿CÓMO LA DEJAS EN 0?",
-		"opciones": ["p = 0;", "*p = 0;", "&p = 0;"],
-		"correcta": 1,
-		"mensaje_error": "NO DESREFERENCIASTE LA CERRADURA."
-	},
-	{
-		"enunciado": "int base = 20;  int *p = &base;\n¿CÓMO LE SUMAS 5 AL ORIGINAL?",
-		"opciones": ["*p = *p + 5;", "p = p + 5;", "*p = base + 5;"],
-		"correcta": 0,
-		"mensaje_error": "ALTERASTE LA DIRECCIÓN EN VEZ DEL CONTENIDO."
-	}
-]
-
-var banco_defender: Array[Dictionary] = [
-	{
-		"enunciado": "! PREPARA UN NULL DEREFERENCE !\nint *p = NULL;\n¿CUÁL LÍNEA PROVOCA EL COLAPSO?",
-		"opciones": ["p = &hp;", "*p = 0;", "p = NULL;"],
-		"correcta": 1,
-		"mensaje_error": "INTENTASTE DESREFERENCIAR UN PUNTERO NULL."
-	},
-	{
-		"enunciado": "Un puntero vale NULL.\n¿QUÉ SIGNIFICA REALMENTE?",
-		"opciones": ["Apunta a la dir 0 válida", "No apunta a nada válido", "Guarda un espacio en blanco"],
-		"correcta": 1,
-		"mensaje_error": "CONFUNDISTE NULL CON UNA DIRECCIÓN VÁLIDA."
-	},
-	{
-		"enunciado": "int *ptr; // sin inicializar\n¿QUÉ CONTIENE ACTUALMENTE?",
-		"opciones": ["Siempre 0", "El valor NULL", "Una dirección indeterminada"],
-		"correcta": 2,
-		"mensaje_error": "UN PUNTERO NO INICIALIZADO TIENE BASURA INDETERMINADA."
-	}
-]
-
-var banco_recuperar: Array[Dictionary] = [
-	{
-		"enunciado": "int hp = 100;  int *ptr = &hp;\n¿QUÉ EXPRESIÓN DEVUELVE EL VALOR REAL?",
-		"opciones": ["*ptr", "ptr", "&hp"],
-		"correcta": 0,
-		"mensaje_error": "NO LOGRASTE LEER LA CELDA DE MEMORIA CORRECTA."
-	},
-	{
-		"enunciado": "Tu daño quedó en una dirección corrupta.\nint danio = 25; int *ptr = &danio;\n¿QUÉ RESTAURA TU ATAQUE?",
-		"opciones": ["*ptr = 25;", "ptr = 25;", "&ptr = 25;"],
-		"correcta": 0,
-		"mensaje_error": "NO LOGRASTE RESTAURAR EL VALOR EN LA DIRECCIÓN."
-	}
-]
-
+# --- Banco de Preguntas (carrusel) ---
+var banco := {}            # Accion -> todas las preguntas de esa acción
+var cola := {}             # Accion -> preguntas que faltan en la vuelta actual
+var provocaciones := {}    # frases del jefe por acción
+## La pregunta en pantalla: {"base": ítem del banco, "opciones": barajadas, "correcta": índice, "mensaje_error"}
 var pregunta_actual: Dictionary = {}
 
 func _ready() -> void:
 	_cargar_stats()
+	_cargar_banco()
 	player_hp_bar.max_value = player_max_hp
 	jefe_hp_bar.max_value = boss_max_hp
 	jefe_hp_bar.value = boss_hp
@@ -201,7 +167,7 @@ func _ready() -> void:
 # Stats del jugador desde GameState (incluye las recompensas de misiones)
 func _cargar_stats() -> void:
 	player_max_hp = GameState.max_hp
-	# Si llega con 0 HP (todavía no hay game over), parte con la vida llena
+	# Si llega con 0 HP (por ejemplo después de un game over), parte con la vida llena
 	player_hp = mini(GameState.hp, player_max_hp) if GameState.hp > 0 else player_max_hp
 	danio_base = GameState.damage
 	armadura = GameState.armor
@@ -257,11 +223,13 @@ func _unhandled_input(event: InputEvent) -> void:
 				_confirmar_opcion(opcion_marcada)
 			else:
 				manejado = false
-		Estado.RESULTADO:
+		Estado.RESULTADO, Estado.DERROTA:
 			if event.is_action_pressed("interact") and _texto_escribiendose():
 				_terminar_texto()
 			else:
 				manejado = false
+		_:
+			manejado = false
 	if manejado:
 		get_viewport().set_input_as_handled()
 
@@ -277,9 +245,9 @@ func cambiar_estado(nuevo_estado: Estado) -> void:
 	barra_superior.hide()
 	pregunta_label.hide()
 	nombre_jefe.show()
-	# El borde vuelve a blanco solo al cambiar de turno; en RESULTADO se queda
+	# El borde vuelve a blanco solo al cambiar de turno; en RESULTADO y DERROTA se queda
 	# rojo si el jugador acaba de recibir daño
-	if estado_actual != Estado.RESULTADO:
+	if estado_actual != Estado.RESULTADO and estado_actual != Estado.DERROTA:
 		_set_borde_color(Color.WHITE)
 	_actualizar_iconos_menu()
 
@@ -288,6 +256,9 @@ func cambiar_estado(nuevo_estado: Estado) -> void:
 			menu_panel.show()
 			_mover_caja(CAJA_MENU, true)
 			_decidir_intencion_jefe()
+			if acciones_bloqueadas.has(indice_menu):
+				_mover_menu(1)
+			_actualizar_iconos_menu()
 			_actualizar_hud()
 			_escribir_texto()
 
@@ -301,13 +272,11 @@ func cambiar_estado(nuevo_estado: Estado) -> void:
 			match accion_actual:
 				Accion.ATACAR:
 					_estilo_fase("ATAQUE", COLOR_BIEN, COLOR_NARANJO)
-					_cargar_pregunta(banco_atacar.pick_random())
 				Accion.DEFENDER:
 					_estilo_fase("DEFENSA", COLOR_MAL, COLOR_MAL)
-					_cargar_pregunta(banco_defender.pick_random())
 				Accion.RECUPERAR:
 					_estilo_fase("RECUPERAR", COLOR_BIEN, COLOR_BIEN)
-					_cargar_pregunta(banco_recuperar.pick_random())
+			_cargar_pregunta(_siguiente_pregunta(accion_actual))
 
 			_iniciar_timer(15.0)
 			_empezar_respuesta()
@@ -321,33 +290,130 @@ func cambiar_estado(nuevo_estado: Estado) -> void:
 				return
 			cambiar_estado(Estado.MENU)
 
+		Estado.DERROTA:
+			menu_panel.show()
+			_mover_caja(CAJA_MENU, true)
+			_escribir_texto()
+
 # --- Inteligencia del Jefe por Turno ---
 func _decidir_intencion_jefe() -> void:
-	# 35% de probabilidad de preparar un ataque potente
-	boss_cargando_ataque_pesado = randf() < 0.35
+	turno += 1
+	intencion = Intencion.NADA
+	acciones_bloqueadas.clear()
+	if turno > 1:   # el primer turno siempre es tranquilo
+		var r := randf()
+		if r < prob_ataque:
+			intencion = Intencion.ATAQUE
+		elif r < prob_ataque + prob_robo and not _robos_disponibles().is_empty():
+			intencion = Intencion.ROBO
 
-	if boss_cargando_ataque_pesado:
-		texto_superior.text = "* ! ALERTA: THE MEMORY LEAK PREPARA UN ATAQUE DEVASTADOR !"
-		texto_inferior.text = "* ! DEBES DEFENDERTE O SUFRIRÁS DAÑO MASIVO !"
-	elif ataque_corrompido:
-		texto_superior.text = "* TU ATAQUE ESTÁ EN UNA DIRECCIÓN CORRUPTA (DAÑO 0x???)."
-		texto_inferior.text = "* USA RECUPERAR PARA DESREFERENCIAR Y RESTAURARLO."
-	elif vida_corrompida:
-		texto_superior.text = "* EL JEFE BLOQUEÓ EL PUNTERO A TU BARRA DE VIDA."
-		texto_inferior.text = "* USA RECUPERAR PARA CORREGIR EL REGISTRO."
+	match intencion:
+		Intencion.ATAQUE:
+			# Este turno solo se puede defender: ATACAR y RECUPERAR quedan bloqueados
+			acciones_bloqueadas = [0, 2]
+			texto_superior.text = "* ! THE MEMORY LEAK PREPARA UN ATAQUE DEVASTADOR !"
+			texto_inferior.text = "* ! SOLO PUEDES DEFENDERTE !"
+		Intencion.ROBO:
+			var robo := _robar(_robos_disponibles().pick_random())
+			texto_superior.text = robo["aviso"]
+			texto_inferior.text = robo["detalle"]
+		_:
+			_texto_turno_tranquilo()
+
+func _jefe_ataca() -> bool:
+	return intencion == Intencion.ATAQUE
+
+func _texto_turno_tranquilo() -> void:
+	# Si te falta algo, el jefe te lo recuerda; si no, gotea o te provoca
+	if robos.has("danio"):
+		texto_superior.text = "* TU DAÑO SIGUE ESCONDIDO EN UNA DIRECCIÓN CORRUPTA."
+		texto_inferior.text = "* USA RECUPERAR PARA RESTAURARLO."
+	elif robos.has("armadura"):
+		texto_superior.text = "* TU ARMADURA SIGUE ESCONDIDA EN UNA DIRECCIÓN CORRUPTA."
+		texto_inferior.text = "* USA RECUPERAR PARA RESTAURARLA."
+	elif robos.has("vida"):
+		texto_superior.text = "* EL JEFE SIGUE BLOQUEANDO EL PUNTERO A TU VIDA."
+		texto_inferior.text = "* USA RECUPERAR PARA VOLVER A VERLA."
 	else:
-		texto_superior.text = "* THE MEMORY LEAK GOTEA BYTES SOBRE EL SUELO."
+		var frases: Array = ["* THE MEMORY LEAK GOTEA BYTES SOBRE EL SUELO."]
+		for p in provocaciones.values():
+			frases.append("* \"%s\"" % p)
+		texto_superior.text = frases.pick_random() if turno > 1 else frases[0]
 		texto_inferior.text = "* ELIGE: ATACAR, DEFENDER O RECUPERAR."
+
+# --- Robo de memoria ---
+func _robos_disponibles() -> Array:
+	var lista := []
+	if not robos.has("vida") and player_hp > ROBO_VIDA:
+		lista.append("vida")
+	if not robos.has("danio") and danio_base > ROBO_DANIO:
+		lista.append("danio")
+	if not robos.has("armadura") and armadura > 0.0:
+		lista.append("armadura")
+	return lista
+
+## Aplica el robo y devuelve los textos: "aviso" y "detalle" para la caja, "corto" para combinar
+func _robar(tipo: String) -> Dictionary:
+	var r := {}
+	match tipo:
+		"vida":
+			var cantidad := mini(ROBO_VIDA, player_hp - 1)   # el robo nunca te deja en 0
+			player_hp -= cantidad
+			boss_hp = mini(boss_max_hp, boss_hp + cantidad)
+			create_tween().tween_property(jefe_hp_bar, "value", boss_hp, 0.3)
+			robos["vida"] = cantidad
+			_guardar_hp()
+			_parpadear(player_hp_label)
+			r = {"aviso": "* THE MEMORY LEAK TE ROBÓ %d DE VIDA Y SE CURÓ." % cantidad,
+				"detalle": "* ADEMÁS ESCONDIÓ TU VIDA. USA RECUPERAR PARA VERLA.",
+				"corto": "%d DE VIDA" % cantidad}
+		"danio":
+			danio_base -= ROBO_DANIO
+			robos["danio"] = ROBO_DANIO
+			_parpadear(danio_label)
+			r = {"aviso": "* THE MEMORY LEAK TE ROBÓ %d DE DAÑO." % ROBO_DANIO,
+				"detalle": "* LO ESCONDIÓ EN UNA DIRECCIÓN CORRUPTA. USA RECUPERAR.",
+				"corto": "%d DE DAÑO" % ROBO_DANIO}
+		"armadura":
+			var cantidad := minf(ROBO_ARMADURA, armadura)
+			armadura -= cantidad
+			robos["armadura"] = cantidad
+			_parpadear(armadura_label)
+			r = {"aviso": "* THE MEMORY LEAK TE ROBÓ %d%% DE ARMADURA." % roundi(cantidad * 100.0),
+				"detalle": "* LA ESCONDIÓ EN UNA DIRECCIÓN CORRUPTA. USA RECUPERAR.",
+				"corto": "%d%% DE ARMADURA" % roundi(cantidad * 100.0)}
+	_actualizar_hud()
+	return r
+
+## Devuelve lo robado y lo describe ("5 DE DAÑO, 10% DE ARMADURA"); "" si no faltaba nada
+func _restaurar_robos() -> String:
+	var partes: Array[String] = []
+	if robos.has("danio"):
+		danio_base += robos["danio"]
+		partes.append("%d DE DAÑO" % robos["danio"])
+	if robos.has("armadura"):
+		armadura += robos["armadura"]
+		partes.append("%d%% DE ARMADURA" % roundi(robos["armadura"] * 100.0))
+	if robos.has("vida"):
+		partes.append("EL REGISTRO DE TU VIDA")
+	robos.clear()
+	_actualizar_hud()
+	return ", ".join(partes)
 
 # --- Menú de acciones (el puntero reemplaza el ícono del botón elegido) ---
 func _mover_menu(paso: int) -> void:
-	indice_menu = wrapi(indice_menu + paso, 0, botones_menu.size())
+	# Salta los botones bloqueados (cuando el jefe ataca solo queda DEFENDER)
+	for i in botones_menu.size():
+		indice_menu = wrapi(indice_menu + paso, 0, botones_menu.size())
+		if not acciones_bloqueadas.has(indice_menu):
+			break
 	_actualizar_iconos_menu()
 
 func _actualizar_iconos_menu() -> void:
 	for i in botones_menu.size():
 		var con_puntero := estado_actual == Estado.MENU and i == indice_menu
 		botones_menu[i].icon = _puntero_centrado() if con_puntero else iconos_menu[i]
+		botones_menu[i].modulate.a = 0.25 if acciones_bloqueadas.has(i) else 1.0
 
 # El puntero en su hoja está en la esquina; para el botón se centra en 16x16
 var _icono_puntero: AtlasTexture
@@ -360,59 +426,103 @@ func _puntero_centrado() -> AtlasTexture:
 	return _icono_puntero
 
 func _elegir_accion(i: int) -> void:
+	if acciones_bloqueadas.has(i):
+		return
 	accion_actual = [Accion.ATACAR, Accion.DEFENDER, Accion.RECUPERAR][i]
 	cambiar_estado(Estado.ACCION_COMBATE)
 
-# --- Cargar y Mostrar Pregunta Dinámica ---
-func _cargar_pregunta(pregunta: Dictionary) -> void:
-	pregunta_actual = pregunta
-	_mostrar_enunciado(pregunta_actual["enunciado"])
+# --- Banco de preguntas: carrusel sin repetir ---
+func _cargar_banco() -> void:
+	var datos: Dictionary = (load(banco_preguntas) as GDScript).get_script_constant_map()
+	provocaciones = datos.get("PROVOCACIONES", {})
+	var por_nombre := {"atacar": Accion.ATACAR, "defender": Accion.DEFENDER, "recuperar": Accion.RECUPERAR}
+	for a in Accion.values():
+		banco[a] = []
+		cola[a] = []
+	for q in datos.get("PREGUNTAS", []):
+		banco[por_nombre[q["accion"]]].append(q)
 
-	while opciones_container.get_child_count() < pregunta_actual["opciones"].size():
+# Cada pregunta sale una vez por vuelta. Las que respondes bien no vuelven a salir
+# (quedan anotadas en GameState); las que fallas vuelven al final de la fila.
+func _siguiente_pregunta(accion: Accion) -> Dictionary:
+	if cola[accion].is_empty():
+		var pendientes: Array = banco[accion].filter(
+			func(q): return not GameState.preguntas_jefe_resueltas.has(q["id"]))
+		if pendientes.is_empty():
+			# Ya respondió bien todas las de esta acción: empieza una vuelta nueva
+			for q in banco[accion]:
+				GameState.preguntas_jefe_resueltas.erase(q["id"])
+			pendientes = banco[accion].duplicate()
+		pendientes.shuffle()
+		cola[accion] = pendientes
+	return cola[accion].pop_front()
+
+func _registrar_respuesta(acierto: bool) -> void:
+	var base: Dictionary = pregunta_actual["base"]
+	if acierto:
+		if not GameState.preguntas_jefe_resueltas.has(base["id"]):
+			GameState.preguntas_jefe_resueltas.append(base["id"])
+	elif not cola[accion_actual].has(base):
+		cola[accion_actual].push_back(base)
+
+# --- Cargar y Mostrar Pregunta Dinámica ---
+func _cargar_pregunta(base: Dictionary) -> void:
+	# Las opciones se barajan cada vez, así la correcta no queda siempre en el mismo botón
+	var orden := range(base["opciones"].size())
+	orden.shuffle()
+	var opciones: Array = []
+	for o in orden:
+		opciones.append(base["opciones"][o])
+	pregunta_actual = {
+		"base": base,
+		"opciones": opciones,
+		"correcta": orden.find(int(base["correcta"])),
+		"mensaje_error": base["error"],
+	}
+	_mostrar_enunciado()
+
+	while opciones_container.get_child_count() < opciones.size():
 		opciones_container.add_child(opciones_container.get_child(0).duplicate())
 
 	var botones = opciones_container.get_children()
 	for i in range(botones.size()):
 		var btn = botones[i] as Button
-		if i < pregunta_actual["opciones"].size():
+		if i < opciones.size():
 			btn.show()
-			btn.text = pregunta_actual["opciones"][i]
+			btn.text = (opciones[i] as String).replace("`", "")
 			_pintar_opcion(i, estilo_opcion, Color.WHITE)
 		else:
 			btn.hide()
 
-func _es_codigo(linea: String) -> bool:
-	return ";" in linea or "//" in linea
-
-# Las líneas de código van en gris y monoespaciada; el resto en Upheaval.
-# Con "remate" se dejan solo las líneas de código y se agrega ese texto al final
-# (así se muestra "¡DESREFERENCIA CORRECTA!" en lugar de la pregunta, como en el GIF).
-func _mostrar_enunciado(texto: String, remate := "", color_remate := Color.WHITE) -> void:
+# Arriba la situación (código en gris) y abajo la pregunta. Con "remate" la pregunta
+# se cambia por ese texto (así se muestra "¡DESREFERENCIA CORRECTA!", como en el GIF).
+func _mostrar_enunciado(remate := "", color_remate := Color.WHITE) -> void:
+	var base: Dictionary = pregunta_actual["base"]
 	pregunta_label.clear()
 	pregunta_label.push_paragraph(HORIZONTAL_ALIGNMENT_CENTER)
-	var primera := true
-	for linea in texto.split("\n"):
-		var es_codigo := _es_codigo(linea)
-		if remate != "" and not es_codigo:
-			continue
-		if not primera:
-			pregunta_label.newline()
-		primera = false
-		if es_codigo:
-			pregunta_label.push_font(FUENTE_CODIGO, 20)
-			pregunta_label.push_color(COLOR_CODIGO)
-			pregunta_label.add_text(linea)
-			pregunta_label.pop()
-			pregunta_label.pop()
-		else:
-			pregunta_label.add_text(linea)
+	_agregar_con_codigo(base["situacion"], COLOR_CODIGO)
+	pregunta_label.newline()
 	if remate != "":
-		if not primera:
-			pregunta_label.newline()
 		pregunta_label.push_color(color_remate)
 		pregunta_label.add_text(remate)
 		pregunta_label.pop()
+	else:
+		_agregar_con_codigo(base["pregunta"], Color.WHITE)
 	pregunta_label.pop()
+
+# Lo que va entre `comillas invertidas` se escribe con la fuente de código
+func _agregar_con_codigo(texto: String, color: Color) -> void:
+	var partes := texto.split("`")
+	for i in partes.size():
+		if partes[i] == "":
+			continue
+		if i % 2 == 1:
+			pregunta_label.push_font(FUENTE_CODIGO, 20)
+		pregunta_label.push_color(color)
+		pregunta_label.add_text(partes[i])
+		pregunta_label.pop()
+		if i % 2 == 1:
+			pregunta_label.pop()
 
 # --- Respuesta con el puntero ---
 func _empezar_respuesta() -> void:
@@ -430,7 +540,7 @@ func _empezar_respuesta() -> void:
 	puntero.show()
 	if esquiva_activa:
 		var area := _area_bytes()
-		puntero.position = area.get_center() - TAMANO_FLECHA * 0.5
+		puntero.position = Vector2(area.get_center().x, area.size.y * 0.35) - TAMANO_FLECHA * 0.5
 	else:
 		_marcar_opcion(0)
 	respondiendo = true
@@ -485,7 +595,7 @@ func _confirmar_opcion(i: int) -> void:
 	_pintar_opcion(correcta, estilo_bien, Color.BLACK)
 	if not acierto:
 		_pintar_opcion(i, estilo_mal, Color.WHITE)
-	_mostrar_enunciado(pregunta_actual["enunciado"], _texto_remate(acierto), COLOR_BIEN if acierto else COLOR_MAL)
+	_mostrar_enunciado(_texto_remate(acierto), COLOR_BIEN if acierto else COLOR_MAL)
 	await get_tree().create_timer(1.0).timeout
 	if not is_inside_tree() or estado_actual != Estado.ACCION_COMBATE:
 		return
@@ -501,7 +611,7 @@ func _texto_remate(acierto: bool) -> String:
 			return "¡DEFENSA CORRECTA!"
 	return "¡MEMORIA RESTAURADA!"
 
-# --- Esquiva: bytes que flotan sobre las respuestas ---
+# --- Esquiva: bytes que cruzan toda la caja, también las respuestas ---
 func _parametros_bytes() -> Dictionary:
 	# intervalo entre bytes, máximo en pantalla, rango de velocidad y probabilidad de que sea corrupto
 	var p := {"intervalo": 0.6, "max": 7, "vel": Vector2(45, 85), "malo": 0.45}
@@ -510,13 +620,12 @@ func _parametros_bytes() -> Dictionary:
 			p = {"intervalo": 0.45, "max": 9, "vel": Vector2(60, 110), "malo": 0.6}
 		Accion.RECUPERAR:
 			p = {"intervalo": 0.8, "max": 5, "vel": Vector2(40, 70), "malo": 0.35}
-	if boss_cargando_ataque_pesado:
+	if _jefe_ataca():
 		p["vel"] *= 1.3
 	return p
 
-# Los bytes viven arriba de las respuestas, así la fila de respuestas siempre se lee
 func _area_bytes() -> Rect2:
-	return Rect2(Vector2.ZERO, Vector2(ataque_panel.size.x, opciones_container.position.y - 6.0))
+	return Rect2(Vector2.ZERO, ataque_panel.size)
 
 func _actualizar_bytes(delta: float) -> void:
 	if not esquiva_activa or intensidad_esquiva <= 0.0:
@@ -600,6 +709,7 @@ func _golpe_byte() -> void:
 func _on_opcion_seleccionada(indice: int) -> void:
 	timer_activo = false
 	var acierto = (indice == pregunta_actual["correcta"])
+	_registrar_respuesta(acierto)
 
 	match accion_actual:
 		Accion.ATACAR:
@@ -617,9 +727,8 @@ func _on_opcion_seleccionada(indice: int) -> void:
 				else:
 					texto_superior.text = "* DESREFERENCIACIÓN CORRECTA: GOLPE EN LA MEMORIA."
 
-				if ataque_corrompido:
-					danio_final = 5 # Si atacó estando corrompido, hace daño mínimo
-					texto_superior.text = "* ATACASTE CON DIRECCIÓN CORRUPTA: DAÑO REDUCIDO."
+				if robos.has("danio"):
+					texto_superior.text = "* ATACASTE CON TU DAÑO CORRUPTO: EL GOLPE PERDIÓ FUERZA."
 
 				daniar_jefe(danio_final)
 				texto_inferior.text = "* VIDA_JEFE BAJÓ A %d." % boss_hp
@@ -628,56 +737,63 @@ func _on_opcion_seleccionada(indice: int) -> void:
 					return
 				cambiar_estado(Estado.RESULTADO)
 			else:
-				# Fallar un ataque permite que el jefe robe un atributo
-				if randf() < 0.5:
-					ataque_corrompido = true
-				else:
-					vida_corrompida = true
-				recibir_danio_jugador(20, pregunta_actual["mensaje_error"] + " EL JEFE CORROMPIÓ TU SISTEMA.")
+				# Fallar un ataque deja que el jefe te robe algo, además del golpe
+				var robo := {}
+				var disponibles := _robos_disponibles()
+				if not disponibles.is_empty():
+					robo = _robar(disponibles.pick_random())
+				recibir_danio_jugador(20, pregunta_actual["mensaje_error"], robo.get("corto", ""))
 
 		Accion.DEFENDER:
 			if acierto:
 				texto_superior.text = "* ¡DEFENSA EXITOSA! EVITASTE EL COLAPSO."
-				if boss_cargando_ataque_pesado:
+				if _jefe_ataca():
 					texto_inferior.text = "* ANULASTE SU ATAQUE DEVASTADOR."
-					boss_cargando_ataque_pesado = false
 				else:
 					texto_inferior.text = "* NO RECIBES DAÑO."
 				cambiar_estado(Estado.RESULTADO)
 			else:
-				var golpe = 45 if boss_cargando_ataque_pesado else 25
-				boss_cargando_ataque_pesado = false
+				var golpe = 45 if _jefe_ataca() else 25
 				recibir_danio_jugador(golpe, pregunta_actual["mensaje_error"])
 
 		Accion.RECUPERAR:
 			if acierto:
+				var recuperado := _restaurar_robos()
 				curar_jugador(25)
-				ataque_corrompido = false
-				vida_corrompida = false
-				texto_superior.text = "* DIRECCIONES DE MEMORIA RESTAURADAS Y +25 HP."
-				texto_inferior.text = "* TUS ESTADÍSTICAS VUELVEN A LA NORMALIDAD."
+				texto_superior.text = "* MEMORIA RESTAURADA: +25 HP."
+				if recuperado != "":
+					texto_inferior.text = "* RECUPERASTE %s." % recuperado
+				else:
+					texto_inferior.text = "* TUS ESTADÍSTICAS ESTÁN EN ORDEN."
 				cambiar_estado(Estado.RESULTADO)
 			else:
 				recibir_danio_jugador(15, "FALLO AL RESTAURAR: " + pregunta_actual["mensaje_error"])
 
 func _on_tiempo_agotado() -> void:
-	var danio_recibido = 40 if boss_cargando_ataque_pesado else 20
-	boss_cargando_ataque_pesado = false
+	_registrar_respuesta(false)
+	var danio_recibido = 40 if _jefe_ataca() else 20
 	recibir_danio_jugador(danio_recibido, "SE AGOTÓ EL TIEMPO DE RESPUESTA.")
 
 # --- Daño y Curación ---
-func recibir_danio_jugador(cantidad: int, mensaje: String) -> void:
+func recibir_danio_jugador(cantidad: int, mensaje: String, robo_corto := "") -> void:
 	# Aplicar absorción de armadura del informe
 	var danio_mitigado = int(cantidad * (1.0 - armadura))
 	player_hp = max(0, player_hp - danio_mitigado)
 	_guardar_hp()
 	_actualizar_hud()
+	_set_borde_color(Color("#ff3333"))
 
 	texto_superior.text = "* " + mensaje
-	# Si el jefe ocultó tu vida, el mensaje tampoco la muestra
-	var hp_texto = "??" if vida_corrompida else str(player_hp)
-	texto_inferior.text = "* RECIBISTE %d DE DAÑO. (HP: %s)" % [danio_mitigado, hp_texto]
-	_set_borde_color(Color("#ff3333"))
+	if player_hp <= 0:
+		texto_inferior.text = "* RECIBISTE %d DE DAÑO. TU VIDA LLEGÓ A 0." % danio_mitigado
+		_derrota()
+		return
+	if robo_corto != "":
+		texto_inferior.text = "* RECIBISTE %d DE DAÑO Y EL JEFE TE ROBÓ %s." % [danio_mitigado, robo_corto]
+	else:
+		# Si el jefe escondió tu vida, el mensaje tampoco la muestra
+		var hp_texto = "??" if robos.has("vida") else str(player_hp)
+		texto_inferior.text = "* RECIBISTE %d DE DAÑO. (HP: %s)" % [danio_mitigado, hp_texto]
 	cambiar_estado(Estado.RESULTADO)
 
 func curar_jugador(cantidad: int) -> void:
@@ -734,20 +850,29 @@ func _numero_flotante(pos_global: Vector2, texto: String, color: Color, tamano: 
 	t.chain().tween_callback(l.queue_free)
 
 func _actualizar_hud() -> void:
-	# Manejo visual de corrupción de atributos
-	if vida_corrompida:
+	# Lo que el jefe robó se muestra escondido hasta que uses RECUPERAR
+	if robos.has("vida"):
 		player_hp_label.text = "??/??"
 		player_hp_bar.value = 0
 	else:
 		player_hp_label.text = "%d/%d" % [player_hp, player_max_hp]
 		player_hp_bar.value = player_hp
 
-	if ataque_corrompido:
+	if robos.has("danio"):
 		danio_label.text = "DAÑO 0x???"
 	else:
 		danio_label.text = "DAÑO %d" % danio_base
 
-	armadura_label.text = "ARM %d%%" % roundi(armadura * 100.0)
+	if robos.has("armadura"):
+		armadura_label.text = "ARM 0x??"
+	else:
+		armadura_label.text = "ARM %d%%" % roundi(armadura * 100.0)
+
+func _parpadear(control: CanvasItem) -> void:
+	var t := create_tween()
+	for i in 3:
+		t.tween_property(control, "modulate", COLOR_MAL, 0.08)
+		t.tween_property(control, "modulate", Color.WHITE, 0.08)
 
 # --- Texto de la caja: se escribe letra por letra (Z lo completa) ---
 func _escribir_texto() -> void:
@@ -830,6 +955,31 @@ func _pintar_opcion(i: int, estilo: StyleBoxFlat, color_texto: Color) -> void:
 	var btn := opciones_container.get_child(i) as Button
 	btn.add_theme_stylebox_override("normal", estilo)
 	btn.add_theme_color_override("font_color", color_texto)
+
+# --- Derrota: la vida llegó a 0 -> pantalla de GAME OVER ---
+func _derrota() -> void:
+	cambiar_estado(Estado.DERROTA)
+	_limpiar_bytes()
+	await get_tree().create_timer(_duracion_texto() + 1.5).timeout
+	if not is_inside_tree():
+		return
+	create_tween().tween_property(musica, "volume_db", -40.0, 1.0)
+	var game_over := ESCENA_GAME_OVER.instantiate()
+	game_over.reintentar.connect(_reintentar)
+	game_over.salir.connect(_salir_al_menu)
+	add_child(game_over)
+
+# Reintentar: la pelea empieza de nuevo con la vida llena. Las preguntas que ya
+# respondiste bien siguen fuera del carrusel (están en GameState).
+func _reintentar() -> void:
+	GameState.hp = GameState.max_hp
+	GameState.stats_changed.emit()
+	get_tree().reload_current_scene()
+
+func _salir_al_menu() -> void:
+	GameState.hp = GameState.max_hp
+	GameState.stats_changed.emit()
+	get_tree().change_scene_to_file(ProjectSettings.get_setting("application/run/main_scene"))
 
 # --- Victoria: muerte del jefe -> cartel de felicitación -> vuelta al nivel ---
 func _victoria() -> void:

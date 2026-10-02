@@ -2,6 +2,8 @@ extends StaticBody2D
 
 ## Escena de la pelea (elígela en el Inspector de la Puerta)
 @export_file("*.tscn") var escena_pelea: String = "pelea"
+## A dónde lleva la puerta cuando el jefe ya fue derrotado
+@export_file("*.tscn") var escena_stage_2: String = "res://scenes/levels/stage_2.tscn"
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var pared: CollisionShape2D = $CollisionShape2D
@@ -58,4 +60,8 @@ func _on_entrada_body_entered(body: Node2D) -> void:
 	if abierta and not entrando and _es_jugador(body):
 		entrando = true
 		body.set_physics_process(false)  # el jugador se queda quieto
-		Transicion.ir_a_pelea(escena_pelea)
+		if GameState.boss_defeated:
+			# El jefe ya cayó: la puerta ahora lleva al siguiente stage
+			Transicion.ir_a(escena_stage_2)
+		else:
+			Transicion.ir_a_pelea(escena_pelea)
