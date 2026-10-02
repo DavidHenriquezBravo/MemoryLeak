@@ -257,6 +257,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_umc4s")
+velocidad_bytes = 0.6
 escena_stage = "uid://dtyll4enyo1td"
 
 [node name="Fondo" type="ColorRect" parent="." unique_id=2100054181]

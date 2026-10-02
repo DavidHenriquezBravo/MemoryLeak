@@ -16,6 +16,8 @@ var accion_actual: Accion = Accion.ATACAR
 @export var responder_al_tocar := false
 ## Cantidad y velocidad de los bytes (1 = normal, 0 = sin bytes).
 @export_range(0.0, 2.0, 0.1) var intensidad_esquiva := 1.0
+## Solo la velocidad de los bytes (1 = normal, 0.5 = la mitad). Cada jefe usa la suya.
+@export_range(0.2, 2.0, 0.05) var velocidad_bytes := 1.0
 
 @export_group("Jefe")
 ## Banco de preguntas del jefe (ver data/jefes/banco_jefe_1.gd).
@@ -685,7 +687,7 @@ func _crear_byte(p: Dictionary) -> void:
 			break
 	nodo.position = pos
 	zona_bytes.add_child(nodo)
-	var rapidez := randf_range(p["vel"].x, p["vel"].y) * clampf(intensidad_esquiva, 0.5, 1.5)
+	var rapidez := randf_range(p["vel"].x, p["vel"].y) * clampf(intensidad_esquiva, 0.5, 1.5) * velocidad_bytes
 	var vida := randf_range(3.5, 5.0)
 	bytes.append({"nodo": nodo, "vel": Vector2.RIGHT.rotated(randf() * TAU) * rapidez,
 		"vida": vida, "total": vida, "malo": malo})
