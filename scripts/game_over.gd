@@ -55,7 +55,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		indice = wrapi(indice + 1, 0, botones.size())
 		_actualizar_botones()
 	elif event.is_action_pressed("interact"):
+		# Primero se marca la tecla como usada: al elegir, la pelea cambia de escena y
+		# este nodo sale del árbol al tiro (get_viewport() pasa a ser null)
+		get_viewport().set_input_as_handled()
 		_elegir()
+		return
 	else:
 		return
 	get_viewport().set_input_as_handled()
