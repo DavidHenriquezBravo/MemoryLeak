@@ -3,10 +3,31 @@
 [ext_resource type="FontFile" uid="uid://cwd5rqrucvgov" path="res://Fuentes/upheavtt.ttf" id="1_l1dj6"]
 [ext_resource type="Script" uid="uid://t1fb0qh36bm0" path="res://scripts/pelea.gd" id="1_umc4s"]
 [ext_resource type="Texture2D" uid="uid://cnycy5gigjxqc" path="res://Sprites/Jefe Memory Leak reposo-Sheet.png" id="2_umc4s"]
+[ext_resource type="Texture2D" uid="uid://cq7tf80k4hmh1" path="res://Sprites/Jefe Memory Leak derrota-Sheet.png" id="5_mxmw4"]
 [ext_resource type="AudioStream" uid="uid://clo6f5rieeglg" path="res://Musica/Musica Boss.ogg" id="5_umc4s"]
-[ext_resource type="Texture2D" path="res://Sprites/Jefe Memory Leak recibe dano-Sheet.png" id="6_dano"]
+[ext_resource type="Texture2D" uid="uid://bftdxee684tm8" path="res://Sprites/Jefe Memory Leak recibe dano-Sheet.png" id="6_dano"]
 [ext_resource type="SystemFont" path="res://Fuentes/fuente_codigo.tres" id="7_codigo"]
-[ext_resource type="Texture2D" path="res://Sprites/Pelea/puntero.png" id="8_puntero"]
+[ext_resource type="Texture2D" uid="uid://dg5r035hwret7" path="res://Sprites/Pelea/puntero.png" id="8_puntero"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dano1"]
+atlas = ExtResource("6_dano")
+region = Rect2(0, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dano2"]
+atlas = ExtResource("6_dano")
+region = Rect2(112, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dano3"]
+atlas = ExtResource("6_dano")
+region = Rect2(224, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dano4"]
+atlas = ExtResource("6_dano")
+region = Rect2(336, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dano5"]
+atlas = ExtResource("6_dano")
+region = Rect2(448, 0, 112, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uwkk3"]
 atlas = ExtResource("2_umc4s")
@@ -40,28 +61,60 @@ region = Rect2(672, 0, 112, 96)
 atlas = ExtResource("2_umc4s")
 region = Rect2(784, 0, 112, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dano1"]
-atlas = ExtResource("6_dano")
+[sub_resource type="AtlasTexture" id="AtlasTexture_6nfkm"]
+atlas = ExtResource("5_mxmw4")
 region = Rect2(0, 0, 112, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dano2"]
-atlas = ExtResource("6_dano")
+[sub_resource type="AtlasTexture" id="AtlasTexture_0kvh2"]
+atlas = ExtResource("5_mxmw4")
 region = Rect2(112, 0, 112, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dano3"]
-atlas = ExtResource("6_dano")
+[sub_resource type="AtlasTexture" id="AtlasTexture_rtwga"]
+atlas = ExtResource("5_mxmw4")
 region = Rect2(224, 0, 112, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dano4"]
-atlas = ExtResource("6_dano")
+[sub_resource type="AtlasTexture" id="AtlasTexture_dq562"]
+atlas = ExtResource("5_mxmw4")
 region = Rect2(336, 0, 112, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dano5"]
-atlas = ExtResource("6_dano")
+[sub_resource type="AtlasTexture" id="AtlasTexture_4p2oj"]
+atlas = ExtResource("5_mxmw4")
 region = Rect2(448, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tb5wn"]
+atlas = ExtResource("5_mxmw4")
+region = Rect2(560, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ht43"]
+atlas = ExtResource("5_mxmw4")
+region = Rect2(672, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nxp4g"]
+atlas = ExtResource("5_mxmw4")
+region = Rect2(784, 0, 112, 96)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_8r2l7"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dano1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dano2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dano3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dano4")
+}, {
+"duration": 7.0,
+"texture": SubResource("AtlasTexture_dano5")
+}],
+"loop": 0,
+"name": &"dano",
+"speed": 10.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_uwkk3")
@@ -87,29 +140,38 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kn3f8")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_dano1")
+"texture": SubResource("AtlasTexture_6nfkm")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_dano2")
+"texture": SubResource("AtlasTexture_0kvh2")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_dano3")
+"texture": SubResource("AtlasTexture_rtwga")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_dano4")
+"texture": SubResource("AtlasTexture_dq562")
 }, {
-"duration": 7.0,
-"texture": SubResource("AtlasTexture_dano5")
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4p2oj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tb5wn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ht43")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nxp4g")
 }],
-"loop": false,
-"name": &"dano",
-"speed": 10.0
+"loop": 0,
+"name": &"muerte",
+"speed": 5.0
 }]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8r2l7"]
@@ -195,6 +257,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_umc4s")
+escena_stage = "uid://dtyll4enyo1td"
 
 [node name="Fondo" type="ColorRect" parent="." unique_id=2100054181]
 layout_mode = 1
@@ -229,7 +292,10 @@ horizontal_alignment = 1
 position = Vector2(543, 175)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_8r2l7")
+animation = &"muerte"
 autoplay = "default"
+frame = 4
+frame_progress = 0.8078975
 
 [node name="BarraJefe" type="ProgressBar" parent="CosasJefe" unique_id=525793344]
 layout_mode = 0
@@ -243,7 +309,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_gwiht")
 value = 100.0
 show_percentage = false
 
-[node name="Pregunta" type="RichTextLabel" parent="."]
+[node name="Pregunta" type="RichTextLabel" parent="." unique_id=1019273238]
 layout_mode = 0
 offset_left = 140.0
 offset_top = 272.0
@@ -288,7 +354,7 @@ autowrap_mode = 3
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Bytes" type="Control" parent="CajaCentral/Ataque"]
+[node name="Bytes" type="Control" parent="CajaCentral/Ataque" unique_id=1868227007]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -346,7 +412,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_opcion")
 text = "3"
 autowrap_mode = 3
 
-[node name="Puntero" type="TextureRect" parent="CajaCentral/Ataque"]
+[node name="Puntero" type="TextureRect" parent="CajaCentral/Ataque" unique_id=108700448]
 layout_mode = 0
 offset_right = 32.0
 offset_bottom = 32.0
@@ -415,7 +481,7 @@ theme_override_fonts/font = ExtResource("1_l1dj6")
 theme_override_font_sizes/font_size = 23
 text = "ARM 20%"
 
-[node name="Espacio3" type="Control" parent="HUDJugador/Stats"]
+[node name="Espacio3" type="Control" parent="HUDJugador/Stats" unique_id=1177246503]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 mouse_filter = 2

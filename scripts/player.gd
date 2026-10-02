@@ -9,7 +9,7 @@ var last_direction: Vector2 = Vector2.DOWN
 
 func _physics_process(_delta: float) -> void:
 	# Quieto mientras hay un diálogo o una casilla de RAM abierta
-	if Dialogue.is_open or ExercisePanel.is_open:
+	if Dialogue.is_open or ExercisePanel.is_open or GameState.en_cinematica:
 		velocity = Vector2.ZERO
 		update_animation(Vector2.ZERO)
 		return

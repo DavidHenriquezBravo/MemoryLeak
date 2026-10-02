@@ -1,6 +1,6 @@
 extends Control
 
-enum Estado { MENU, ACCION_COMBATE, RESULTADO }
+enum Estado { MENU, ACCION_COMBATE, RESULTADO, VICTORIA }
 enum Accion { ATACAR, DEFENDER, RECUPERAR }
 
 var estado_actual: Estado = Estado.MENU
@@ -15,6 +15,12 @@ var accion_actual: Accion = Accion.ATACAR
 @export var responder_al_tocar := false
 ## Cantidad y velocidad de los bytes (1 = normal, 0 = sin bytes).
 @export_range(0.0, 2.0, 0.1) var intensidad_esquiva := 1.0
+
+@export_group("Final del jefe")
+## Nivel al que se vuelve al ganar (ej. res://scenes/stages/stage_1.tscn). Obligatorio.
+@export_file("*.tscn") var escena_stage: String = ""
+## Animación de muerte del jefe (sin loop). Si no existe, se usa un efecto de respaldo.
+@export var anim_muerte: StringName = &"muerte"
 
 const TEX_PUNTERO := preload("res://Sprites/Pelea/puntero.png")
 const TEX_ESPADA := preload("res://Sprites/Pelea/icono_espada.png")
@@ -617,6 +623,9 @@ func _on_opcion_seleccionada(indice: int) -> void:
 
 				daniar_jefe(danio_final)
 				texto_inferior.text = "* VIDA_JEFE BAJÓ A %d." % boss_hp
+				if boss_hp <= 0:
+					_victoria()
+					return
 				cambiar_estado(Estado.RESULTADO)
 			else:
 				# Fallar un ataque permite que el jefe robe un atributo
@@ -821,3 +830,47 @@ func _pintar_opcion(i: int, estilo: StyleBoxFlat, color_texto: Color) -> void:
 	var btn := opciones_container.get_child(i) as Button
 	btn.add_theme_stylebox_override("normal", estilo)
 	btn.add_theme_color_override("font_color", color_texto)
+
+# --- Victoria: muerte del jefe -> cartel de felicitación -> vuelta al nivel ---
+func _victoria() -> void:
+	cambiar_estado(Estado.VICTORIA)
+	_limpiar_bytes()
+	GameState.boss_defeated = true
+	_guardar_hp()
+	await get_tree().create_timer(0.6).timeout   # deja ver el último golpe
+	await _muerte_jefe()
+
+	var banner = load("res://scenes/ui/banner_nivel.tscn").instantiate()
+	add_child(banner)
+	await banner.mostrar("¡NIVEL 1 SUPERADO!", "Derrotaste a THE MEMORY LEAK.", "Recuperaste el control de la memoria.")
+	banner.queue_free()
+	await _ir_a_stage()
+
+func _muerte_jefe() -> void:
+	if jefe_anim.sprite_frames and jefe_anim.sprite_frames.has_animation(anim_muerte):
+		jefe_anim.play(anim_muerte)
+		await jefe_anim.animation_finished
+		return
+	# Respaldo mientras no esté la animación: tiembla, destella y se desvanece
+	var base := jefe_anim.position
+	var t := create_tween()
+	for i in 10:
+		t.tween_property(jefe_anim, "position", base + Vector2(randf_range(-8.0, 8.0), randf_range(-4.0, 4.0)), 0.05)
+	t.tween_property(jefe_anim, "position", base, 0.05)
+	t.tween_property(jefe_anim, "modulate", Color(3, 3, 3, 1), 0.15)
+	t.tween_property(jefe_anim, "modulate", Color(1, 1, 1, 0), 0.8)
+	await t.finished
+
+func _ir_a_stage() -> void:
+	if escena_stage == "":
+		push_warning("Pelea: falta asignar 'Escena Stage' en el inspector")
+		return
+	var velo := ColorRect.new()
+	velo.color = Color(0, 0, 0, 0)
+	velo.set_anchors_preset(Control.PRESET_FULL_RECT)
+	velo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(velo)
+	var t := create_tween()
+	t.tween_property(velo, "color:a", 1.0, 0.6)
+	await t.finished
+	get_tree().change_scene_to_file(escena_stage)

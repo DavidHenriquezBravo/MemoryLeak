@@ -1,0 +1,104 @@
+[gd_scene format=3 uid="uid://cjo1fyt2pahyt"]
+
+[ext_resource type="Script" uid="uid://buhbyka2q3o4" path="res://scenes/ui/banner_nivel.gd" id="1_script"]
+[ext_resource type="FontFile" uid="uid://cwd5rqrucvgov" path="res://Fuentes/upheavtt.ttf" id="2_uph"]
+[ext_resource type="SystemFont" path="res://Fuentes/texto_dialogo.tres" id="3_texto"]
+[ext_resource type="Texture2D" uid="uid://bfjdc206g5c3r" path="res://Sprites/caja_acierto_9slice.png" id="4_caja"]
+[ext_resource type="Texture2D" uid="uid://d1dxikganj5ky" path="res://Sprites/icono_ok.png" id="5_ok"]
+
+[node name="BannerNivel" type="CanvasLayer" unique_id=1874433987]
+layer = 12
+scale = Vector2(2, 2)
+transform = Transform2D(2, 0, 0, 2, 0, 0)
+script = ExtResource("1_script")
+
+[node name="Oscuro" type="ColorRect" parent="." unique_id=405082083]
+unique_name_in_owner = true
+offset_right = 640.0
+offset_bottom = 360.0
+mouse_filter = 2
+color = Color(0.04, 0.04, 0.1, 0)
+
+[node name="Panel" type="Control" parent="." unique_id=551390623]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 360.0
+mouse_filter = 2
+
+[node name="Marco" type="NinePatchRect" parent="Panel" unique_id=2030015312]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 104.0
+offset_right = 544.0
+offset_bottom = 256.0
+texture = ExtResource("4_caja")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="Icono" type="TextureRect" parent="Panel" unique_id=2096957243]
+layout_mode = 0
+offset_left = 114.0
+offset_top = 118.0
+offset_right = 138.0
+offset_bottom = 142.0
+mouse_filter = 2
+texture = ExtResource("5_ok")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Titulo" type="Label" parent="Panel" unique_id=594686941]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 0
+offset_left = 146.0
+offset_top = 118.0
+offset_right = 530.0
+offset_bottom = 142.0
+theme_override_colors/font_color = Color(0.439, 0.902, 0.439, 1)
+theme_override_fonts/font = ExtResource("2_uph")
+theme_override_font_sizes/font_size = 20
+text = "¡NIVEL SUPERADO!"
+vertical_alignment = 1
+
+[node name="Texto" type="Label" parent="Panel" unique_id=2111574191]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 114.0
+offset_top = 154.0
+offset_right = 526.0
+offset_bottom = 196.0
+theme_override_colors/font_color = Color(0.933, 0.933, 0.965, 1)
+theme_override_fonts/font = ExtResource("3_texto")
+theme_override_font_sizes/font_size = 13
+text = "Texto principal."
+autowrap_mode = 3
+
+[node name="Detalle" type="Label" parent="Panel" unique_id=1450946398]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 114.0
+offset_top = 200.0
+offset_right = 526.0
+offset_bottom = 226.0
+theme_override_colors/font_color = Color(0.61, 0.61, 0.77, 1)
+theme_override_fonts/font = ExtResource("3_texto")
+theme_override_font_sizes/font_size = 11
+text = "Detalle."
+autowrap_mode = 3
+
+[node name="Continuar" type="Label" parent="Panel" unique_id=452296435]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 398.0
+offset_top = 236.0
+offset_right = 526.0
+offset_bottom = 250.0
+theme_override_colors/font_color = Color(0.61, 0.61, 0.77, 1)
+theme_override_fonts/font = ExtResource("3_texto")
+theme_override_font_sizes/font_size = 10
+text = "E: continuar"
+horizontal_alignment = 2

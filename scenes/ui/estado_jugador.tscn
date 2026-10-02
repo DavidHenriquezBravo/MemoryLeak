@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://cv6la82ujg5g5"]
 
+[ext_resource type="Script" uid="uid://b8cdwc18ythe4" path="res://scripts/estado_jugador.gd" id="0_script"]
 [ext_resource type="Texture2D" uid="uid://4owl4splnwqh" path="res://Sprites/UI jugador Marco.png" id="1_fmdwj"]
 [ext_resource type="Texture2D" uid="uid://127o4wllbe1r" path="res://Sprites/Marco stage 1.png" id="2_fdd25"]
 [ext_resource type="Texture2D" uid="uid://bftli2f5vfcky" path="res://Sprites/Barra de vida vacia.png" id="3_ox5nv"]
@@ -8,19 +9,24 @@
 [ext_resource type="Texture2D" uid="uid://iseio6nk60wp" path="res://Sprites/Trebol.png" id="6_2nwpg"]
 [ext_resource type="Texture2D" uid="uid://byliu2tbqkhcf" path="res://Sprites/espada.png" id="7_54kcp"]
 [ext_resource type="FontFile" uid="uid://cwd5rqrucvgov" path="res://Fuentes/upheavtt.ttf" id="8_rc7bo"]
+[ext_resource type="Texture2D" uid="uid://bg8xwdkgrk67q" path="res://Sprites/Pelea/icono_escudo.png" id="9_escudo"]
 
 [node name="Estado Jugador" type="Control" unique_id=439299578]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("0_script")
 
 [node name="Fondo" type="TextureRect" parent="." unique_id=690090771]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 2
 texture = ExtResource("1_fmdwj")
 
 [node name="Retrato" type="TextureRect" parent="." unique_id=359305892]
@@ -29,65 +35,95 @@ offset_left = 19.0
 offset_top = 12.0
 offset_right = 51.0
 offset_bottom = 44.0
+mouse_filter = 2
 texture = ExtResource("2_fdd25")
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=1813410801]
+[node name="BarraVida" type="TextureProgressBar" parent="." unique_id=1813410801]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 53.0
 offset_top = -4.0
 offset_right = 149.0
 offset_bottom = 117.0
+value = 100.0
 fill_mode = 1
 texture_under = ExtResource("3_ox5nv")
 texture_progress = ExtResource("4_gm0fr")
 
-[node name="Vida" type="TextureRect" parent="." unique_id=263178518]
+[node name="IconoVida" type="TextureRect" parent="." unique_id=263178518]
 layout_mode = 0
 offset_left = 94.0
 offset_top = 27.0
 offset_right = 135.0
 offset_bottom = 70.0
+mouse_filter = 2
 texture = ExtResource("5_dw3ha")
 
-[node name="Suerte" type="TextureRect" parent="." unique_id=1516764707]
+[node name="IconoSuerte" type="TextureRect" parent="." unique_id=1516764707]
 layout_mode = 0
 offset_left = 98.0
 offset_top = 43.0
 offset_right = 130.0
 offset_bottom = 75.0
+mouse_filter = 2
 texture = ExtResource("6_2nwpg")
 
-[node name="Daño" type="TextureRect" parent="." unique_id=1146597261]
+[node name="IconoDano" type="TextureRect" parent="." unique_id=1146597261]
 layout_mode = 0
 offset_left = 102.0
 offset_top = 62.0
 offset_right = 136.0
 offset_bottom = 97.0
+mouse_filter = 2
 texture = ExtResource("7_54kcp")
 
-[node name="Label vida" type="Label" parent="." unique_id=394761727]
+[node name="IconoArmadura" type="TextureRect" parent="." unique_id=2056929029]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 54.0
+offset_right = 36.0
+offset_bottom = 70.0
+mouse_filter = 2
+texture = ExtResource("9_escudo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LabelVida" type="Label" parent="." unique_id=394761727]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 128.0
 offset_top = 29.0
 offset_right = 138.0
 offset_bottom = 44.0
 theme_override_fonts/font = ExtResource("8_rc7bo")
-text = "0"
+text = "100"
 
-[node name="Label Suerte" type="Label" parent="." unique_id=1865796453]
+[node name="LabelSuerte" type="Label" parent="." unique_id=1865796453]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 128.0
 offset_top = 50.0
 offset_right = 138.0
 offset_bottom = 65.0
 theme_override_fonts/font = ExtResource("8_rc7bo")
-text = "0"
+text = "15%"
 
-[node name="Label Daño" type="Label" parent="." unique_id=1226358381]
+[node name="LabelDano" type="Label" parent="." unique_id=1226358381]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 128.0
 offset_top = 70.0
 offset_right = 138.0
 offset_bottom = 85.0
 theme_override_fonts/font = ExtResource("8_rc7bo")
-text = "0"
+text = "25"
+
+[node name="LabelArmadura" type="Label" parent="." unique_id=1657628246]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 40.0
+offset_top = 55.0
+offset_right = 50.0
+offset_bottom = 70.0
+theme_override_fonts/font = ExtResource("8_rc7bo")
+text = "20%"
