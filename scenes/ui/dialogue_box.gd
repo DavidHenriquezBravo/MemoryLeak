@@ -3,8 +3,8 @@ extends CanvasLayer
 signal advance_pressed
 
 const CHARS_PER_SECOND := 40.0
-const REGISTRO_OK := preload("res://Sprites/pestana_registro_ok_9slice.png")
-const REGISTRO_PENDIENTE := preload("res://Sprites/pestana_registro_pendiente_9slice.png")
+const REGISTRO_OK := preload("res://Sprites/UI/Cajas/pestana_registro_ok_9slice.png")
+const REGISTRO_PENDIENTE := preload("res://Sprites/UI/Cajas/pestana_registro_pendiente_9slice.png")
 const COLOR_OK := Color(0.44, 0.9, 0.44)
 const COLOR_PENDIENTE := Color(1.0, 0.38, 0.69)
 

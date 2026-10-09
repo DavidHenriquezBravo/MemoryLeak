@@ -2,14 +2,17 @@ extends CanvasLayer
 
 # HUD de misión (autoload "MissionHud"):
 #   - arriba a la derecha, la misión activa con su objetivo (caja dorada del boceto)
+#   - si no hay misión activa, la caja sugiere la siguiente: "→ Habla con Juan"
 #   - al empezar una misión: aviso "¡NUEVA MISIÓN!" unos segundos
 #   - al terminarla: aviso "¡MISIÓN COMPLETA!" con la recompensa
+# No se muestra en el menú, en la pelea ni en el game over.
 
-const CAJA_MISION := preload("res://Sprites/caja_mision_9slice.png")
-const CAJA_ACIERTO := preload("res://Sprites/caja_acierto_9slice.png")
+const CAJA_MISION := preload("res://Sprites/UI/Cajas/caja_mision_9slice.png")
+const CAJA_ACIERTO := preload("res://Sprites/UI/Cajas/caja_acierto_9slice.png")
 const C_GOLD := Color(0.933, 0.659, 0.251)
 const C_GREEN := Color(0.439, 0.902, 0.439)
 const SEGUNDOS_AVISO := 2.5
+const ESCENAS_SIN_HUD := ["menu", "pelea", "game_over"]
 
 # Cuándo empezó la última misión (lo usa ExercisePanel para no tapar el aviso)
 var ultimo_inicio_ms: int = -100000
@@ -25,10 +28,23 @@ func _ready() -> void:
 	aviso.visible = false
 	EventBus.mission_started.connect(_on_started)
 	EventBus.mission_completed.connect(_on_completed)
+	GameState.stats_changed.connect(_actualizar_sugerencia)
+	_actualizar_sugerencia.call_deferred()
+
+
+func _process(_delta: float) -> void:
+	var escena := get_tree().current_scene
+	var ruta := escena.scene_file_path if escena != null else ""
+	var oculto := false
+	for clave: String in ESCENAS_SIN_HUD:
+		if ruta.contains(clave):
+			oculto = true
+	visible = not oculto
 
 
 func _on_started(m: MissionData) -> void:
 	ultimo_inicio_ms = Time.get_ticks_msec()
+	%Etiqueta.text = "MISIÓN"
 	%Titulo.text = m.title
 	%Objetivo.text = AddrFormatter.format(m.objective)
 	caja.visible = true
@@ -47,6 +63,30 @@ func _on_completed(m: MissionData) -> void:
 	if m.exercise and m.exercise.reward:
 		texto += "   " + m.exercise.reward.label()
 	_mostrar_aviso("¡MISIÓN COMPLETA!", texto, true)
+	_actualizar_sugerencia()
+
+
+# Sin misión activa, la caja dice qué hacer ahora (la ruta guiada de MissionManager)
+func _actualizar_sugerencia() -> void:
+	if MissionManager.active != null:
+		return
+	if GameState.boss_defeated:
+		caja.visible = false
+		return
+	var m := MissionManager.siguiente_sugerida()
+	%Etiqueta.text = "SIGUIENTE"
+	if m != null:
+		%Titulo.text = m.title
+		%Objetivo.text = AddrFormatter.format("→ Habla con %s" % m.giver_name)
+	elif GameState.listo_para_jefe():
+		%Titulo.text = "The Memory Leak"
+		%Objetivo.text = "→ Cruza la puerta del norte"
+	else:
+		caja.visible = false
+		return
+	caja.visible = true
+	await get_tree().process_frame
+	caja.size.y = %Contenido.get_combined_minimum_size().y + 10
 
 
 func _mostrar_aviso(titulo: String, texto: String, completa: bool) -> void:

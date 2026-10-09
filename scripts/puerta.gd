@@ -5,6 +5,8 @@ extends StaticBody2D
 ## A dónde lleva la puerta cuando el jefe ya fue derrotado
 @export_file("*.tscn") var escena_stage_2: String = "res://scenes/levels/stage_2.tscn"
 
+const SISTEMA := preload("res://data/npc/sistema.tres")
+
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var pared: CollisionShape2D = $CollisionShape2D
 @onready var zona: Area2D = $ZonaInteraccion
@@ -58,6 +60,11 @@ func _on_body_exited(body: Node2D) -> void:
 
 func _on_entrada_body_entered(body: Node2D) -> void:
 	if abierta and not entrando and _es_jugador(body):
+		# Sin estar preparado, la primera vez solo avisa (la segunda ya te deja pasar)
+		if not GameState.boss_defeated and not GameState.listo_para_jefe() and not GameState.aviso_puerta_visto:
+			GameState.aviso_puerta_visto = true
+			_avisar_sin_preparacion()
+			return
 		entrando = true
 		body.set_physics_process(false)  # el jugador se queda quieto
 		if GameState.boss_defeated:
@@ -65,3 +72,27 @@ func _on_entrada_body_entered(body: Node2D) -> void:
 			Transicion.ir_a(escena_stage_2)
 		else:
 			Transicion.ir_a_pelea(escena_pelea)
+
+
+func _avisar_sin_preparacion() -> void:
+	var n := GameState.misiones_completadas()
+	var total := GameState.MISIONES_NIVEL_1
+	var lineas: Array[String] = []
+	if n >= total:
+		lineas = [
+			"* ADVERTENCIA: completaste todas las misiones, pero el Anciano aún no sabe que estás listo.",
+			"* Habla con él antes de enfrentar a The Memory Leak. Si cruzas de nuevo, nadie te detendrá.",
+		]
+	elif n == 0:
+		lineas = [
+			"* ADVERTENCIA: integridad del jugador insuficiente.",
+			"* Misiones completadas: 0/%d. Sin ellas, un solo error ante The Memory Leak puede ser fatal." % total,
+			"* Habla con los aldeanos para fortalecerte. Si cruzas de nuevo, nadie te detendrá.",
+		]
+	else:
+		lineas = [
+			"* ADVERTENCIA: integridad del jugador incompleta.",
+			"* Misiones completadas: %d/%d. Cada misión que falta te debilita frente a The Memory Leak." % [n, total],
+			"* Termina las misiones y habla con el Anciano. Si cruzas de nuevo, nadie te detendrá.",
+		]
+	await Dialogue.say(SISTEMA, lineas, "MISIONES %d/%d" % [n, total])

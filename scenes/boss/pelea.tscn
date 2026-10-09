@@ -2,10 +2,10 @@
 
 [ext_resource type="FontFile" uid="uid://cwd5rqrucvgov" path="res://Fuentes/upheavtt.ttf" id="1_l1dj6"]
 [ext_resource type="Script" uid="uid://t1fb0qh36bm0" path="res://scripts/pelea.gd" id="1_umc4s"]
-[ext_resource type="Texture2D" uid="uid://cnycy5gigjxqc" path="res://Sprites/Jefe Memory Leak reposo-Sheet.png" id="2_umc4s"]
-[ext_resource type="Texture2D" uid="uid://cq7tf80k4hmh1" path="res://Sprites/Jefe Memory Leak derrota-Sheet.png" id="5_mxmw4"]
+[ext_resource type="Texture2D" uid="uid://cnycy5gigjxqc" path="res://Sprites/Jefe/Jefe Memory Leak reposo-Sheet.png" id="2_umc4s"]
+[ext_resource type="Texture2D" uid="uid://cq7tf80k4hmh1" path="res://Sprites/Jefe/Jefe Memory Leak derrota-Sheet.png" id="5_mxmw4"]
 [ext_resource type="AudioStream" uid="uid://clo6f5rieeglg" path="res://Musica/Musica Boss.ogg" id="5_umc4s"]
-[ext_resource type="Texture2D" uid="uid://bftdxee684tm8" path="res://Sprites/Jefe Memory Leak recibe dano-Sheet.png" id="6_dano"]
+[ext_resource type="Texture2D" uid="uid://bftdxee684tm8" path="res://Sprites/Jefe/Jefe Memory Leak recibe dano-Sheet.png" id="6_dano"]
 [ext_resource type="SystemFont" path="res://Fuentes/fuente_codigo.tres" id="7_codigo"]
 [ext_resource type="Texture2D" uid="uid://dg5r035hwret7" path="res://Sprites/Pelea/puntero.png" id="8_puntero"]
 
@@ -572,7 +572,7 @@ custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_l1dj6")
 theme_override_font_sizes/font_size = 23
-text = "7 S"
+text = "7 SEG"
 
 [node name="Control2" type="Control" parent="BarraSuperior" unique_id=935544895]
 custom_minimum_size = Vector2(20, 0)

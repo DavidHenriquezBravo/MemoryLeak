@@ -8,7 +8,7 @@ extends Area2D
 #   rojo  -> te equivocaste: espera unos segundos
 #   verde -> ya resuelta (su dato quedó en el Registro)
 
-const SHEET := preload("res://Sprites/casilla_ram-Sheet.png")
+const SHEET := preload("res://Sprites/Mundo/casilla_ram-Sheet.png")
 const C_CYAN := Color(0.239, 0.894, 0.867)
 const C_GREEN := Color(0.439, 0.902, 0.439)
 const C_RED := Color(1.0, 0.353, 0.353)

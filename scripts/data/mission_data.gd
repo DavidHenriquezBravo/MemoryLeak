@@ -6,6 +6,8 @@ extends Resource
 @export var title: String = ""                   # "La Daga que forjó Juan"
 @export var objective: String = ""               # "→ Abre la casilla `0x0020`"
 @export var requires_mission: StringName         # id de otra misión que debe estar completa antes
+@export var requires_all: Array[StringName] = [] # ids de TODAS las misiones que deben estar completas antes
+@export var giver_name: String = ""              # quién la da ("Juan"): lo usa la sugerencia del HUD
 @export var cell_address: String = ""            # "" = prueba en diálogo (sin casilla en el mapa)
 
 @export_group("Diálogos")
@@ -13,6 +15,7 @@ extends Resource
 @export var reminder_dialogue: Array[String] = []   # si vuelve a hablar con la misión ya aceptada
 @export var success_dialogue: Array[String] = []
 @export var done_dialogue: Array[String] = []       # si vuelve a hablar con la misión ya terminada
+@export var locked_dialogue: Array[String] = []     # si le habla antes de cumplir los requisitos
 
 @export_group("Ejercicio y resultado")
 @export var exercise: ExerciseData

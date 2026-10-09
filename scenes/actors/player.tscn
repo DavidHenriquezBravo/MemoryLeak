@@ -1,19 +1,17 @@
 [gd_scene format=3 uid="uid://b1ny2grkxsprv"]
 
 [ext_resource type="Script" uid="uid://cbx1i0dd5twr3" path="res://scripts/player.gd" id="1_4ntmi"]
-[ext_resource type="Texture2D" uid="uid://djctxf6nwqbgb" path="res://Sprites/Modelo Protagonista Izquierda.png" id="3_fhl08"]
-[ext_resource type="Texture2D" uid="uid://dfglofxs6tbih" path="res://Sprites/Modelo Protagonista Derecha.png" id="4_vtle1"]
-[ext_resource type="Texture2D" uid="uid://cy2lbunc6i6vs" path="res://Sprites/Modelo Protagonista inicio Frente-Sheet.png" id="5_00tjw"]
-[ext_resource type="Texture2D" uid="uid://5iwhmmx2gpnn" path="res://Sprites/Modelo base Espalda.png" id="5_od3ui"]
-[ext_resource type="Texture2D" uid="uid://dixiv731h4hai" path="res://Sprites/Modelo Protagonista Izquierda caminando-Sheet.png" id="6_x3vf3"]
-[ext_resource type="Texture2D" uid="uid://c2l7y8ckm2xay" path="res://Sprites/Modelo protagonista Derecha caminando-Sheet.png" id="7_apopc"]
-[ext_resource type="Texture2D" uid="uid://c1x6a46u32iqy" path="res://Sprites/Modelo Protagonista inicio Espalda caminando-Sheet.png" id="8_5htga"]
+[ext_resource type="Texture2D" uid="uid://djctxf6nwqbgb" path="res://Sprites/Personajes/Protagonista/Modelo Protagonista Izquierda.png" id="3_fhl08"]
+[ext_resource type="Texture2D" uid="uid://dfglofxs6tbih" path="res://Sprites/Personajes/Protagonista/Modelo Protagonista Derecha.png" id="4_vtle1"]
+[ext_resource type="Texture2D" uid="uid://cy2lbunc6i6vs" path="res://Sprites/Personajes/Protagonista/Modelo Protagonista inicio Frente-Sheet.png" id="5_00tjw"]
+[ext_resource type="Texture2D" uid="uid://5iwhmmx2gpnn" path="res://Sprites/Personajes/Base/Modelo base Espalda.png" id="5_od3ui"]
+[ext_resource type="Texture2D" uid="uid://dixiv731h4hai" path="res://Sprites/Personajes/Protagonista/Modelo Protagonista Izquierda caminando-Sheet.png" id="6_x3vf3"]
+[ext_resource type="Texture2D" uid="uid://c2l7y8ckm2xay" path="res://Sprites/Personajes/Protagonista/Modelo protagonista Derecha caminando-Sheet.png" id="7_apopc"]
+[ext_resource type="Texture2D" uid="uid://c1x6a46u32iqy" path="res://Sprites/Personajes/Protagonista/Modelo Protagonista inicio Espalda caminando-Sheet.png" id="8_5htga"]
+[ext_resource type="Texture2D" uid="uid://b650wd6dnou71" path="res://Sprites/Personajes/Base/Modelo base frente.png" id="9_basefrente"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qnkqk"]
 size = Vector2(10, 12)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_00tjw"]
-load_path = "res://.godot/imported/Modelo base frente.png-8bc94123050998fc81d65782a1aa1271.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p5o4e"]
 atlas = ExtResource("5_00tjw")
@@ -83,7 +81,7 @@ region = Rect2(96, 0, 32, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("CompressedTexture2D_00tjw")
+"texture": ExtResource("9_basefrente")
 }],
 "loop": 1,
 "name": &"idle_down",

@@ -19,6 +19,21 @@ extends Node
 ## El jefe del mapa: ya fue derrotado, así que se quita de inmediato.
 @export var nombre_jefe: String = "Boss Stage1"
 
+@export_group("Shader de corrupción")
+## Material compartido por el macizo, las colinas, etc. (shaders/corrupcion.gdshader).
+@export var material_corrupcion: ShaderMaterial
+## Nodo desde donde sale la onda de limpieza (la puerta, por ejemplo). Vacío = el centro del material.
+@export var origen_ola: NodePath
+## Animación de limpieza que manda: la onda de la montaña avanza al mismo ritmo que esta
+## (así la banda del suelo y la montaña se limpian como una sola animación).
+@export var nodo_sincronia: String = "Memoria caida"
+## Dónde está el frente de la banda en cada frame de su animación "desaparecer" (píxeles del mundo
+## desde el centro hacia los lados; -1 = todavía no empieza). Medido sobre Corrupcion_zona_limpiar_hoja.png.
+@export var radios_por_frame: PackedFloat32Array = PackedFloat32Array([-1, -1, -1, 41, 74, 105, 138, 169, 201, 228, 261, 294, 325, 358, 391, 424, 456, 489, 526, 566, 616])
+## Solo si no hay banda con quien sincronizarse: la onda corre sola.
+@export var radio_maximo: float = 480.0
+@export var duracion_ola: float = 2.4
+
 @export_group("Cámara")
 @export var camara_panoramica: bool = true
 ## Zona de la aldea a mostrar. Si queda en cero se calcula sola con la capa "Fondo".
@@ -50,6 +65,8 @@ func _ready() -> void:
 	if jefe:
 		jefe.queue_free()
 	if GameState.final_visto:
+		if material_corrupcion:
+			material_corrupcion.set_shader_parameter("radio", 99999.0)
 		for n in _resolver():
 			n.queue_free()          # el final ya se vio: el mapa vuelve limpio
 		return
@@ -68,6 +85,7 @@ func _reproducir() -> void:
 		await get_tree().create_timer(0.5).timeout
 
 	_pendientes = nodos.size()
+	_ola_shader()                  # corre en paralelo con el resto de la limpieza
 	for n in nodos:
 		_desaparecer(n)
 	if _pendientes > 0:
@@ -88,6 +106,29 @@ func _reproducir() -> void:
 		if camara_panoramica:
 			await _camara_volver()
 		GameState.en_cinematica = false   # sin escena siguiente: el jugador recupera el control
+
+
+# ---------------------------------------------------------------- onda de limpieza (shader)
+func _ola_shader() -> void:
+	if material_corrupcion == null:
+		return
+	var origen := get_node_or_null(origen_ola)
+	if origen is Node2D:
+		material_corrupcion.set_shader_parameter("centro", origen.global_position)
+	var banda := get_parent().find_child(nodo_sincronia, true, false) as AnimatedSprite2D
+	if banda != null and radios_por_frame.size() > 1 and banda.sprite_frames != null 			and banda.sprite_frames.has_animation(anim_desaparecer):
+		await get_tree().process_frame          # deja que la banda arranque su animación
+		while is_instance_valid(banda) and banda.animation == anim_desaparecer and banda.is_playing():
+			var t: float = banda.frame + banda.frame_progress
+			var i := clampi(int(t), 0, radios_por_frame.size() - 1)
+			var j := mini(i + 1, radios_por_frame.size() - 1)
+			material_corrupcion.set_shader_parameter("radio", lerpf(radios_por_frame[i], radios_por_frame[j], t - i))
+			await get_tree().process_frame
+	else:
+		var tw := create_tween()
+		tw.tween_method(func(r: float) -> void: material_corrupcion.set_shader_parameter("radio", r), 0.0, radio_maximo, duracion_ola)
+		await tw.finished
+	material_corrupcion.set_shader_parameter("radio", 99999.0)
 
 
 # ---------------------------------------------------------------- desaparición

@@ -40,7 +40,7 @@ is_correct = true
 [sub_resource type="Resource" id="Resource_j3yif"]
 script = ExtResource("3_jdqpr")
 stat = 3
-amount = 10.0
+amount = 20.0
 
 [sub_resource type="Resource" id="Resource_tidb4"]
 script = ExtResource("4_6rnlh")
@@ -72,6 +72,7 @@ id = &"EJ-N1-01"
 oa_code = "OA1.1"
 title = "El Pozo de los Baldes"
 objective = "→ Abre la casilla `0x0004`"
+giver_name = "Andrés"
 cell_address = "0x0004"
 intro_dialogue = Array[String](["¡Por fin alguien despierto! Soy Andrés. Riego esta tierra desde antes del colapso.", "Mis cultivos se secan. Por más agua que echo, vuelve a cero apenas me voy.", "Necesito mi {addr:0x0004}. Cuelga en el pozo, con una placa de metal atornillada al borde.", "Todo lo que existe tiene dos cosas: lo que contiene y el lugar donde está. Aprende a pedir lo segundo con `&`."])
 reminder_dialogue = Array[String](["¿Ya abriste la casilla `0x0004`? Está junto al pozo."])

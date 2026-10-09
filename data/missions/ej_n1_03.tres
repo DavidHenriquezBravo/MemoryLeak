@@ -86,6 +86,7 @@ id = &"EJ-N1-03"
 oa_code = "OA2.2"
 title = "El Amuleto de Vicente"
 objective = "→ Abre la casilla `0x0018`"
+giver_name = "Vicente"
 cell_address = "0x0018"
 intro_dialogue = Array[String](["¡Oye, oye! ¡Ayúdame! Se me cayó mi {addr:0x0018} de la suerte al estanque.", "Cada vez que meto la mano saco un duplicado falso… ¡y se deshace en el agua!", "No puedo agarrarlo. Necesito que tu daga apunte a mi {addr:0x0018}, no que lo copie. Pídeme la dirección con `&`."])
 reminder_dialogue = Array[String](["Mi {addr:0x0018} sigue en el agua… La casilla `0x0018` está en la orilla."])

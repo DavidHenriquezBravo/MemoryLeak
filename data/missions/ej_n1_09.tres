@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mission_data.gd" id="1_mission"]
+
+[resource]
+script = ExtResource("1_mission")
+id = &"EJ-N1-09"
+title = "Listo para el jefe"
+giver_name = "el Anciano"
+objective = "→ Dile al Anciano que estás listo"
+requires_mission = &"EJ-N1-08"
+intro_dialogue = Array[String](["Rivera me contó lo que hiciste. Recuperaste direcciones y escribiste en la RAM real: ya no eres el alma perdida que despertó en el sótano.", "Recuerda lo aprendido: `&` te da la dirección y `*` te lleva a lo que hay allí. Y un puntero en `NULL` no apunta a nada.", "The Memory Leak se alimenta de todo lo que se olvida. ¿Estás preparado para enfrentarlo?"])
+success_dialogue = Array[String](["Tu mirada responde por ti. Cruza la puerta del norte y que la dirección correcta guíe tu daga."])
+done_dialogue = Array[String](["La puerta del norte te espera. Confía en las placas."])
+locked_dialogue = Array[String](["Aún no es el momento, joven alma.", "Habla con Andrés, con Juan, con Vicente y con el guardia Rivera. Cuando hayas terminado con todos, vuelve a verme."])

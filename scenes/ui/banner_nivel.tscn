@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://buhbyka2q3o4" path="res://scenes/ui/banner_nivel.gd" id="1_script"]
 [ext_resource type="FontFile" uid="uid://cwd5rqrucvgov" path="res://Fuentes/upheavtt.ttf" id="2_uph"]
 [ext_resource type="SystemFont" path="res://Fuentes/texto_dialogo.tres" id="3_texto"]
-[ext_resource type="Texture2D" uid="uid://bfjdc206g5c3r" path="res://Sprites/caja_acierto_9slice.png" id="4_caja"]
-[ext_resource type="Texture2D" uid="uid://d1dxikganj5ky" path="res://Sprites/icono_ok.png" id="5_ok"]
+[ext_resource type="Texture2D" uid="uid://bfjdc206g5c3r" path="res://Sprites/UI/Cajas/caja_acierto_9slice.png" id="4_caja"]
+[ext_resource type="Texture2D" uid="uid://d1dxikganj5ky" path="res://Sprites/UI/Iconos/icono_ok.png" id="5_ok"]
 
 [node name="BannerNivel" type="CanvasLayer" unique_id=1874433987]
 layer = 12

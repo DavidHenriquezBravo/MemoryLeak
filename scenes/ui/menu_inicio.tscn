@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://d0x6oh8shxftf"]
 
 [ext_resource type="Script" uid="uid://sgf3selfoqd1" path="res://scripts/menu_inicio.gd" id="1_jtvub"]
-[ext_resource type="Texture2D" uid="uid://c0y3rrva53jkb" path="res://Sprites/fondo iniciov2.png" id="2_8b1xi"]
+[ext_resource type="Texture2D" uid="uid://c0y3rrva53jkb" path="res://Sprites/UI/Pantallas/fondo iniciov2.png" id="2_8b1xi"]
 [ext_resource type="FontFile" uid="uid://cwd5rqrucvgov" path="res://Fuentes/upheavtt.ttf" id="3_xrfhq"]
 
 [node name="MenuInicio" type="Control" unique_id=1353816913]

@@ -4,7 +4,7 @@
 [ext_resource type="FontFile" path="res://Fuentes/upheavtt.ttf" id="2_uph"]
 [ext_resource type="SystemFont" path="res://Fuentes/texto_dialogo.tres" id="3_texto"]
 [ext_resource type="SystemFont" path="res://Fuentes/codigo.tres" id="4_codigo"]
-[ext_resource type="Texture2D" path="res://Sprites/caja_mision_9slice.png" id="5_mision"]
+[ext_resource type="Texture2D" path="res://Sprites/UI/Cajas/caja_mision_9slice.png" id="5_mision"]
 
 [node name="MissionHud" type="CanvasLayer"]
 layer = 9
@@ -34,6 +34,7 @@ offset_bottom = 52.0
 theme_override_constants/separation = 1
 
 [node name="Etiqueta" type="Label" parent="Caja/Contenido"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.933, 0.659, 0.251, 1)
 theme_override_fonts/font = ExtResource("3_texto")

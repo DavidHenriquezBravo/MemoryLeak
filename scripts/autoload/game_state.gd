@@ -3,10 +3,14 @@ extends Node
 signal stats_changed
 signal address_revealed(address: String)
  
-const BASE_MAX_HP := 100
-const BASE_DAMAGE := 25
-const BASE_ARMOR := 0.20
-const BASE_LUCK := 0.15
+# Stats de quien no ha hecho ninguna misión. Las 8 misiones del nivel 1 suman
+# +40 vida, +15 daño, +20 % armadura y +10 % suerte (= 100 / 25 / 20 % / 15 %).
+const BASE_MAX_HP := 60
+const BASE_DAMAGE := 10
+const BASE_ARMOR := 0.0
+const BASE_LUCK := 0.05
+const MISIONES_NIVEL_1 := 8
+const MISION_ANCIANO := &"EJ-N1-09"     # "Listo para el jefe": no cuenta entre las 8
 const ARMOR_CAP := 0.75
 const LUCK_CAP := 0.60
  
@@ -19,6 +23,7 @@ var revealed: Dictionary = {}     # "0x0020" -> {"value": "0", "label": "cerradu
 var boss_defeated: bool = false     # el jefe ya murió
 var final_visto: bool = false       # ya se vio la animación de la corrupción desapareciendo
 var en_cinematica: bool = false     # congela al jugador durante animaciones
+var aviso_puerta_visto: bool = false  # ya se mostró la advertencia de la puerta (solo avisa una vez)
 var preguntas_jefe_resueltas: Array[String] = []   # ids del banco del jefe ya respondidos bien (no se repiten)
  
 var max_hp: int:
@@ -47,6 +52,30 @@ func norm(address: String) -> String:
  
 func is_completed(mission_id: StringName) -> bool:
 	return mission_id in completed
+
+
+# Cuántas de las 8 misiones del nivel 1 lleva el jugador (el jefe se endurece si son pocas)
+func misiones_completadas() -> int:
+	var n := 0
+	for id in completed:
+		if id != MISION_ANCIANO:
+			n += 1
+	return mini(n, MISIONES_NIVEL_1)
+
+
+# El Anciano ya sabe que estás preparado para pelear
+func listo_para_jefe() -> bool:
+	return is_completed(MISION_ANCIANO)
+
+
+# ¿Ya hizo lo que pide esta misión? (requires_mission y requires_all)
+func requisitos_cumplidos(m: MissionData) -> bool:
+	if m.requires_mission != &"" and not is_completed(m.requires_mission):
+		return false
+	for id in m.requires_all:
+		if not is_completed(id):
+			return false
+	return true
  
  
 func is_revealed(address: String) -> bool:

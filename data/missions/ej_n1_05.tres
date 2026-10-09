@@ -53,7 +53,7 @@ hint = "Una placa dice dónde vive algo; no se puede cambiar."
 
 [sub_resource type="Resource" id="Resource_d2a3i"]
 script = ExtResource("3_l2phv")
-amount = 5.0
+amount = 10.0
 
 [sub_resource type="Resource" id="Resource_0solo"]
 script = ExtResource("4_svd1u")
@@ -88,6 +88,7 @@ oa_code = "OA2.4"
 title = "La Puerta de la Herrería"
 objective = "→ Abre la casilla `0x0020`"
 requires_mission = &"EJ-N1-02"
+giver_name = "Juan"
 cell_address = "0x0020"
 intro_dialogue = Array[String](["Me quedé fuera de mi propio taller. El candado marca {addr:0x0020} y no cede."])
 reminder_dialogue = Array[String](["¿Pudiste abrir la casilla `0x0020`? El candado sigue sin ceder."])

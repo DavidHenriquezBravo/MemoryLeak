@@ -88,6 +88,7 @@ oa_code = "OA2.3"
 title = "El Cofre del Estanque"
 objective = "→ Abre la casilla `0x002A`"
 requires_mission = &"EJ-N1-03"
+giver_name = "Vicente"
 cell_address = "0x002A"
 intro_dialogue = Array[String](["¡Mira! Al sacar el amuleto vi un cofre sellado en el fondo del estanque.", "Por fuera tiene grabado `0x002A`. Dicen que adentro hay {addr:0x002A} monedas de oro.", "Tu daga ya quedó enlazada a él: `int *p = &oro;`", "La etiqueta nos trajo hasta acá. Ahora hay que seguirla hacia adentro, con `*`."])
 reminder_dialogue = Array[String](["El cofre sigue cerrado. Busca la casilla `0x002A` en el estanque."])

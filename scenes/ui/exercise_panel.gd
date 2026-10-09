@@ -11,10 +11,10 @@ enum Estado { CERRADO, PREGUNTA, ERROR, EJEMPLO, ACIERTO }
 
 const LETRAS := ["A", "B", "C", "D"]
 const ICONOS := {
-	RewardData.Stat.DAMAGE: preload("res://Sprites/espada.png"),
-	RewardData.Stat.ARMOR: preload("res://Sprites/escudo.png"),
-	RewardData.Stat.LUCK: preload("res://Sprites/Trebol.png"),
-	RewardData.Stat.MAX_HP: preload("res://Sprites/Corazon.png"),
+	RewardData.Stat.DAMAGE: preload("res://Sprites/UI/Iconos/espada.png"),
+	RewardData.Stat.ARMOR: preload("res://Sprites/UI/Iconos/escudo.png"),
+	RewardData.Stat.LUCK: preload("res://Sprites/UI/Iconos/Trebol.png"),
+	RewardData.Stat.MAX_HP: preload("res://Sprites/UI/Iconos/Corazon.png"),
 }
 const C_DIM := Color(0.61, 0.61, 0.77)
 const C_GOLD := Color(0.933, 0.659, 0.251)

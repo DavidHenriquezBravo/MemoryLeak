@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://bbud48lf24uev" path="res://scripts/npc.gd" id="1_0c40b"]
 [ext_resource type="Resource" uid="uid://bwlkbk8jci3yq" path="res://scripts/data/juan.tres" id="2_ojgrw"]
-[ext_resource type="Texture2D" uid="uid://cvt5rtbcfbbkh" path="res://Sprites/Modelo Juan frente-Sheet.png" id="2_uu7c1"]
-[ext_resource type="Texture2D" uid="uid://cgiojhsc26xwi" path="res://Sprites/Modelo Juan Izquierda-Sheet.png" id="3_jjyqd"]
+[ext_resource type="Texture2D" uid="uid://cvt5rtbcfbbkh" path="res://Sprites/Personajes/NPCs/Modelo Juan frente-Sheet.png" id="2_uu7c1"]
+[ext_resource type="Texture2D" uid="uid://cgiojhsc26xwi" path="res://Sprites/Personajes/NPCs/Modelo Juan Izquierda-Sheet.png" id="3_jjyqd"]
 [ext_resource type="Script" path="res://scripts/data/mission_data.gd" id="m_script"]
 [ext_resource type="Resource" path="res://data/missions/ej_n1_02.tres" id="m_0"]
 [ext_resource type="Resource" path="res://data/missions/ej_n1_05.tres" id="m_1"]

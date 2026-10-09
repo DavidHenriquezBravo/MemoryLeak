@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://bbud48lf24uev" path="res://scripts/npc.gd" id="1_sssny"]
 [ext_resource type="Resource" uid="uid://b21xxyvya601q" path="res://scripts/data/rivera.tres" id="2_36fyh"]
-[ext_resource type="Texture2D" uid="uid://c65qxipdx6tl0" path="res://Sprites/Modelo Rivera frente-Sheet.png" id="2_ncftf"]
-[ext_resource type="Texture2D" uid="uid://c8ce2k2oqskhk" path="res://Sprites/Modelo Rivera Izquierda-Sheet.png" id="3_ymd6k"]
-[ext_resource type="Texture2D" uid="uid://dallbs6e7wju8" path="res://Sprites/Modelo Rivera derecha-Sheet.png" id="4_dai8q"]
+[ext_resource type="Texture2D" uid="uid://c65qxipdx6tl0" path="res://Sprites/Personajes/NPCs/Modelo Rivera frente-Sheet.png" id="2_ncftf"]
+[ext_resource type="Texture2D" uid="uid://c8ce2k2oqskhk" path="res://Sprites/Personajes/NPCs/Modelo Rivera Izquierda-Sheet.png" id="3_ymd6k"]
+[ext_resource type="Texture2D" uid="uid://dallbs6e7wju8" path="res://Sprites/Personajes/NPCs/Modelo Rivera derecha-Sheet.png" id="4_dai8q"]
 [ext_resource type="Script" path="res://scripts/data/mission_data.gd" id="m_script"]
 [ext_resource type="Resource" path="res://data/missions/ej_n1_06.tres" id="m_0"]
 [ext_resource type="Resource" path="res://data/missions/ej_n1_08.tres" id="m_1"]

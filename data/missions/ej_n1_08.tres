@@ -64,7 +64,7 @@ is_correct = true
 [sub_resource type="Resource" id="Resource_ccib7"]
 script = ExtResource("3_3u57j")
 stat = 1
-amount = 0.05
+amount = 0.1
 
 [sub_resource type="Resource" id="Resource_g3qos"]
 script = ExtResource("4_q3q86")
@@ -93,8 +93,9 @@ oa_code = "OA1.4"
 title = "La Prueba de la Salida"
 objective = "→ Supera la prueba de Rivera"
 requires_mission = &"EJ-N1-06"
+giver_name = "Rivera"
 intro_dialogue = Array[String](["Soy Rivera, guardián de Nullville. Gracias a ti, ahora lo recuerdo.", "Antes de abrir el portón, una última prueba. Hallé tres expresiones entre los escombros del colapso.", "Una nunca pudo existir: intenta tomar la placa de algo que jamás tuvo balde.", "Solo lo que ocupa un lugar tiene un lugar que pedir."])
 reminder_dialogue = Array[String](["¿Listo para la prueba? Solo lo que ocupa un lugar tiene un lugar que pedir."])
-success_dialogue = Array[String](["El camino está abierto. Más allá empieza el Distrito de las Funciones.", "Si llegas, busca a mi hermano. Vive en {addr:0x03F0}."])
-done_dialogue = Array[String](["El portón está abierto. Suerte allá afuera."])
+success_dialogue = Array[String](["Superaste la prueba. El portón del norte está abierto para ti.", "Pero antes de partir, habla con el Anciano: él debe saber que estás preparado para enfrentar a The Memory Leak.", "Si llegas al Distrito de las Funciones, busca a mi hermano. Vive en {addr:0x03F0}."])
+done_dialogue = Array[String](["Si ya hablaste con el Anciano, cruza el portón. Y recuerda: una dirección no es un valor."])
 exercise = SubResource("Resource_g3qos")

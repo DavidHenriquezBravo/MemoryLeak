@@ -304,9 +304,10 @@ func _decidir_intencion_jefe() -> void:
 	acciones_bloqueadas.clear()
 	if turno > 1:   # el primer turno siempre es tranquilo
 		var r := randf()
-		if r < prob_ataque:
+		var p_ataque := _prob_ataque_actual()
+		if r < p_ataque:
 			intencion = Intencion.ATAQUE
-		elif r < prob_ataque + prob_robo and not _robos_disponibles().is_empty():
+		elif r < p_ataque + prob_robo and not _robos_disponibles().is_empty():
 			intencion = Intencion.ROBO
 
 	match intencion:
@@ -314,7 +315,10 @@ func _decidir_intencion_jefe() -> void:
 			# Este turno solo se puede defender: ATACAR y RECUPERAR quedan bloqueados
 			acciones_bloqueadas = [0, 2]
 			texto_superior.text = "* ! THE MEMORY LEAK PREPARA UN ATAQUE DEVASTADOR !"
-			texto_inferior.text = "* ! SOLO PUEDES DEFENDERTE !"
+			if GameState.misiones_completadas() == 0:
+				texto_inferior.text = "* ! NO ESTÁS PREPARADO: UN ERROR AL DEFENDERTE ES FATAL !"
+			else:
+				texto_inferior.text = "* ! SOLO PUEDES DEFENDERTE !"
 		Intencion.ROBO:
 			var robo := _robar(_robos_disponibles().pick_random())
 			texto_superior.text = robo["aviso"]
@@ -324,6 +328,24 @@ func _decidir_intencion_jefe() -> void:
 
 func _jefe_ataca() -> bool:
 	return intencion == Intencion.ATAQUE
+
+# --- El ataque devastador depende de cuántas misiones hiciste ---
+# 0 misiones: letal (un error al defenderte y se acabó). Con las 8 vuelve al daño de siempre.
+const DANIO_LETAL := 9999
+const ATAQUE_SIN_MISIONES_PROB := 0.7      # sin misiones el jefe ataca más seguido
+
+func _prob_ataque_actual() -> float:
+	return ATAQUE_SIN_MISIONES_PROB if GameState.misiones_completadas() == 0 else prob_ataque
+
+## `completo` es el daño que hace con todas las misiones hechas (45 al fallar, 40 por tiempo).
+func _danio_ataque_devastador(completo: int) -> int:
+	var hechas := GameState.misiones_completadas()
+	if hechas == 0:
+		return DANIO_LETAL
+	if hechas >= 7:
+		return completo
+	var fraccion := 0.9 if hechas <= 2 else (0.7 if hechas <= 4 else 0.55)
+	return maxi(completo, roundi(player_max_hp * fraccion))
 
 func _texto_turno_tranquilo() -> void:
 	# Si te falta algo, el jefe te lo recuerda; si no, gotea o te provoca
@@ -342,6 +364,11 @@ func _texto_turno_tranquilo() -> void:
 			frases.append("* \"%s\"" % p)
 		texto_superior.text = frases.pick_random() if turno > 1 else frases[0]
 		texto_inferior.text = "* ELIGE: ATACAR, DEFENDER O RECUPERAR."
+		if turno <= 1:
+			if GameState.listo_para_jefe():
+				texto_superior.text = "* LA BENDICIÓN DEL ANCIANO TE ACOMPAÑA."
+			elif GameState.misiones_completadas() == 0:
+				texto_superior.text = "* THE MEMORY LEAK HUELE TU MEMORIA VACÍA. NO ESTÁS PREPARADO."
 
 # --- Robo de memoria ---
 func _robos_disponibles() -> Array:
@@ -755,8 +782,10 @@ func _on_opcion_seleccionada(indice: int) -> void:
 					texto_inferior.text = "* NO RECIBES DAÑO."
 				cambiar_estado(Estado.RESULTADO)
 			else:
-				var golpe = 45 if _jefe_ataca() else 25
-				recibir_danio_jugador(golpe, pregunta_actual["mensaje_error"])
+				if _jefe_ataca():
+					recibir_danio_jugador(_danio_ataque_devastador(45), pregunta_actual["mensaje_error"], "", true)
+				else:
+					recibir_danio_jugador(25, pregunta_actual["mensaje_error"])
 
 		Accion.RECUPERAR:
 			if acierto:
@@ -773,13 +802,16 @@ func _on_opcion_seleccionada(indice: int) -> void:
 
 func _on_tiempo_agotado() -> void:
 	_registrar_respuesta(false)
-	var danio_recibido = 40 if _jefe_ataca() else 20
-	recibir_danio_jugador(danio_recibido, "SE AGOTÓ EL TIEMPO DE RESPUESTA.")
+	if _jefe_ataca():
+		recibir_danio_jugador(_danio_ataque_devastador(40), "SE AGOTÓ EL TIEMPO DE RESPUESTA.", "", true)
+	else:
+		recibir_danio_jugador(20, "SE AGOTÓ EL TIEMPO DE RESPUESTA.")
 
 # --- Daño y Curación ---
-func recibir_danio_jugador(cantidad: int, mensaje: String, robo_corto := "") -> void:
-	# Aplicar absorción de armadura del informe
-	var danio_mitigado = int(cantidad * (1.0 - armadura))
+func recibir_danio_jugador(cantidad: int, mensaje: String, robo_corto := "", ignora_armadura := false) -> void:
+	# Aplicar absorción de armadura del informe (el ataque devastador no se mitiga)
+	var danio_mitigado = cantidad if ignora_armadura else int(cantidad * (1.0 - armadura))
+	danio_mitigado = mini(danio_mitigado, player_hp)     # el texto muestra el daño real, no 9999
 	player_hp = max(0, player_hp - danio_mitigado)
 	_guardar_hp()
 	_actualizar_hud()

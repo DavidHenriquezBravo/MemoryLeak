@@ -9,7 +9,7 @@ extends CharacterBody2D
 #   "!"  -> tiene una misión nueva para darte
 #   "…"  -> su misión ya está aceptada y te está esperando
 
-const AVISO_SHEET := preload("res://Sprites/aviso_mision-Sheet.png")
+const AVISO_SHEET := preload("res://Sprites/UI/Iconos/aviso_mision-Sheet.png")
 const AVISO_ALTURA := -26.0          # cuántos píxeles sobre el centro del sprite
 
 @export var npc_data: NpcData                     # nombre + retrato (el .tres del personaje)
@@ -59,6 +59,9 @@ func _hablar() -> void:
 	var m := mision_actual()
 	if m != null and _puede_empezar(m):
 		await MissionManager.start(m, npc_data)
+	elif m != null and not m.locked_dialogue.is_empty():
+		# Todavía no le toca: dice qué falta hacer antes
+		await Dialogue.say(npc_data, m.locked_dialogue)
 	elif m == null and not missions.is_empty():
 		# Ya terminó todas sus misiones: repite lo que dice la última al estar resuelta
 		await MissionManager.start(missions[-1], npc_data)
@@ -78,7 +81,7 @@ func mision_actual() -> MissionData:
 
 
 func _puede_empezar(m: MissionData) -> bool:
-	return m.requires_mission == &"" or GameState.is_completed(m.requires_mission)
+	return GameState.requisitos_cumplidos(m)
 
 
 # ------------------------------------------------------------------ aviso "!" / "…"

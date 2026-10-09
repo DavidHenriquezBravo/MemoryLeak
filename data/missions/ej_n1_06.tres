@@ -49,7 +49,7 @@ hint = "Rivera tiembla: seguir esa placa lo haría caer al vacío."
 [sub_resource type="Resource" id="Resource_nysog"]
 script = ExtResource("3_aupe7")
 stat = 1
-amount = 0.05
+amount = 0.1
 
 [sub_resource type="Resource" id="Resource_jluyb"]
 script = ExtResource("4_1qt53")
@@ -83,10 +83,13 @@ id = &"EJ-N1-06"
 oa_code = "OA2.5"
 title = "El Nombre del Guardia"
 objective = "→ Abre la casilla `0x00FF`"
+requires_all = Array[StringName]([&"EJ-N1-01", &"EJ-N1-07", &"EJ-N1-02", &"EJ-N1-05", &"EJ-N1-03", &"EJ-N1-04"])
+giver_name = "Rivera"
 cell_address = "0x00FF"
 intro_dialogue = Array[String](["Alto ahí. Nadie cruza la salida de la aldea.", "Mi placa dice que me llamo {addr:0x00FF}… pero no logro recordarlo. Mi registro quedó en la garita.", "Mi mente es un puntero sin asignar: apunta a `NULL`.", "Y sé que si intento seguir esta placa vacía, algo terrible pasará."])
 reminder_dialogue = Array[String](["Sigo sin recordar mi nombre. Mi registro está en la casilla `0x00FF`, en la garita."])
 success_dialogue = Array[String](["{addr:0x00FF}. Me llamo {addr:0x00FF}. ¡Ahora lo recuerdo!", "Gracias, viajero. Toma mi escudo de repuesto. Vuelve cuando estés listo para salir."])
 done_dialogue = Array[String](["Soy {addr:0x00FF}, guardián de Nullville. Gracias otra vez."])
+locked_dialogue = Array[String](["Alto ahí. Nadie cruza la salida de la aldea.", "Antes de hablar conmigo, ayuda a Andrés, a Juan y a Vicente. Lo que aprendas con ellos te hará falta.", "Cuando hayas terminado con todos, vuelve a verme."])
 exercise = SubResource("Resource_jluyb")
 reveals = Array[ExtResource("1_x67h8")]([SubResource("Resource_1v33d")])

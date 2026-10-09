@@ -53,7 +53,7 @@ hint = "Una placa solo dice dónde está el balde; no lleva el balde adentro."
 
 [sub_resource type="Resource" id="Resource_pbcbx"]
 script = ExtResource("3_i6d62")
-amount = 2.0
+amount = 5.0
 
 [sub_resource type="Resource" id="Resource_722ky"]
 script = ExtResource("4_5uuef")
@@ -79,6 +79,7 @@ id = &"EJ-N1-02"
 oa_code = "OA2.1"
 title = "La Daga que forjó Juan"
 objective = "→ Muéstrale la daga a Juan"
+giver_name = "Juan"
 intro_dialogue = Array[String](["Mira la inscripción del mango: `int *daga;`. La hoja está hueca a propósito: no corta, sostiene."])
 success_dialogue = Array[String](["Exacto. Déjame afilarla un poco… Así sostiene mejor."])
 done_dialogue = Array[String](["La daga ya sostiene bien. ¡Gracias por tu ayuda!"])

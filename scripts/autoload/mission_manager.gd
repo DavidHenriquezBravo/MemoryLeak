@@ -5,6 +5,19 @@ extends Node
 
 const LOCK_SECONDS := 5.0
 
+# Orden en que el HUD sugiere las misiones (las 3 primeras personas se pueden hacer en cualquier orden)
+const RUTA := [
+	"res://data/missions/ej_n1_01.tres",
+	"res://data/missions/ej_n1_02.tres",
+	"res://data/missions/ej_n1_03.tres",
+	"res://data/missions/ej_n1_07.tres",
+	"res://data/missions/ej_n1_05.tres",
+	"res://data/missions/ej_n1_04.tres",
+	"res://data/missions/ej_n1_06.tres",
+	"res://data/missions/ej_n1_08.tres",
+	"res://data/missions/ej_n1_09.tres",
+]
+
 var active: MissionData = null
 var active_npc: NpcData = null
 var attempts: int = 0
@@ -18,12 +31,26 @@ func start(mission: MissionData, npc: NpcData) -> void:
 			await Dialogue.say(npc, mission.done_dialogue)
 		return
 
-	if mission.requires_mission != &"" and not GameState.is_completed(mission.requires_mission):
-		print("Misión bloqueada: requiere ", mission.requires_mission)
+	if not GameState.requisitos_cumplidos(mission):
+		if not mission.locked_dialogue.is_empty():
+			await Dialogue.say(npc, mission.locked_dialogue)
 		return
 
 	if active != null and active != mission:
-		await Dialogue.say(npc, ["Termina primero lo que tienes pendiente."])
+		# Una misión a la vez: hay que terminar la actual antes de tomar otra
+		var pendiente: Array[String] = [
+			"Ya tienes una misión en curso: «%s»." % active.title,
+			"Termínala primero y después vuelve conmigo.",
+		]
+		await Dialogue.say(npc, pendiente)
+		return
+
+	# Conversación sin ejercicio (p. ej. el Anciano): se completa al terminar de hablar
+	if mission.exercise == null:
+		await Dialogue.say(npc, mission.intro_dialogue)
+		GameState.complete_mission(mission)
+		EventBus.mission_completed.emit(mission)
+		await Dialogue.say(npc, mission.success_dialogue)
 		return
 
 	if active == mission:
@@ -78,6 +105,17 @@ func finish_success() -> void:
 	active_npc = null
 	EventBus.mission_completed.emit(mission)
 	await Dialogue.say(npc, mission.success_dialogue, _registro_for(mission))
+
+
+# La siguiente misión que conviene hacer (null si hay una activa o ya no queda ninguna)
+func siguiente_sugerida() -> MissionData:
+	if active != null:
+		return null
+	for path: String in RUTA:
+		var m := load(path) as MissionData
+		if m != null and not GameState.is_completed(m.id) and GameState.requisitos_cumplidos(m):
+			return m
+	return null
 
 
 func is_locked() -> bool:

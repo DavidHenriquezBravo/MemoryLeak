@@ -47,7 +47,7 @@ hint = "Tu daga rechaza la placa: no calza con el tamaño del balde."
 [sub_resource type="Resource" id="Resource_di7ts"]
 script = ExtResource("3_amm83")
 stat = 3
-amount = 10.0
+amount = 20.0
 
 [sub_resource type="Resource" id="Resource_af1wg"]
 script = ExtResource("4_2qkj8")
@@ -80,6 +80,7 @@ oa_code = "OA1.3"
 title = "El Balde Grande de Andrés"
 objective = "→ Abre la casilla `0x0030`"
 requires_mission = &"EJ-N1-01"
+giver_name = "Andrés"
 cell_address = "0x0030"
 intro_dialogue = Array[String](["Gracias a ti el agua ya no se evapora. Pero la cosecha la guardo en otro balde, uno más grande.", "Ahí caben {addr:0x0030} litros: es un `double cosecha;`. Te ofrezco su placa, pero tu daga podría no aceptarla.", "No todas las placas caben en todas las dagas. La mía dice el lugar, sí, pero también de qué tamaño es lo que hay ahí.", "Una placa siempre lleva escrito el tipo del balde al que pertenece."])
 reminder_dialogue = Array[String](["El balde grande está junto al granero, en la casilla `0x0030`."])
