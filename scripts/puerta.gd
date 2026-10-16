@@ -2,8 +2,6 @@ extends StaticBody2D
 
 ## Escena de la pelea (elígela en el Inspector de la Puerta)
 @export_file("*.tscn") var escena_pelea: String = "pelea"
-## A dónde lleva la puerta cuando el jefe ya fue derrotado
-@export_file("*.tscn") var escena_stage_2: String = "res://scenes/levels/stage_2.tscn"
 
 const SISTEMA := preload("res://data/npc/sistema.tres")
 
@@ -60,6 +58,9 @@ func _on_body_exited(body: Node2D) -> void:
 
 func _on_entrada_body_entered(body: Node2D) -> void:
 	if abierta and not entrando and _es_jugador(body):
+		# Con el jefe derrotado la puerta solo deja pasar: el siguiente stage está en la cueva
+		if GameState.boss_defeated:
+			return
 		# Sin estar preparado, la primera vez solo avisa (la segunda ya te deja pasar)
 		if not GameState.boss_defeated and not GameState.listo_para_jefe() and not GameState.aviso_puerta_visto:
 			GameState.aviso_puerta_visto = true
@@ -67,11 +68,7 @@ func _on_entrada_body_entered(body: Node2D) -> void:
 			return
 		entrando = true
 		body.set_physics_process(false)  # el jugador se queda quieto
-		if GameState.boss_defeated:
-			# El jefe ya cayó: la puerta ahora lleva al siguiente stage
-			Transicion.ir_a(escena_stage_2)
-		else:
-			Transicion.ir_a_pelea(escena_pelea)
+		Transicion.ir_a_pelea(escena_pelea)
 
 
 func _avisar_sin_preparacion() -> void:

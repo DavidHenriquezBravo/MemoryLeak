@@ -36,6 +36,7 @@
 [ext_resource type="PackedScene" uid="uid://c5bv8a6ljrotv" path="res://scenes/actors/rivera.tscn" id="25_2bkvd"]
 [ext_resource type="PackedScene" uid="uid://bqe5wkma6pyy5" path="res://scenes/actors/juan.tscn" id="26_tr6nl"]
 [ext_resource type="PackedScene" uid="uid://c18fqn7wd6omt" path="res://scenes/actors/anciano.tscn" id="27_27nss"]
+[ext_resource type="Texture2D" uid="uid://122ofpjirr72" path="res://Sprites/Montana/Cueva boca abriendo-Sheet.png" id="29_ee4o0"]
 [ext_resource type="Texture2D" uid="uid://dfq3161e01p3d" path="res://Sprites/Corrupcion/Arbol corrupto A loop-Sheet.png" id="33_hvkqw"]
 [ext_resource type="Texture2D" uid="uid://c42oc8521dd28" path="res://Sprites/Corrupcion/Arbol corrupto A eliminar-Sheet.png" id="34_382o5"]
 [ext_resource type="Texture2D" uid="uid://bfldfxaaqcras" path="res://Sprites/Corrupcion/Arbol corrupto B loop-Sheet.png" id="34_lqxjj"]
@@ -45,6 +46,7 @@
 [ext_resource type="Texture2D" uid="uid://dooevaahfdi7c" path="res://Sprites/Mundo/Pozo de los Baldes placa-Sheet.png" id="40_pozoplaca"]
 [ext_resource type="Script" uid="uid://cp1777jcgsgwc" path="res://scripts/pozo.gd" id="41_pozo"]
 [ext_resource type="Shader" uid="uid://oxmcehn7qr5i" path="res://shaders/corrupcion.gdshader" id="50_shcor"]
+[ext_resource type="Script" uid="uid://bp41yv2r0b5kw" path="res://scripts/cueva.gd" id="60_cueva"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nxema"]
 texture = ExtResource("1_02n21")
@@ -1085,6 +1087,8 @@ sources/0 = SubResource("TileSetAtlasSource_kelb3")
 sources/7 = SubResource("TileSetAtlasSource_phgxi")
 sources/8 = SubResource("TileSetAtlasSource_ee4o0")
 
+[sub_resource type="TileSet" id="TileSet_o04wj"]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_b7igc"]
 atlas = ExtResource("4_jbr4e")
 region = Rect2(0, 0, 192, 112)
@@ -1300,6 +1304,118 @@ size = Vector2(71, 35.500008)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2v8jv"]
 size = Vector2(47, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ipy73"]
+atlas = ExtResource("29_ee4o0")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_go67e"]
+atlas = ExtResource("29_ee4o0")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eo273"]
+atlas = ExtResource("29_ee4o0")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0tymq"]
+atlas = ExtResource("29_ee4o0")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hl363"]
+atlas = ExtResource("29_ee4o0")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r7gna"]
+atlas = ExtResource("29_ee4o0")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_55lbk"]
+atlas = ExtResource("29_ee4o0")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ql3h0"]
+atlas = ExtResource("29_ee4o0")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8hfio"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ipy73")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_go67e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eo273")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0tymq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hl363")
+}],
+"loop": 0,
+"name": &"abrir",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ipy73")
+}],
+"loop": 1,
+"name": &"cerrada",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ipy73")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_go67e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eo273")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0tymq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hl363")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r7gna")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_55lbk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ql3h0")
+}],
+"loop": 0,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r7gna")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_55lbk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ql3h0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_55lbk")
+}],
+"loop": 1,
+"name": &"reposo",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tapon"]
+size = Vector2(44, 10)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dd8hp"]
 atlas = ExtResource("33_hvkqw")
@@ -1746,6 +1862,15 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_monta_lado"]
+size = Vector2(341, 26)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_monta_fondo"]
+size = Vector2(42, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cueva_zona"]
+size = Vector2(44, 34)
+
 [node name="Stage1" type="Node2D" unique_id=1779471578]
 script = ExtResource("1_tko0c")
 npc = ExtResource("2_cwmvl")
@@ -1759,6 +1884,7 @@ tile_set = SubResource("TileSet_p22yc")
 position = Vector2(32, -279.5)
 scale = Vector2(1.1, 1.0089285)
 sprite_frames = SubResource("SpriteFrames_kn3xp")
+animation = &"desaparecer"
 autoplay = "default"
 speed_scale = 2.0
 
@@ -1773,7 +1899,7 @@ tile_set = SubResource("TileSet_nf42h")
 [node name="ColinasDeco" type="TileMapLayer" parent="." unique_id=1590371843]
 material = SubResource("ShaderMaterial_corr")
 tile_map_data = PackedByteArray("AADs/+f/AAAEAAAAAADs/+j/AAAEAAEAAADt/+f/AAAFAAAAAADt/+j/AAAFAAEAAADu/+j/AQACAAQAAADu/+n/AQACAAUAAADv/+j/AQADAAQAAADw/+j/AQACAAQAAADw/+n/AQACAAUAAADx/+j/AQADAAQAAADx/+n/AQADAAUAAADz/+j/AQACAAQAAADz/+n/AQACAAUAAAD0/+j/AQADAAQAAAD0/+n/AQADAAUAAAAOAOj/AAAAAAIAAAAOAOn/AAAAAAMAAAAPAOj/AAABAAIAAAAPAOn/AAABAAMAAAAVAOj/AAAEAAAAAAAVAOn/AAAEAAEAAAAWAOj/AAAFAAAAAAAWAOn/AAAFAAEAAAARAOj/AQAGAAIAAAARAOn/AQAGAAMAAAASAOj/AQAHAAIAAAASAOn/AQAHAAMAAAAQAOn/AQAEAAMAAAAUAOj/AQAEAAMAAAAXAOn/AQAEAAMAAADv/+n/AQADAAUAAAA=")
-tile_set = SubResource("TileSet_nf42h")
+tile_set = SubResource("TileSet_o04wj")
 
 [node name="charco_memoria" type="StaticBody2D" parent="." unique_id=1282893596]
 position = Vector2(-170, -139)
@@ -1859,6 +1985,19 @@ offset_top = -23.0
 grow_horizontal = 2
 grow_vertical = 0
 metadata/_edit_use_anchors_ = true
+
+[node name="Entrada cueva" type="StaticBody2D" parent="." unique_id=1161156998]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Entrada cueva" unique_id=453558532]
+material = SubResource("ShaderMaterial_corr")
+position = Vector2(32, -336)
+sprite_frames = SubResource("SpriteFrames_8hfio")
+animation = &"cerrada"
+speed_scale = 2.0
+
+[node name="Tapon" type="CollisionShape2D" parent="Entrada cueva" unique_id=1590371911]
+position = Vector2(32, -306)
+shape = SubResource("RectangleShape2D_tapon")
 
 [node name="Andres" parent="." unique_id=1167419763 instance=ExtResource("23_rdivr")]
 position = Vector2(-184, -5)
@@ -1960,7 +2099,7 @@ position = Vector2(0, 1)
 position = Vector2(25, -16)
 zoom = Vector2(3, 3)
 limit_left = -317
-limit_top = -320
+limit_top = -450
 limit_right = 383
 limit_bottom = 320
 
@@ -1974,7 +2113,9 @@ anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 8.0
+offset_top = -14.0
 offset_right = 8.0
+offset_bottom = -14.0
 grow_horizontal = 1
 grow_vertical = 1
 mouse_filter = 0
@@ -1997,7 +2138,42 @@ tile_map_data = PackedByteArray("AADy/wUAEAAAAAEAAADy/wYAEAAAAAIAAADz/wUAEAABAAE
 tile_set = SubResource("TileSet_nf42h")
 
 [node name="Boss Stage1" parent="." unique_id=452424636 instance=ExtResource("22_rn2fb")]
-position = Vector2(32, -304)
+position = Vector2(34, -298)
+
+[node name="ColisionMontana" type="StaticBody2D" parent="." unique_id=1590371901]
+
+[node name="Izquierda" type="CollisionShape2D" parent="ColisionMontana" unique_id=1590371902]
+position = Vector2(-159.5, -317)
+shape = SubResource("RectangleShape2D_monta_lado")
+
+[node name="Derecha" type="CollisionShape2D" parent="ColisionMontana" unique_id=1590371903]
+position = Vector2(223.5, -317)
+shape = SubResource("RectangleShape2D_monta_lado")
+
+[node name="FondoCueva" type="CollisionShape2D" parent="ColisionMontana" unique_id=1590371904]
+position = Vector2(32, -328)
+shape = SubResource("RectangleShape2D_monta_fondo")
+
+[node name="Cueva" type="Area2D" parent="." unique_id=1590371905]
+position = Vector2(32, -312)
+script = ExtResource("60_cueva")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cueva" unique_id=1590371906]
+shape = SubResource("RectangleShape2D_cueva_zona")
+
+[node name="Aviso" type="Label" parent="Cueva" unique_id=1590371907]
+visible = false
+z_index = 10
+offset_left = -34.0
+offset_top = -44.0
+offset_right = 34.0
+offset_bottom = -32.0
+theme_override_colors/font_color = Color(0.239, 0.894, 0.867, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 8
+text = "[E] ENTRAR"
+horizontal_alignment = 1
 
 [node name="FinalNivel" type="Node" parent="." unique_id=1273288911]
 script = ExtResource("37_aa0jl")
