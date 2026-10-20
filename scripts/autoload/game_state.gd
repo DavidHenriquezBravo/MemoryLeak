@@ -6,7 +6,7 @@ signal address_revealed(address: String)
 # Stats de quien no ha hecho ninguna misión. Las 8 misiones del nivel 1 suman
 # +40 vida, +15 daño, +20 % armadura y +10 % suerte (= 100 / 25 / 20 % / 15 %).
 const BASE_MAX_HP := 60
-const BASE_DAMAGE := 10
+const BASE_DAMAGE := 1000
 const BASE_ARMOR := 0.0
 const BASE_LUCK := 0.05
 const MISIONES_NIVEL_1 := 8

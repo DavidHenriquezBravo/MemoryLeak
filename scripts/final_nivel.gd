@@ -42,6 +42,7 @@ extends Node
 ## 1.0 = la aldea ocupa justo toda la pantalla; menos de 1 deja un borde.
 @export_range(0.5, 1.0, 0.01) var margen_camara: float = 0.92
 @export var duracion_camara: float = 2.0
+@export var zoom_especifico: Vector2 = Vector2(1.0, 1.0) ## El zoom final exacto que quieres aplicar
 
 @export_group("Secuencia")
 @export var pausa_inicial: float = 1.0
@@ -187,6 +188,27 @@ func _resolver() -> Array[Node]:
 
 
 # ---------------------------------------------------------------- cámara
+#func _camara_abrir() -> void:
+#	_cam = get_viewport().get_camera_2d()
+#	if _cam == null:
+#		return
+#	_cam_pos = _cam.position
+#	_cam_zoom = _cam.zoom
+#	_cam_limites = [_cam.limit_left, _cam.limit_top, _cam.limit_right, _cam.limit_bottom]
+#	# sin límites mientras dura el plano general, si no la cámara se queda "pegada" al borde
+#	_cam.limit_left = -10000000
+#	_cam.limit_top = -10000000
+#	_cam.limit_right = 10000000
+#	_cam.limit_bottom = 10000000
+#
+#	var r := _rect_de_la_aldea()
+#	var pantalla := get_viewport().get_visible_rect().size
+#	var z := minf(pantalla.x / r.size.x, pantalla.y / r.size.y) * margen_camara
+#	z = minf(z, _cam_zoom.x)        # nunca más cerca que antes
+#	var t := create_tween().set_parallel().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+#	t.tween_property(_cam, "global_position", r.get_center(), duracion_camara)
+#	t.tween_property(_cam, "zoom", Vector2(z, z), duracion_camara)
+#	await t.finished
 func _camara_abrir() -> void:
 	_cam = get_viewport().get_camera_2d()
 	if _cam == null:
@@ -194,21 +216,19 @@ func _camara_abrir() -> void:
 	_cam_pos = _cam.position
 	_cam_zoom = _cam.zoom
 	_cam_limites = [_cam.limit_left, _cam.limit_top, _cam.limit_right, _cam.limit_bottom]
-	# sin límites mientras dura el plano general, si no la cámara se queda "pegada" al borde
+	
 	_cam.limit_left = -10000000
 	_cam.limit_top = -10000000
 	_cam.limit_right = 10000000
 	_cam.limit_bottom = 10000000
 
 	var r := _rect_de_la_aldea()
-	var pantalla := get_viewport().get_visible_rect().size
-	var z := minf(pantalla.x / r.size.x, pantalla.y / r.size.y) * margen_camara
-	z = minf(z, _cam_zoom.x)        # nunca más cerca que antes
+	
 	var t := create_tween().set_parallel().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	t.tween_property(_cam, "global_position", r.get_center(), duracion_camara)
-	t.tween_property(_cam, "zoom", Vector2(z, z), duracion_camara)
+	# Aquí aplicas el zoom fijo directamente:
+	t.tween_property(_cam, "zoom", zoom_especifico, duracion_camara)
 	await t.finished
-
 
 func _camara_volver() -> void:
 	if _cam == null:
