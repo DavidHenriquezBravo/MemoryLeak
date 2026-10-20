@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://fpxroa2od4cc"
+path="res://.godot/imported/Musica Stage 2.ogg-4b990a4cec2ec94ffd713ddf28512ef8.oggvorbisstr"
+
+[deps]
+
+source_file="res://Musica/Musica Stage 2.ogg"
+dest_files=["res://.godot/imported/Musica Stage 2.ogg-4b990a4cec2ec94ffd713ddf28512ef8.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

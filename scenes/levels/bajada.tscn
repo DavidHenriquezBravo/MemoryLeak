@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://bnvw2j1nycgrh" path="res://scripts/salida_bajada.gd" id="7_utd4n"]
 [ext_resource type="PackedScene" path="res://scenes/actors/anciano_guia.tscn" id="8_utd4n"]
 [ext_resource type="Script" uid="uid://xo48iy46qp2d" path="res://scripts/parada_historia.gd" id="11_dyvou"]
+[ext_resource type="AudioStream" uid="uid://c2uikg8yp1pwp" path="res://Musica/Musica_Cueva_vorbis.ogg" id="12_4sq77"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s4mu3"]
 size = Vector2(8, 6)
@@ -468,3 +469,8 @@ se_queda = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Historia/Parada 5 - El balcon" unique_id=1598488212]
 shape = SubResource("RectangleShape2D_p67ly")
+
+[node name="Musica de fondo" type="AudioStreamPlayer2D" parent="." unique_id=68283182]
+stream = ExtResource("12_4sq77")
+volume_db = -3.267
+autoplay = true

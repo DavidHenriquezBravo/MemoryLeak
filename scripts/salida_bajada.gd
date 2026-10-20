@@ -16,4 +16,5 @@ func _on_body_entered(body: Node) -> void:
 	if usado or not (body.is_in_group("player") or body.name == "Player"):
 		return
 	usado = true
+	GameState.punto_entrada = &"DesdeBajada"
 	Transicion.ir_a(escena_siguiente)

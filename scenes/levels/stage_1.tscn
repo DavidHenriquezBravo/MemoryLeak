@@ -45,6 +45,7 @@
 [ext_resource type="Script" uid="uid://4elgjt0iq0eu" path="res://scripts/final_nivel.gd" id="37_aa0jl"]
 [ext_resource type="Texture2D" uid="uid://dooevaahfdi7c" path="res://Sprites/Mundo/Pozo de los Baldes placa-Sheet.png" id="40_pozoplaca"]
 [ext_resource type="Script" uid="uid://cp1777jcgsgwc" path="res://scripts/pozo.gd" id="41_pozo"]
+[ext_resource type="AudioStream" uid="uid://bvxxdnyii3v2j" path="res://Musica/Musica Stage 1.ogg" id="48_rn2fb"]
 [ext_resource type="Shader" uid="uid://oxmcehn7qr5i" path="res://shaders/corrupcion.gdshader" id="50_shcor"]
 [ext_resource type="Script" uid="uid://bp41yv2r0b5kw" path="res://scripts/cueva.gd" id="60_cueva"]
 
@@ -2179,3 +2180,8 @@ horizontal_alignment = 1
 script = ExtResource("37_aa0jl")
 material_corrupcion = SubResource("ShaderMaterial_corr")
 origen_ola = NodePath("../Puerta")
+
+[node name="Musica de fondo" type="AudioStreamPlayer2D" parent="." unique_id=2145543103]
+stream = ExtResource("48_rn2fb")
+volume_db = -4.356
+autoplay = true

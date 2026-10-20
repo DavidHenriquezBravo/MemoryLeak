@@ -5,8 +5,7 @@ extends Area2D
 ## entrar y pasar al siguiente stage.
 
 ## A dónde lleva la cueva
-@export_file("*.tscn") var escena_stage_2: String = "res://scenes/levels/stage_2.tscn"
-
+@export_file("*.tscn") var escena_stage_2: String = "res://scenes/levels/bajada.tscn"
 @onready var aviso: Label = $Aviso
 ## La roca que tapa la boca (AnimatedSprite2D con las animaciones cerrada / abrir / reposo)
 @onready var tapon: AnimatedSprite2D = get_node_or_null("../Entrada cueva/AnimatedSprite2D")
@@ -78,7 +77,8 @@ func _abrir_con_animacion() -> void:
 
 func _entrar() -> void:
 	entrando = true
-	jugador.set_physics_process(false)  # el jugador se queda quieto al entrar
+	jugador.set_physics_process(false)
+	GameState.punto_entrada = &"DesdeStage1"
 	Transicion.ir_a(escena_stage_2)
 
 

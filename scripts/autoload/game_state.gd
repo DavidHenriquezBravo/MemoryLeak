@@ -13,7 +13,8 @@ const MISIONES_NIVEL_1 := 8
 const MISION_ANCIANO := &"EJ-N1-09"     # "Listo para el jefe": no cuenta entre las 8
 const ARMOR_CAP := 0.75
 const LUCK_CAP := 0.60
- 
+
+var punto_entrada: StringName = &""
 var hp: int = BASE_MAX_HP
 var bonus: Dictionary = {"max_hp": 0, "damage": 0, "armor": 0.0, "luck": 0.0}
 var completed: Array[StringName] = []
