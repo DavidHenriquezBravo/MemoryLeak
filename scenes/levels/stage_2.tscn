@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://btgmgvi2ag80u" path="res://Sprites/Mundo/Memoria_perdida-Sheet.png" id="13_5heoy"]
 [ext_resource type="Script" uid="uid://joxdwdb658t3" path="res://scripts/punto_llegada.gd" id="14_nmi2r"]
 [ext_resource type="AudioStream" uid="uid://fpxroa2od4cc" path="res://Musica/Musica Stage 2.ogg" id="15_ilipr"]
+[ext_resource type="Script" path="res://scripts/puerta_escena.gd" id="90_puerta"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vqv2h"]
 texture = ExtResource("2_xlgms")
@@ -1413,6 +1414,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_puerta_biblio"]
+size = Vector2(28, 12)
+
 [node name="Stage2" type="Node2D" unique_id=61945114]
 
 [node name="Provisorio" type="CanvasLayer" parent="." unique_id=817473386]
@@ -1537,3 +1541,15 @@ script = ExtResource("14_nmi2r")
 stream = ExtResource("15_ilipr")
 volume_db = -11.979
 autoplay = true
+
+[node name="Puerta de la biblioteca" type="Area2D" parent="."]
+position = Vector2(-112, -14)
+script = ExtResource("90_puerta")
+escena = "res://scenes/levels/biblioteca.tscn"
+punto_llegada = &"DesdeDistrito"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Puerta de la biblioteca"]
+shape = SubResource("RectangleShape2D_puerta_biblio")
+
+[node name="DesdeBiblioteca" type="Marker2D" parent="."]
+position = Vector2(-112, 10)
