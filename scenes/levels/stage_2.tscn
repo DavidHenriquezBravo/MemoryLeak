@@ -15,7 +15,8 @@
 [ext_resource type="Texture2D" uid="uid://btgmgvi2ag80u" path="res://Sprites/Mundo/Memoria_perdida-Sheet.png" id="13_5heoy"]
 [ext_resource type="Script" uid="uid://joxdwdb658t3" path="res://scripts/punto_llegada.gd" id="14_nmi2r"]
 [ext_resource type="AudioStream" uid="uid://fpxroa2od4cc" path="res://Musica/Musica Stage 2.ogg" id="15_ilipr"]
-[ext_resource type="Script" path="res://scripts/puerta_escena.gd" id="90_puerta"]
+[ext_resource type="PackedScene" uid="uid://c18fqn7wd6omt" path="res://scenes/actors/anciano.tscn" id="17_i05p7"]
+[ext_resource type="Script" uid="uid://dsbbxadbtylxf" path="res://scripts/puerta_escena.gd" id="90_puerta"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vqv2h"]
 texture = ExtResource("2_xlgms")
@@ -1592,14 +1593,17 @@ stream = ExtResource("15_ilipr")
 volume_db = -11.979
 autoplay = true
 
-[node name="Puerta de la biblioteca" type="Area2D" parent="."]
+[node name="Puerta de la biblioteca" type="Area2D" parent="." unique_id=19900263]
 position = Vector2(-112, -14)
 script = ExtResource("90_puerta")
 escena = "res://scenes/levels/biblioteca.tscn"
 punto_llegada = &"DesdeDistrito"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Puerta de la biblioteca"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Puerta de la biblioteca" unique_id=1211624941]
 shape = SubResource("RectangleShape2D_puerta_biblio")
 
-[node name="DesdeBiblioteca" type="Marker2D" parent="."]
+[node name="DesdeBiblioteca" type="Marker2D" parent="." unique_id=1884949291]
 position = Vector2(-112, 10)
+
+[node name="Anciano" parent="." unique_id=1446284665 instance=ExtResource("17_i05p7")]
+position = Vector2(444, -241)

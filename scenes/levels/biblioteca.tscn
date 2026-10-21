@@ -1,17 +1,17 @@
-[gd_scene format=4]
+[gd_scene format=4 uid="uid://dekc7mc0n7y64"]
 
-[ext_resource type="TileSet" path="res://Tile_sets/Bajada.tres" id="1_mp7vc"]
-[ext_resource type="Texture2D" path="res://Sprites/Mundo/Biblioteca objetos.png" id="2_vt0hi"]
-[ext_resource type="Texture2D" path="res://Sprites/Mundo/Distrito_minero_objetos.png" id="3_c8j05"]
-[ext_resource type="Script" path="res://scripts/perro.gd" id="4_pod5n"]
-[ext_resource type="Texture2D" path="res://Sprites/Personajes/Animales/Perro salchicha derecha caminando-Sheet.png" id="5_a54tn"]
-[ext_resource type="Texture2D" path="res://Sprites/Personajes/Animales/Perro salchicha izquierda caminando-Sheet.png" id="6_smx6x"]
-[ext_resource type="Texture2D" path="res://Sprites/Personajes/Animales/Perro salchicha derecha-Sheet.png" id="7_mj25h"]
-[ext_resource type="Texture2D" path="res://Sprites/Personajes/Animales/Perro salchicha izquierda-Sheet.png" id="8_mi36e"]
-[ext_resource type="PackedScene" path="res://scenes/actors/player.tscn" id="9_a1mp4"]
-[ext_resource type="PackedScene" path="res://scenes/ui/estado_jugador.tscn" id="10_jlk5n"]
-[ext_resource type="Script" path="res://scripts/punto_llegada.gd" id="11_4plts"]
-[ext_resource type="Script" path="res://scripts/puerta_escena.gd" id="12_vqndt"]
+[ext_resource type="TileSet" uid="uid://crvs53alg7srg" path="res://Tile_sets/Bajada.tres" id="1_mp7vc"]
+[ext_resource type="Texture2D" uid="uid://des5ik6w5fqtx" path="res://Sprites/Mundo/Biblioteca objetos.png" id="2_vt0hi"]
+[ext_resource type="Texture2D" uid="uid://dp1gd7cfewtm1" path="res://Sprites/Mundo/Distrito_minero_objetos.png" id="3_c8j05"]
+[ext_resource type="Script" uid="uid://1nutrchtdpi7" path="res://scripts/perro.gd" id="4_pod5n"]
+[ext_resource type="Texture2D" uid="uid://5soudw2qd7u" path="res://Sprites/Personajes/Animales/Perro salchicha derecha caminando-Sheet.png" id="5_a54tn"]
+[ext_resource type="Texture2D" uid="uid://c31egnft5370w" path="res://Sprites/Personajes/Animales/Perro salchicha izquierda caminando-Sheet.png" id="6_smx6x"]
+[ext_resource type="Texture2D" uid="uid://cnnqlt7juo0p2" path="res://Sprites/Personajes/Animales/Perro salchicha derecha-Sheet.png" id="7_mj25h"]
+[ext_resource type="Texture2D" uid="uid://82gd1ix7r4nx" path="res://Sprites/Personajes/Animales/Perro salchicha izquierda-Sheet.png" id="8_mi36e"]
+[ext_resource type="PackedScene" uid="uid://b1ny2grkxsprv" path="res://scenes/actors/player.tscn" id="9_a1mp4"]
+[ext_resource type="PackedScene" uid="uid://cv6la82ujg5g5" path="res://scenes/ui/estado_jugador.tscn" id="10_jlk5n"]
+[ext_resource type="Script" uid="uid://joxdwdb658t3" path="res://scripts/punto_llegada.gd" id="11_4plts"]
+[ext_resource type="Script" uid="uid://dsbbxadbtylxf" path="res://scripts/puerta_escena.gd" id="12_vqndt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_chqwv"]
 size = Vector2(60, 10)
@@ -682,10 +682,8 @@ transform = Transform2D(1.5, 0, 0, 1.5, 0, 0)
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 8.0
-offset_top = -14.0
-offset_right = 8.0
-offset_bottom = -14.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="DesdeDistrito" type="Marker2D" parent="." unique_id=1147763441]
 position = Vector2(320, 392)
