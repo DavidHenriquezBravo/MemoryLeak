@@ -48,13 +48,10 @@ theme_override_fonts/font = ExtResource("3_xrfhq")
 theme_override_font_sizes/font_size = 50
 text = "Jugar"
 
-[node name="Opciones" type="Button" parent="VBoxContainer" unique_id=1799686576]
+[node name="Opciones" type="OptionButton" parent="VBoxContainer" unique_id=1506980860]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_xrfhq")
 theme_override_font_sizes/font_size = 50
-text = "Opciones
-
-"
 
 [node name="Salir" type="Button" parent="VBoxContainer" unique_id=823832618]
 layout_mode = 2

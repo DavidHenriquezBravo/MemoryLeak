@@ -62,7 +62,7 @@ size = Vector2(18, 7)
 blend_mode = 1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mdblo"]
-size = Vector2(28, 12)
+size = Vector2(28, 13)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8v7yo"]
 size = Vector2(16, 64)
@@ -396,6 +396,7 @@ position = Vector2(96, 728)
 script = ExtResource("7_utd4n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Salida al Stage 2" unique_id=667351658]
+position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_mdblo")
 
 [node name="Bordes del balcon" type="StaticBody2D" parent="." unique_id=1202701694]
