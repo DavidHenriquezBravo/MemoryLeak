@@ -1,0 +1,103 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://bbdvh5fc348wm"]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n207"]
+script = ExtResource("1_cell")
+address = "0x0170"
+value = "100"
+label = "caja"
+
+[sub_resource type="Resource" id="Resource_n208"]
+script = ExtResource("1_cell")
+address = "0x0FF0"
+value = "0x0170"
+label = "s"
+points_to = "0x0170"
+
+[sub_resource type="Resource" id="Resource_n205"]
+script = ExtResource("1_cell")
+address = "0x0140"
+value = "0"
+label = "caja"
+
+[sub_resource type="Resource" id="Resource_n206"]
+script = ExtResource("1_cell")
+address = "0x0FF0"
+value = "0x0140"
+label = "fondo"
+points_to = "0x0140"
+
+[sub_resource type="Resource" id="Resource_n201"]
+script = ExtResource("2_opt")
+text = "`void abonar(int fondo)` … `abonar(&caja);`"
+wrong_feedback = "La puerta sigue aceptando copias, no placas. El compilador rechaza tu placa."
+concept_on_error = "Si la llamada entrega una dirección, el parámetro tiene que ser un puntero."
+hint = "El sello no calza: la llamada entrega una placa, pero la puerta del oficio espera un número."
+
+[sub_resource type="Resource" id="Resource_n202"]
+script = ExtResource("2_opt")
+text = "`void abonar(int *fondo)` … `abonar(caja);`"
+wrong_feedback = "La puerta espera una placa y le entregaste el contenido. Tipos incompatibles."
+concept_on_error = "Un parámetro `int *` necesita una dirección: hay que llamar con `&caja`."
+hint = "La puerta del oficio ya es la correcta. Revisa qué le pasas al llamarlo."
+
+[sub_resource type="Resource" id="Resource_n203"]
+script = ExtResource("2_opt")
+text = "`void abonar(int *fondo)` … `abonar(&caja);` y dentro `*fondo = *fondo + 10;`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n204"]
+script = ExtResource("3_reward")
+amount = 5.0
+
+[sub_resource type="Resource" id="Resource_n209"]
+script = ExtResource("4_ex")
+title = "PRUEBA DEL NOTARIO"
+code = "void abonar(______ fondo) {
+    ______ = ______ + 10;
+}
+int caja = 0;
+abonar(______);"
+question = "¿Cómo debe quedar la función y su llamada?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n205"), SubResource("Resource_n206")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n201"), SubResource("Resource_n202"), SubResource("Resource_n203")])
+conceptual_hint = "Para que una función cambie el original necesita tres cosas: recibir una placa, que la llamada se la entregue y escribir a través de ella."
+example_code = "void abonar(int *s) {
+    *s += 100;
+}
+int caja = 0;
+abonar(&caja);   // caja = 100"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n207"), SubResource("Resource_n208")])
+example_text = "`s` recibe la placa de `caja`. `*s += 100` escribe en la casilla real, así que `caja` queda en 100."
+example_followup = "Mismo concepto, otro oficio. Vuelve con el Notario: ¿cómo debe quedar el de Sara?"
+success_title = "¡CONTRATO FIRMADO!"
+success_text = "El oficio ahora recibe la placa del fondo y escribe en él, no en una copia."
+concept_text = "Paso por referencia: `void f(int *p)`, se llama con `f(&x)` y se escribe con `*p`."
+reward = SubResource("Resource_n204")
+
+[sub_resource type="Resource" id="Resource_n210"]
+script = ExtResource("1_cell")
+address = "0x0180"
+value = "abonar(&caja)"
+label = "contrato del Notario"
+
+[resource]
+script = ExtResource("5_mision")
+id = &"EJ-N2-02"
+oa_code = "OA3.2"
+title = "El Contrato del Notario"
+objective = "→ Dicta el contrato al Notario"
+requires_mission = &"EJ-N2-01"
+giver_name = "el Notario"
+intro_dialogue = Array[String](["Ejem. Soy el Notario: redacto los oficios del distrito, y todos llevan mi sello.", "Sara me pidió corregir el oficio de abonar. Pero yo jamás he escrito uno que acepte placas: todos los míos reciben copias.", "Usa la misma dirección que ya resolviste, la del buzón: {addr:0x0140}. No hace falta buscarla otra vez.", "Quiero que lo que el oficio toque sea el fondo verdadero, no una hoja suelta que se bota al salir. Díctame la forma correcta."])
+reminder_dialogue = Array[String](["Sigo con la pluma en el aire. ¿Cómo debe quedar el oficio de abonar?"])
+success_dialogue = Array[String](["Firmado y sellado. El fondo del pueblo por fin conserva el maná.", "Ten, tinta de notario. Lo que escribas con ella pega más fuerte."])
+done_dialogue = Array[String](["Ese oficio recibe una placa y escribe en el original. Así debieron ser todos."])
+locked_dialogue = Array[String](["Ejem. Soy el Notario. Tengo una pila de oficios por corregir.", "Sara, la escriba de la biblioteca, se queja de su fondo. Averigua primero qué le pasa a su libro."])
+exercise = SubResource("Resource_n209")
+reveals = Array[ExtResource("1_cell")]([SubResource("Resource_n210")])

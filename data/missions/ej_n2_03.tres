@@ -1,0 +1,124 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://c7oj2cb35geyv"]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n201"]
+script = ExtResource("1_cell")
+address = "0x0200"
+value = "0x0208"
+label = "yunque de Cast"
+
+[sub_resource type="Resource" id="Resource_n210"]
+script = ExtResource("1_cell")
+address = "0x0210"
+value = "5"
+label = "x"
+
+[sub_resource type="Resource" id="Resource_n211"]
+script = ExtResource("1_cell")
+address = "0x0214"
+value = "1"
+label = "y"
+
+[sub_resource type="Resource" id="Resource_n206"]
+script = ExtResource("1_cell")
+address = "0x0200"
+value = "3"
+label = "fuerza de Cast"
+
+[sub_resource type="Resource" id="Resource_n207"]
+script = ExtResource("1_cell")
+address = "0x0208"
+value = "8"
+label = "fuerza de Ref"
+
+[sub_resource type="Resource" id="Resource_n208"]
+script = ExtResource("1_cell")
+address = "0x0FF0"
+value = "0x0200"
+label = "a"
+points_to = "0x0200"
+
+[sub_resource type="Resource" id="Resource_n209"]
+script = ExtResource("1_cell")
+address = "0x0FF8"
+value = "0x0208"
+label = "b"
+points_to = "0x0208"
+
+[sub_resource type="Resource" id="Resource_n202"]
+script = ExtResource("2_opt")
+text = "`*a = *b;`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n203"]
+script = ExtResource("2_opt")
+text = "`a = b;`"
+wrong_feedback = "Cruzaste las placas dentro de la función, pero los baldes de afuera siguen igual. Al salir, las placas se pierden."
+concept_on_error = "Asignar punteros cambia adónde miran, no lo que hay en las casillas."
+hint = "Los gemelos siguen cambiados. Moviste las placas; hay que mover lo que hay detrás de ellas."
+
+[sub_resource type="Resource" id="Resource_n204"]
+script = ExtResource("2_opt")
+text = "`&a = &b;`"
+wrong_feedback = "El pergamino se prende en llamas rojas: la dirección de una variable no se puede reasignar."
+concept_on_error = "`&a` no es una casilla donde escribir: no puede ir a la izquierda del `=`."
+hint = "Esa línea ni siquiera compila. Piensa en verter contenido, no en mover placas."
+
+[sub_resource type="Resource" id="Resource_n205"]
+script = ExtResource("3_reward")
+stat = 1
+amount = 0.1
+
+[sub_resource type="Resource" id="Resource_n212"]
+script = ExtResource("4_ex")
+title = "CASILLA DE MEMORIA"
+code = "void swap(int *a, int *b) {
+    int temp = *a;
+    __________
+    *b = temp;
+}"
+question = "¿Qué línea falta?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n206"), SubResource("Resource_n207"), SubResource("Resource_n208"), SubResource("Resource_n209")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n202"), SubResource("Resource_n203"), SubResource("Resource_n204")])
+conceptual_hint = "`temp` ya guardó el contenido del primer yunque. Falta que el primer yunque reciba el contenido del segundo."
+example_code = "void trocar(int *a, int *b) {
+    int t = *b;
+    *b = *a;
+    *a = t;
+}"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n210"), SubResource("Resource_n211")])
+example_text = "Aquí se guarda primero `*b`. Por eso la línea del medio es `*b = *a`: contenido a contenido."
+example_followup = "Mismo ritual, al revés. Vuelve al yunque de Ref: ¿qué línea falta en el swap?"
+success_title = "¡FUERZAS DEVUELTAS!"
+success_text = "El ritual vierte contenido a contenido: cada gemelo recupera su fuerza."
+concept_text = "Para intercambiar a través de punteros se escribe en `*a` y `*b`, no en `a` y `b`."
+reward = SubResource("Resource_n205")
+
+[sub_resource type="Resource" id="Resource_n213"]
+script = ExtResource("1_cell")
+address = "0x0208"
+value = "0x0200"
+label = "yunque de Ref"
+
+[resource]
+script = ExtResource("5_mision")
+id = &"EJ-N2-03"
+oa_code = "OA3.2"
+title = "Los Gemelos Intercambiados"
+objective = "→ Abre el yunque de Cast `0x0200`"
+requires_mission = &"EJ-N2-02"
+giver_name = "Cast y Ref"
+cell_address = "0x0208"
+cadena = Array[ExtResource("1_cell")]([SubResource("Resource_n201")])
+intro_dialogue = Array[String](["¡Eh, tú! Somos Cast y Ref, los herreros gemelos. Bueno… ahora mismo no sé bien quién es quién.", "El Gran Segmentation Fault nos cambió la fuerza: yo tengo la de mi hermano y él la mía.", "Encontramos el ritual de intercambio en un pergamino, pero le falta la línea del medio.", "Cada yunque guarda la placa del otro. Empieza por el mío, {addr:0x0200}, junto a la forja roja.", "Guardamos el contenido del primer balde aparte. Ahora hay que verter el del segundo en el primero: contenido a contenido, no placa a placa."])
+reminder_dialogue = Array[String](["Empieza por mi yunque, `0x0200`. Él te dirá dónde está el de mi hermano."])
+success_dialogue = Array[String](["¡Mi brazo! ¡Vuelve a ser mío! Y Ref ya levanta su propio martillo.", "Ref te forjó algo: una mejora de armadura, de las buenas."])
+done_dialogue = Array[String](["Cada uno con su fuerza. El ritual quedó completo gracias a ti."])
+locked_dialogue = Array[String](["Estamos ocupados, forastero. Algo nos cruzó la fuerza y ningún martillo lo arregla.", "Dicen que el Notario sabe escribir oficios que tocan cosas de verdad. Habla con él primero."])
+exercise = SubResource("Resource_n212")
+reveals = Array[ExtResource("1_cell")]([SubResource("Resource_n213")])

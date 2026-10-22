@@ -72,11 +72,12 @@ func _hablar() -> void:
 	_actualizar_aviso()
 
 
-# La primera misión de la lista que todavía no se completa (null si no queda ninguna)
+# La primera misión de la lista que todavía no se completa (null si no queda ninguna).
+# Si es la del umbral del Anciano y no se alcanza, es el repaso que toca.
 func mision_actual() -> MissionData:
 	for m in missions:
 		if m != null and not GameState.is_completed(m.id):
-			return m
+			return MissionManager.con_repaso(m)
 	return null
 
 

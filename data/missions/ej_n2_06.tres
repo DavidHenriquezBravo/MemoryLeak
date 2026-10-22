@@ -1,0 +1,89 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://b2m7i6bftcx40"]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n207"]
+script = ExtResource("1_cell")
+address = "0x0228"
+value = "4.5"
+label = "peso (float)"
+
+[sub_resource type="Resource" id="Resource_n205"]
+script = ExtResource("1_cell")
+address = "0x0218"
+value = "7"
+label = "pieza_cast (int)"
+
+[sub_resource type="Resource" id="Resource_n206"]
+script = ExtResource("1_cell")
+address = "0x0220"
+value = "12.5"
+label = "pieza (double)"
+
+[sub_resource type="Resource" id="Resource_n201"]
+script = ExtResource("2_opt")
+text = "Porque no se puede aplicar `&` a un `double`"
+wrong_feedback = "Sí se puede tomar la dirección de un `double`. El problema es la daga que la recibe."
+concept_on_error = "`&` funciona con cualquier variable; da un puntero de su mismo tipo."
+hint = "La placa de la pieza existe. Mira qué tipo de daga intenta sostenerla."
+
+[sub_resource type="Resource" id="Resource_n202"]
+script = ExtResource("2_opt")
+text = "Porque `&pieza` es de tipo `double *` y `p` es `int *`: los tipos no coinciden"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n203"]
+script = ExtResource("2_opt")
+text = "Porque falta inicializar `p`"
+wrong_feedback = "`p` sí se inicializa en esa misma línea: el error rojo sale justo al enlazarla."
+concept_on_error = "El problema no es la falta de valor, es que el tipo del valor no calza."
+hint = "La daga sí recibe algo. ¿Calza lo que recibe con lo que es?"
+
+[sub_resource type="Resource" id="Resource_n204"]
+script = ExtResource("3_reward")
+amount = 10.0
+
+[sub_resource type="Resource" id="Resource_n208"]
+script = ExtResource("4_ex")
+title = "CASILLA DE MEMORIA"
+code = "double pieza = 12.5;
+int *p = &pieza;"
+question = "¿Por qué es incorrecta la línea `int *p = &pieza;`?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n205"), SubResource("Resource_n206")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n201"), SubResource("Resource_n202"), SubResource("Resource_n203")])
+conceptual_hint = "Un puntero sabe cuánto mide la casilla que apunta. Un `int *` espera casillas de `int`, no de `double`."
+example_code = "float peso = 4.5;
+int *p = &peso;    // error
+float *q = &peso;  // bien"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n207")])
+example_text = "`&peso` es `float *`. Para enlazarlo hace falta una daga del mismo tipo: `float *q`."
+example_followup = "Mismo concepto, otra pieza. Vuelve con la pieza de Ref: ¿por qué falla el enlace?"
+success_title = "¡ENLACE ESTABLE!"
+success_text = "Cambias a una Daga de Doubles y el enlace se estabiliza."
+concept_text = "El tipo del puntero debe coincidir con el de la variable: `double *p = &pieza;`."
+reward = SubResource("Resource_n204")
+
+[sub_resource type="Resource" id="Resource_n209"]
+script = ExtResource("1_cell")
+address = "0x0220"
+value = "12.5"
+label = "pieza de Ref (double)"
+
+[resource]
+script = ExtResource("5_mision")
+id = &"EJ-N2-06"
+oa_code = "OA1.3 / OA2.2"
+title = "Los Yunques Desiguales"
+objective = "→ Abre la pieza de Ref `0x0220`"
+giver_name = "Cast y Ref"
+cell_address = "0x0220"
+intro_dialogue = Array[String](["Ahora que cada uno tiene su fuerza, discutimos por otra cosa.", "Yo mido mis piezas en enteros. Mi hermano las mide en decimales: `double pieza = 12.5;`.", "Cuando intento enlazar mi daga de enteros a su pieza, el mundo me escupe un error rojo.", "Mi pieza está junto a la tuya, pero ocupa el doble. La placa lo dice, y tu daga lo sabe. Está en {addr:0x0220}, entre las dos forjas."])
+reminder_dialogue = Array[String](["La pieza de Ref está en `0x0220`, entre las forjas. Mira bien cuánto ocupa."])
+success_dialogue = Array[String](["¡Una daga de doubles! Ahora el enlace no tiembla.", "Ref y yo te forjamos algo con ella. Corta más que cualquier cosa del distrito."])
+done_dialogue = Array[String](["Daga de enteros para piezas enteras, daga de doubles para piezas dobles. Fácil, ¿no?"])
+exercise = SubResource("Resource_n208")
+reveals = Array[ExtResource("1_cell")]([SubResource("Resource_n209")])

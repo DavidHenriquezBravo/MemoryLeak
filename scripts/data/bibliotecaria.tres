@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="NpcData" format=3]
+
+[ext_resource type="Texture2D" path="res://Sprites/UI/Retratos/retrato_bibliotecaria_64x48.png" id="1_iw72l"]
+[ext_resource type="Script" path="res://scripts/data/npc_data.gd" id="2_hjlim"]
+
+[resource]
+script = ExtResource("2_hjlim")
+display_name = "La Bibliotecaria"
+portrait = ExtResource("1_iw72l")

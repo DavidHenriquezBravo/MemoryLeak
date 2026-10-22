@@ -9,6 +9,7 @@ extends Control
 @onready var label_suerte: Label = %LabelSuerte
 @onready var label_dano: Label = %LabelDano
 @onready var label_armadura: Label = %LabelArmadura
+@onready var label_nivel: Label = %LabelNivel
  
 var _previo: Dictionary = {}     # último valor mostrado, para detectar subidas
 var _tween_barra: Tween
@@ -34,6 +35,7 @@ func refrescar(animar: bool = true) -> void:
 	_mostrar(label_suerte, "suerte", "%d%%" % roundi(GameState.luck * 100.0), GameState.luck, animar)
 	_mostrar(label_dano, "dano", str(GameState.damage), GameState.damage, animar)
 	_mostrar(label_armadura, "armadura", "%d%%" % roundi(GameState.armor * 100.0), GameState.armor, animar)
+	_mostrar(label_nivel, "nivel", "NV %d" % GameState.nivel_jugador, GameState.nivel_jugador, animar)
  
  
 # Escribe el texto y, si el valor subió, destella el número en amarillo

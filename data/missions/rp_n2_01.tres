@@ -1,0 +1,89 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n201"]
+script = ExtResource("2_opt")
+text = "`0`, porque `abonar` recibió una copia"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n202"]
+script = ExtResource("2_opt")
+text = "`100`"
+wrong_feedback = "La caja sigue vacía: los 100 se sumaron a una hoja que se borró al salir."
+concept_on_error = "Con paso por valor la función modifica su copia, no el original."
+hint = "Fíjate qué recibe `abonar`: un número suelto, no la placa de la caja."
+
+[sub_resource type="Resource" id="Resource_n203"]
+script = ExtResource("2_opt")
+text = "Error de compilación"
+wrong_feedback = "El programa compila y corre. El problema es adónde llega el cambio."
+concept_on_error = "El código es válido; el original simplemente no cambia."
+hint = "Corre sin errores. Sigue los 100: ¿en qué casilla quedaron?"
+
+[sub_resource type="Resource" id="Resource_n204"]
+script = ExtResource("1_cell")
+address = "0x0170"
+value = "0"
+label = "caja"
+
+[sub_resource type="Resource" id="Resource_n205"]
+script = ExtResource("1_cell")
+address = "0x0FF0"
+value = "100"
+label = "saldo (copia)"
+
+[sub_resource type="Resource" id="Resource_n206"]
+script = ExtResource("1_cell")
+address = "0x0140"
+value = "0"
+label = "caja"
+
+[sub_resource type="Resource" id="Resource_n207"]
+script = ExtResource("1_cell")
+address = "0x0FF0"
+value = "10"
+label = "fondo (copia)"
+
+[sub_resource type="Resource" id="Resource_n208"]
+script = ExtResource("4_ex")
+title = "REPASO DEL ANCIANO"
+code = "void abonar(int saldo) {
+    saldo += 100;
+}
+int caja = 0;
+abonar(caja);
+printf(\"%d\", caja);"
+question = "¿Qué imprime `caja`?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n204"), SubResource("Resource_n205")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n201"), SubResource("Resource_n202"), SubResource("Resource_n203")])
+conceptual_hint = "La función trabaja con una copia de `caja`. Lo que cambie en ella se pierde al terminar."
+example_code = "void abonar(int fondo) {
+    fondo = fondo + 10;
+}
+int caja = 0;
+abonar(caja);   // imprime 0"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n206"), SubResource("Resource_n207")])
+example_text = "El caso de Sara: `fondo` era una copia, por eso `caja` siguió en 0."
+example_followup = "Es el mismo concepto del caso original. Vuelve al repaso."
+success_title = "¡REPASO SUPERADO!"
+success_text = "Lo que fallaste en el distrito ahora cuenta como acierto."
+concept_text = "Paso por valor: la función recibe una copia; el original no cambia."
+
+[resource]
+script = ExtResource("5_mision")
+id = &"RP-N2-01"
+oa_code = "OA3.1"
+title = "Repaso: Los Libros que no cuadran"
+objective = "→ Responde el repaso del Anciano"
+giver_name = "el Anciano"
+variante_de = &"EJ-N2-01"
+intro_dialogue = Array[String](["Antes de bajar, quiero estar seguro de algo.", "En el distrito fallaste algunas pruebas. Para enfrentar al jefe hay que acertar al menos 7 de cada 10 al primer intento.", "Repasemos lo de «Los Libros que no cuadran». Te pondré un caso parecido: respóndelo con calma."])
+reminder_dialogue = Array[String](["Sigamos con el repaso de «Los Libros que no cuadran»."])
+success_dialogue = Array[String](["Bien. Eso ya no te lo van a quitar."])
+done_dialogue = Array[String](["Ese caso ya lo dominas."])
+exercise = SubResource("Resource_n208")

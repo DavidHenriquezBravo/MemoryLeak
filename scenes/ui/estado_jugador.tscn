@@ -127,3 +127,13 @@ offset_right = 50.0
 offset_bottom = 70.0
 theme_override_fonts/font = ExtResource("8_rc7bo")
 text = "20%"
+
+[node name="LabelNivel" type="Label" parent="." unique_id=1739204815]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 19.0
+offset_top = 73.0
+offset_right = 51.0
+offset_bottom = 88.0
+theme_override_fonts/font = ExtResource("8_rc7bo")
+text = "NV 1"

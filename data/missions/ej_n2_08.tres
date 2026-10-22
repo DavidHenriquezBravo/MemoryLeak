@@ -1,0 +1,108 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://dtexwnh5ttvyk"]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n208"]
+script = ExtResource("1_cell")
+address = "0x0348"
+value = "0x0350"
+label = "a"
+points_to = "0x0350"
+
+[sub_resource type="Resource" id="Resource_n209"]
+script = ExtResource("1_cell")
+address = "0x0350"
+value = "'k'"
+label = "b"
+
+[sub_resource type="Resource" id="Resource_n205"]
+script = ExtResource("1_cell")
+address = "0x0330"
+value = "9"
+label = "x"
+
+[sub_resource type="Resource" id="Resource_n206"]
+script = ExtResource("1_cell")
+address = "0x0340"
+value = "0x0330"
+label = "p"
+points_to = "0x0330"
+
+[sub_resource type="Resource" id="Resource_n207"]
+script = ExtResource("1_cell")
+address = "0x0344"
+value = "???"
+label = "q"
+masked = true
+
+[sub_resource type="Resource" id="Resource_n201"]
+script = ExtResource("2_opt")
+text = "`int`: el asterisco solo afecta a `p`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n202"]
+script = ExtResource("2_opt")
+text = "`int *`, igual que `p`"
+wrong_feedback = "Ese es exactamente el malentendido de la Vidente: un asterisco, un espejo."
+concept_on_error = "En una declaración, el `*` se aplica solo al nombre que tiene al lado."
+hint = "Mira el frasco de al lado: no apunta a ninguna parte."
+
+[sub_resource type="Resource" id="Resource_n203"]
+script = ExtResource("2_opt")
+text = "Error de compilación"
+wrong_feedback = "El pedido se entregó sin problemas: la línea compila. Solo que no hizo lo que la Vidente creía."
+concept_on_error = "Declarar `int *p, q;` es válido: crea un puntero y un entero."
+hint = "El herrero sí pudo fabricar el pedido. ¿Qué fabricó, exactamente?"
+
+[sub_resource type="Resource" id="Resource_n204"]
+script = ExtResource("3_reward")
+stat = 1
+amount = 0.05
+
+[sub_resource type="Resource" id="Resource_n210"]
+script = ExtResource("4_ex")
+title = "CASILLA DE MEMORIA"
+code = "int x = 9;
+int *p, q;
+p = &x;"
+question = "En `int *p, q;`, ¿qué tipo tiene `q`?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n205"), SubResource("Resource_n206"), SubResource("Resource_n207")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n201"), SubResource("Resource_n202"), SubResource("Resource_n203")])
+conceptual_hint = "El asterisco se pega al nombre, no al tipo. Para dos punteros hay que escribirlo dos veces."
+example_code = "char *a, b;
+// a es char *
+// b es char"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n208"), SubResource("Resource_n209")])
+example_text = "En `char *a, b;` solo `a` es puntero. `b` es un `char` común, sin flecha."
+example_followup = "Mismo concepto, otro pedido. Vuelve a los frascos: ¿qué tipo tiene `q`?"
+success_title = "¡ESPEJO ENTENDIDO!"
+success_text = "El asterisco se pega al nombre, no al tipo. El pedido correcto era `int *p, *q;`."
+concept_text = "`int *p, q;` declara un puntero y un entero; dos punteros son `int *p, *q;`."
+reward = SubResource("Resource_n204")
+
+[sub_resource type="Resource" id="Resource_n211"]
+script = ExtResource("1_cell")
+address = "0x0340"
+value = "0x0330"
+label = "frasco enlazado (p)"
+
+[resource]
+script = ExtResource("5_mision")
+id = &"EJ-N2-08"
+oa_code = "OA2.1"
+title = "Los Dos Espejos"
+objective = "→ Abre el frasco enlazado (`0x0340` o `0x0344`)"
+requires_all = Array[StringName]([&"EJ-N2-01", &"EJ-N2-02", &"EJ-N2-03", &"EJ-N2-04", &"EJ-N2-05", &"EJ-N2-06", &"EJ-N2-07"])
+giver_name = "la Vidente"
+cell_address = "0x0340"
+intro_dialogue = Array[String](["Ahora que el distrito te conoce, puedo pedirte esto.", "Encargué dos espejos videntes y me entregaron solo uno funcional. El pedido decía `int *p, q;`.", "Escribí el asterisco una sola vez, al principio… ¿no bastaba para ambos?", "Los dos frascos de la receta están en casillas contiguas, junto a los rieles. Solo uno quedó enlazado: encuéntralo."])
+reminder_dialogue = Array[String](["Los frascos están junto a los rieles, en casillas contiguas. Solo uno refleja algo."])
+success_dialogue = Array[String](["Un asterisco, un espejo. Ahora entiendo por qué el segundo nunca reflejó nada.", "Toma mi armadura de cristal. Abajo, en la oscuridad, te hará falta.", "El Anciano te busca. Dice que ya sabe dónde se esconde el que roba las placas."])
+done_dialogue = Array[String](["Ya pedí el espejo nuevo: `int *p, *q;`. Esta vez, con dos asteriscos."])
+locked_dialogue = Array[String](["Los espejos me hablan de ti, pero todavía no es tu momento.", "Ayuda primero a Sara, al Notario y a los gemelos. Cuando el distrito entero te conozca, vuelve."])
+exercise = SubResource("Resource_n210")
+reveals = Array[ExtResource("1_cell")]([SubResource("Resource_n211")])

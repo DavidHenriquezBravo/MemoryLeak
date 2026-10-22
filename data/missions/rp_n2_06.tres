@@ -1,0 +1,70 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n201"]
+script = ExtResource("2_opt")
+text = "No se puede aplicar `&` a un `float`"
+wrong_feedback = "Sí se puede tomar la dirección de un `float`. El problema es la daga que la recibe."
+concept_on_error = "`&` funciona con cualquier variable."
+hint = "La placa existe. ¿Calza con el tipo de `p`?"
+
+[sub_resource type="Resource" id="Resource_n202"]
+script = ExtResource("2_opt")
+text = "`&peso` es `float *` y `p` es `int *`: los tipos no coinciden"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n203"]
+script = ExtResource("2_opt")
+text = "Falta inicializar `p`"
+wrong_feedback = "`p` se inicializa en esa misma línea; el error es de tipos."
+concept_on_error = "El valor que recibe `p` no calza con su tipo."
+hint = "`p` sí recibe algo. ¿Es del tipo correcto?"
+
+[sub_resource type="Resource" id="Resource_n204"]
+script = ExtResource("1_cell")
+address = "0x0228"
+value = "4.5"
+label = "peso (float)"
+
+[sub_resource type="Resource" id="Resource_n205"]
+script = ExtResource("1_cell")
+address = "0x0220"
+value = "12.5"
+label = "pieza (double)"
+
+[sub_resource type="Resource" id="Resource_n206"]
+script = ExtResource("4_ex")
+title = "REPASO DEL ANCIANO"
+code = "float peso = 4.5;
+int *p = &peso;"
+question = "¿Por qué falla?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n204")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n201"), SubResource("Resource_n202"), SubResource("Resource_n203")])
+conceptual_hint = "Un puntero sabe qué tipo de casilla apunta. `int *` no sirve para un `float`."
+example_code = "double pieza = 12.5;
+double *p = &pieza;   // bien"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n205")])
+example_text = "Los yunques de los gemelos: para una pieza `double` hace falta un `double *`."
+example_followup = "Es el mismo concepto del caso original. Vuelve al repaso."
+success_title = "¡REPASO SUPERADO!"
+success_text = "Lo que fallaste en el distrito ahora cuenta como acierto."
+concept_text = "El tipo del puntero debe coincidir con el de la variable."
+
+[resource]
+script = ExtResource("5_mision")
+id = &"RP-N2-06"
+oa_code = "OA1.3 / OA2.2"
+title = "Repaso: Los Yunques Desiguales"
+objective = "→ Responde el repaso del Anciano"
+giver_name = "el Anciano"
+variante_de = &"EJ-N2-06"
+intro_dialogue = Array[String](["Antes de bajar, quiero estar seguro de algo.", "En el distrito fallaste algunas pruebas. Para enfrentar al jefe hay que acertar al menos 7 de cada 10 al primer intento.", "Repasemos lo de «Los Yunques Desiguales». Te pondré un caso parecido: respóndelo con calma."])
+reminder_dialogue = Array[String](["Sigamos con el repaso de «Los Yunques Desiguales»."])
+success_dialogue = Array[String](["Bien. Eso ya no te lo van a quitar."])
+done_dialogue = Array[String](["Ese caso ya lo dominas."])
+exercise = SubResource("Resource_n206")

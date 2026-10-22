@@ -1,0 +1,100 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n201"]
+script = ExtResource("2_opt")
+text = "`12`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n202"]
+script = ExtResource("2_opt")
+text = "`3`"
+wrong_feedback = "`r` no guardó una copia del oro: mira la misma casilla que `s` acaba de cambiar."
+concept_on_error = "Dos punteros con la misma dirección ven el mismo cambio (aliasing)."
+hint = "Compara las placas de `r` y `s`."
+
+[sub_resource type="Resource" id="Resource_n203"]
+script = ExtResource("2_opt")
+text = "Indefinido"
+wrong_feedback = "Todo está inicializado: `r` apunta a `oro`, que tiene un valor conocido."
+concept_on_error = "`*r` lee la casilla de `oro`, que ahora vale 12."
+hint = "`r` sí apunta a algo válido. ¿Qué hay ahí ahora?"
+
+[sub_resource type="Resource" id="Resource_n204"]
+script = ExtResource("1_cell")
+address = "0x0168"
+value = "3"
+label = "oro"
+
+[sub_resource type="Resource" id="Resource_n205"]
+script = ExtResource("1_cell")
+address = "0x0FF0"
+value = "0x0168"
+label = "r"
+points_to = "0x0168"
+
+[sub_resource type="Resource" id="Resource_n206"]
+script = ExtResource("1_cell")
+address = "0x0FF8"
+value = "0x0168"
+label = "s"
+points_to = "0x0168"
+
+[sub_resource type="Resource" id="Resource_n207"]
+script = ExtResource("1_cell")
+address = "0x0160"
+value = "20"
+label = "mana"
+
+[sub_resource type="Resource" id="Resource_n208"]
+script = ExtResource("1_cell")
+address = "0x0150"
+value = "0x0160"
+label = "p"
+points_to = "0x0160"
+
+[sub_resource type="Resource" id="Resource_n209"]
+script = ExtResource("1_cell")
+address = "0x0158"
+value = "0x0160"
+label = "q"
+points_to = "0x0160"
+
+[sub_resource type="Resource" id="Resource_n210"]
+script = ExtResource("4_ex")
+title = "REPASO DEL ANCIANO"
+code = "int oro = 3;
+int *r = &oro, *s = &oro;
+*s = 12;"
+question = "¿Cuánto vale `*r`?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n204"), SubResource("Resource_n205"), SubResource("Resource_n206")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n201"), SubResource("Resource_n202"), SubResource("Resource_n203")])
+conceptual_hint = "`r` y `s` guardan la misma placa. Lo que escribe uno lo lee el otro."
+example_code = "int mana = 5;
+int *p = &mana, *q = &mana;
+*p = 20;   // *q vale 20"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n207"), SubResource("Resource_n208"), SubResource("Resource_n209")])
+example_text = "Los libros de Sara: dos placas, un solo cofre."
+example_followup = "Es el mismo concepto del caso original. Vuelve al repaso."
+success_title = "¡REPASO SUPERADO!"
+success_text = "Lo que fallaste en el distrito ahora cuenta como acierto."
+concept_text = "Aliasing: dos punteros a la misma casilla ven el mismo dato."
+
+[resource]
+script = ExtResource("5_mision")
+id = &"RP-N2-05"
+oa_code = "OA3.3"
+title = "Repaso: Los Dos Libros de Sara"
+objective = "→ Responde el repaso del Anciano"
+giver_name = "el Anciano"
+variante_de = &"EJ-N2-05"
+intro_dialogue = Array[String](["Antes de bajar, quiero estar seguro de algo.", "En el distrito fallaste algunas pruebas. Para enfrentar al jefe hay que acertar al menos 7 de cada 10 al primer intento.", "Repasemos lo de «Los Dos Libros de Sara». Te pondré un caso parecido: respóndelo con calma."])
+reminder_dialogue = Array[String](["Sigamos con el repaso de «Los Dos Libros de Sara»."])
+success_dialogue = Array[String](["Bien. Eso ya no te lo van a quitar."])
+done_dialogue = Array[String](["Ese caso ya lo dominas."])
+exercise = SubResource("Resource_n210")

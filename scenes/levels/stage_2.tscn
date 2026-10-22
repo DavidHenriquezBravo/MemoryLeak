@@ -1,22 +1,36 @@
-[gd_scene format=4 uid="uid://jbu2erxtgv3j"]
+[gd_scene format=4]
 
-[ext_resource type="FontFile" uid="uid://cwd5rqrucvgov" path="res://Fuentes/upheavtt.ttf" id="1_fuente"]
-[ext_resource type="Texture2D" uid="uid://cgy2rpwb5vs5o" path="res://Sprites/Mundo/Tiles stage 2 v2.png" id="2_xlgms"]
-[ext_resource type="Texture2D" uid="uid://dp1gd7cfewtm1" path="res://Sprites/Mundo/Distrito_minero_objetos.png" id="3_m0txs"]
-[ext_resource type="PackedScene" uid="uid://b1ny2grkxsprv" path="res://scenes/actors/player.tscn" id="3_vqv2h"]
-[ext_resource type="PackedScene" uid="uid://cv6la82ujg5g5" path="res://scenes/ui/estado_jugador.tscn" id="4_luimt"]
-[ext_resource type="Texture2D" uid="uid://ceoks4rs8j8hn" path="res://Sprites/Mundo/Biblioteca_geoda.png" id="4_n42gr"]
-[ext_resource type="Texture2D" uid="uid://chv5k5p6mvatr" path="res://Sprites/Mundo/Casa_minera_madera.png" id="5_hvpfn"]
-[ext_resource type="Texture2D" uid="uid://daq54hyk35jfc" path="res://Sprites/Mundo/Casa_minera_pizarra.png" id="6_7yafj"]
-[ext_resource type="Texture2D" uid="uid://bspni00h5487x" path="res://Sprites/Mundo/Registro_del_distrito.png" id="7_5heoy"]
-[ext_resource type="Texture2D" uid="uid://c4mvcq1e0id0p" path="res://Sprites/Mundo/Forja_roja_Cast.png" id="8_hvpfn"]
-[ext_resource type="Texture2D" uid="uid://cdmmu6e3lyb6w" path="res://Sprites/Mundo/Forja_azul_Ref.png" id="9_7yafj"]
-[ext_resource type="Texture2D" uid="uid://dpscqpdgaecyf" path="res://Sprites/Mundo/Casa_derrumbada.png" id="10_7yafj"]
-[ext_resource type="Texture2D" uid="uid://btgmgvi2ag80u" path="res://Sprites/Mundo/Memoria_perdida-Sheet.png" id="13_5heoy"]
-[ext_resource type="Script" uid="uid://joxdwdb658t3" path="res://scripts/punto_llegada.gd" id="14_nmi2r"]
-[ext_resource type="AudioStream" uid="uid://fpxroa2od4cc" path="res://Musica/Musica Stage 2.ogg" id="15_ilipr"]
-[ext_resource type="PackedScene" uid="uid://c18fqn7wd6omt" path="res://scenes/actors/anciano.tscn" id="17_i05p7"]
-[ext_resource type="Script" uid="uid://dsbbxadbtylxf" path="res://scripts/puerta_escena.gd" id="90_puerta"]
+[ext_resource type="FontFile" path="res://Fuentes/upheavtt.ttf" id="1_fuente"]
+[ext_resource type="Texture2D" path="res://Sprites/Mundo/Tiles stage 2 v2.png" id="2_xlgms"]
+[ext_resource type="Texture2D" path="res://Sprites/Mundo/Distrito_minero_objetos.png" id="3_m0txs"]
+[ext_resource type="PackedScene" path="res://scenes/actors/player.tscn" id="3_vqv2h"]
+[ext_resource type="PackedScene" path="res://scenes/ui/estado_jugador.tscn" id="4_luimt"]
+[ext_resource type="Texture2D" path="res://Sprites/Mundo/Biblioteca_geoda.png" id="4_n42gr"]
+[ext_resource type="Texture2D" path="res://Sprites/Mundo/Casa_minera_madera.png" id="5_hvpfn"]
+[ext_resource type="Texture2D" path="res://Sprites/Mundo/Casa_minera_pizarra.png" id="6_7yafj"]
+[ext_resource type="Texture2D" path="res://Sprites/Mundo/Registro_del_distrito.png" id="7_5heoy"]
+[ext_resource type="Texture2D" path="res://Sprites/Mundo/Forja_roja_Cast.png" id="8_hvpfn"]
+[ext_resource type="Texture2D" path="res://Sprites/Mundo/Forja_azul_Ref.png" id="9_7yafj"]
+[ext_resource type="Texture2D" path="res://Sprites/Mundo/Casa_derrumbada.png" id="10_7yafj"]
+[ext_resource type="Texture2D" path="res://Sprites/Mundo/Memoria_perdida-Sheet.png" id="13_5heoy"]
+[ext_resource type="Script" path="res://scripts/punto_llegada.gd" id="14_nmi2r"]
+[ext_resource type="AudioStream" path="res://Musica/Musica Stage 2.ogg" id="15_ilipr"]
+[ext_resource type="PackedScene" path="res://scenes/actors/anciano.tscn" id="17_i05p7"]
+[ext_resource type="PackedScene" path="res://scenes/actors/cast.tscn" id="18_klg0h"]
+[ext_resource type="PackedScene" path="res://scenes/actors/ref.tscn" id="19_i6eah"]
+[ext_resource type="PackedScene" path="res://scenes/actors/notario.tscn" id="20_8rrdd"]
+[ext_resource type="PackedScene" path="res://scenes/actors/vidente.tscn" id="21_bx0mg"]
+[ext_resource type="Script" path="res://scripts/puerta_escena.gd" id="90_puerta"]
+[ext_resource type="Script" path="res://scripts/data/mission_data.gd" id="n2_mision_script"]
+[ext_resource type="PackedScene" path="res://scenes/world/casilla_ram.tscn" id="n2_casilla"]
+[ext_resource type="Resource" path="res://data/missions/ej_n2_02.tres" id="n2_ej_n2_02"]
+[ext_resource type="Resource" path="res://data/missions/ej_n2_03.tres" id="n2_ej_n2_03"]
+[ext_resource type="Resource" path="res://data/missions/ej_n2_04.tres" id="n2_ej_n2_04"]
+[ext_resource type="Resource" path="res://data/missions/ej_n2_06.tres" id="n2_ej_n2_06"]
+[ext_resource type="Resource" path="res://data/missions/ej_n2_07.tres" id="n2_ej_n2_07"]
+[ext_resource type="Resource" path="res://data/missions/ej_n2_08.tres" id="n2_ej_n2_08"]
+[ext_resource type="Resource" path="res://data/missions/ej_n2_09.tres" id="n2_ej_n2_09"]
+[ext_resource type="Script" path="res://scripts/memoria_perdida.gd" id="mem_script"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vqv2h"]
 texture = ExtResource("2_xlgms")
@@ -1493,9 +1507,9 @@ offset_right = 500.0
 offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.239, 0.894, 0.867, 1)
 theme_override_fonts/font = ExtResource("1_fuente")
 theme_override_font_sizes/font_size = 44
+theme_override_colors/font_color = Color(0.239, 0.894, 0.867, 1)
 text = "NIVEL 2 — EL DISTRITO DE LAS FUNCIONES"
 horizontal_alignment = 1
 
@@ -1511,9 +1525,9 @@ offset_right = 500.0
 offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
 theme_override_fonts/font = ExtResource("1_fuente")
 theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
 text = "* ESCENA PROVISORIA: REEMPLAZAR POR EL STAGE 2 REAL."
 horizontal_alignment = 1
 
@@ -1528,6 +1542,42 @@ tile_set = SubResource("TileSet_p22yc")
 [node name="Detalles" type="TileMapLayer" parent="." unique_id=1616846814]
 tile_map_data = PackedByteArray("AAD1//7/AAAWAAAAAAD1////AAAWAAEAAAD2//7/AAAXAAAAAAD2////AAAXAAEAAAD7//7/AAAWAAAAAAD7////AAAWAAEAAAD8//7/AAAXAAAAAAD8////AAAXAAEAAADz/wEAAAAUAAIAAADz/wIAAAAUAAMAAAD0/wEAAAAVAAIAAAD0/wIAAAAVAAMAAADh/wMAAAAaAAAAAADh/wQAAAAaAAEAAADi/wMAAAAbAAAAAADi/wQAAAAbAAEAAADh////AAAaAAAAAADh/wAAAAAaAAEAAADi////AAAbAAAAAADi/wAAAAAbAAEAAADp////AAAaAAAAAADp/wAAAAAaAAEAAADq////AAAbAAAAAADq/wAAAAAbAAEAAADp/wMAAAAaAAAAAADp/wQAAAAaAAEAAADq/wMAAAAbAAAAAADq/wQAAAAbAAEAAADx////AAAaAAAAAADx/wAAAAAaAAEAAADy////AAAbAAAAAADy/wAAAAAbAAEAAADx/wMAAAAaAAAAAADx/wQAAAAaAAEAAADy/wMAAAAbAAAAAADy/wQAAAAbAAEAAADx//n/AAAOAAAAAADx//r/AAAOAAEAAADy//n/AAAPAAAAAADy//r/AAAPAAEAAADx//X/AAAOAAAAAADx//b/AAAOAAEAAADy//X/AAAPAAAAAADy//b/AAAPAAEAAADx//H/AAAOAAAAAADx//L/AAAOAAEAAADy//H/AAAPAAAAAADy//L/AAAPAAEAAAD1/+//AAAOAAAAAAD1//D/AAAOAAEAAAD2/+//AAAPAAAAAAD2//D/AAAPAAEAAAD4//L/AAAOAAAAAAD4//P/AAAOAAEAAAD5//L/AAAPAAAAAAD5//P/AAAPAAEAAAD1//b/AAAOAAAAAAD1//f/AAAOAAEAAAD2//b/AAAPAAAAAAD2//f/AAAPAAEAAAD1//L/AAAOAAAAAAD1//P/AAAOAAEAAAD2//L/AAAPAAAAAAD2//P/AAAPAAEAAAD7/+7/AAAOAAAAAAD7/+//AAAOAAEAAAD8/+7/AAAPAAAAAAD8/+//AAAPAAEAAAD9//L/AAAOAAAAAAD9//P/AAAOAAEAAAD+//L/AAAPAAAAAAD+//P/AAAPAAEAAAD7//b/AAAOAAAAAAD7//f/AAAOAAEAAAD8//b/AAAPAAAAAAD8//f/AAAPAAEAAAD+//n/AAAOAAAAAAD+//r/AAAOAAEAAAD///n/AAAPAAAAAAD///r/AAAPAAEAAAAAAO3/AAAaAAIAAAAAAO7/AAAaAAMAAAABAO3/AAAbAAIAAAABAO7/AAAbAAMAAAAIAOr/AAAYAAIAAAAIAOv/AAAYAAMAAAAJAOr/AAAZAAIAAAAJAOv/AAAZAAMAAAAOAOr/AAAYAAIAAAAOAOv/AAAYAAMAAAAPAOr/AAAZAAIAAAAPAOv/AAAZAAMAAAASAOv/AAAOAAIAAAASAOz/AAAOAAMAAAATAOv/AAAPAAIAAAATAOz/AAAPAAMAAAAUAPv/AAAWAAAAAAAUAPz/AAAWAAEAAAAVAPv/AAAXAAAAAAAVAPz/AAAXAAEAAAAUAP//AAAWAAAAAAAUAAAAAAAWAAEAAAAVAP//AAAXAAAAAAAVAAAAAAAXAAEAAAAZAPD/AAAWAAAAAAAZAPH/AAAWAAEAAAAaAPD/AAAXAAAAAAAaAPH/AAAXAAEAAAAZAOz/AAAWAAAAAAAZAO3/AAAWAAEAAAAaAOz/AAAXAAAAAAAaAO3/AAAXAAEAAAADAP7/AAAOAAAAAAADAP//AAAOAAEAAAAEAP7/AAAPAAAAAAAEAP//AAAPAAEAAAAFAAAAAAAQAAAAAAAFAAEAAAAQAAEAAAAGAAAAAAARAAAAAAAGAAEAAAARAAEAAAAHAPz/AAAQAAAAAAAHAP3/AAAQAAEAAAAIAPz/AAARAAAAAAAIAP3/AAARAAEAAAAHAAAAAAAOAAAAAAAHAAEAAAAOAAEAAAAIAAAAAAAPAAAAAAAIAAEAAAAPAAEAAAAJAAIAAAAQAAAAAAAJAAMAAAAQAAEAAAAKAAIAAAARAAAAAAAKAAMAAAARAAEAAAADAAIAAAAOAAAAAAADAAMAAAAOAAEAAAAEAAIAAAAPAAAAAAAEAAMAAAAPAAEAAAANAP3/AAAWAAIAAAANAP7/AAAWAAMAAAAOAP3/AAAXAAIAAAAOAP7/AAAXAAMAAAAYAP7/AAAYAAIAAAAYAP//AAAYAAMAAAAZAP7/AAAZAAIAAAAZAP//AAAZAAMAAAAaAPv/AAAaAAIAAAAaAPz/AAAaAAMAAAAbAPv/AAAbAAIAAAAbAPz/AAAbAAMAAAAcAOj/AAAEAAAAAAAcAOn/AAALAAEA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AAD//wcAAAAaAAEAAAAAAAYAAAAbAAAAAAAAAAcAAAAbAAEAAAAKAPP/AAAaAAAAAAAKAPT/AAAaAAEAAAALAPP/AAAbAAAAAAALAPT/AAAbAAEAAAAOAPP/AAAaAAAAAAAOAPT/AAAaAAEAAAAPAPP/AAAbAAAAAAAPAPT/AAAbAAEAAAAQAOz/AAAaAAAAAAAQAO3/AAAaAAEAAAARAOz/AAAbAAAAAAARAO3/AAAbAAEAAAAQAO//AAAaAAAAAAAQAPD/AAAaAAEAAAARAO//AAAbAAAAAAARAPD/AAAbAAEAAAAdAAMAAAAWAAAAAAAdAAQAAAAWAAEAAAAeAAMAAAAXAAAAAAAeAAQAAAAXAAEAAAAhABEAAAAWAAAAAAAhABIAAAAWAAEAAAAiABEAAAAXAAAAAAAiABIAAAAXAAEAAADu/wwAAAAWAAAAAADu/w0AAAAWAAEAAADv/wwAAAAXAAAAAADv/w0AAAAXAAEAAAD0/wwAAAAWAAAAAAD0/w0AAAAWAAEAAAD1/wwAAAAXAAAAAAD1/w0AAAAXAAEAAAASAAAAAAAcAAAAAAASAAEAAAAcAAEAAAATAAAAAAAdAAAAAAATAAEAAAAdAAEAAAAQAPn/AAAcAAAAAAAQAPr/AAAcAAEAAAARAPn/AAAdAAAAAAARAPr/AAAdAAEAAAAeAPz/AAAeAAAAAAAeAP3/AAAeAAEAAAAfAPz/AAAfAAAAAAAfAP3/AAAfAAEAAAAfAPn/AAAeAAAAAAAfAPr/AAAeAAEAAAAgAPn/AAAfAAAAAAAgAPr/AAAfAAEAAAAhAP//AAAeAAAAAAAhAAAAAAAeAAEAAAAiAP//AAAfAAAAAAAiAAAAAAAfAAEAAAAjAPv/AAACAAEAAAA=")
 tile_set = SubResource("TileSet_nf42h")
+
+[node name="Casilla 0x0140" parent="." instance=ExtResource("n2_casilla")]
+position = Vector2(-29, -8)
+address = "0x0140"
+
+[node name="Casilla 0x0200" parent="." instance=ExtResource("n2_casilla")]
+position = Vector2(260, -60)
+address = "0x0200"
+
+[node name="Casilla 0x0208" parent="." instance=ExtResource("n2_casilla")]
+position = Vector2(476, -60)
+address = "0x0208"
+
+[node name="Casilla 0x0220" parent="." instance=ExtResource("n2_casilla")]
+position = Vector2(368, -4)
+address = "0x0220"
+
+[node name="Casilla 0x0300" parent="." instance=ExtResource("n2_casilla")]
+position = Vector2(-130, 215)
+address = "0x0300"
+
+[node name="Casilla 0x0310" parent="." instance=ExtResource("n2_casilla")]
+position = Vector2(-185, 280)
+address = "0x0310"
+
+[node name="Casilla 0x0330" parent="." instance=ExtResource("n2_casilla")]
+position = Vector2(65, 215)
+address = "0x0330"
+
+[node name="Casilla 0x0340" parent="." instance=ExtResource("n2_casilla")]
+position = Vector2(-24, 170)
+address = "0x0340"
+
+[node name="Casilla 0x0344" parent="." instance=ExtResource("n2_casilla")]
+position = Vector2(12, 170)
+address = "0x0344"
 
 [node name="Player2" parent="." unique_id=376763523 instance=ExtResource("3_vqv2h")]
 position = Vector2(-497, 29)
@@ -1559,24 +1609,32 @@ grow_vertical = 1
 mouse_filter = 0
 
 [node name="Memoria" type="AnimatedSprite2D" parent="." unique_id=1489523801]
+script = ExtResource("mem_script")
+id = &"M1"
 position = Vector2(-141, -13)
 sprite_frames = SubResource("SpriteFrames_qnkqk")
 autoplay = "default"
 frame_progress = 0.397359
 
 [node name="Memoria2" type="AnimatedSprite2D" parent="." unique_id=1390015001]
+script = ExtResource("mem_script")
+id = &"M4"
 position = Vector2(149, 278)
 sprite_frames = SubResource("SpriteFrames_qnkqk")
 autoplay = "default"
 frame_progress = 0.21555245
 
 [node name="Memoria3" type="AnimatedSprite2D" parent="." unique_id=1244210792]
+script = ExtResource("mem_script")
+id = &"M5"
 position = Vector2(489, 289)
 sprite_frames = SubResource("SpriteFrames_qnkqk")
 autoplay = "default"
 frame_progress = 0.49125335
 
 [node name="Memoria4" type="AnimatedSprite2D" parent="." unique_id=984582281]
+script = ExtResource("mem_script")
+id = &"M2"
 position = Vector2(-293, 311)
 sprite_frames = SubResource("SpriteFrames_qnkqk")
 autoplay = "default"
@@ -1606,4 +1664,29 @@ shape = SubResource("RectangleShape2D_puerta_biblio")
 position = Vector2(-112, 10)
 
 [node name="Anciano" parent="." unique_id=1446284665 instance=ExtResource("17_i05p7")]
+missions = Array[ExtResource("n2_mision_script")]([ExtResource("n2_ej_n2_09")])
 position = Vector2(444, -241)
+
+[node name="Cast" parent="." unique_id=745460736 instance=ExtResource("18_klg0h")]
+missions = Array[ExtResource("n2_mision_script")]([ExtResource("n2_ej_n2_03"), ExtResource("n2_ej_n2_06")])
+position = Vector2(300, -58)
+
+[node name="Ref" parent="." unique_id=166648607 instance=ExtResource("19_i6eah")]
+missions = Array[ExtResource("n2_mision_script")]([ExtResource("n2_ej_n2_03"), ExtResource("n2_ej_n2_06")])
+position = Vector2(446, -50)
+
+[node name="Notario" parent="." unique_id=1073721876 instance=ExtResource("20_8rrdd")]
+missions = Array[ExtResource("n2_mision_script")]([ExtResource("n2_ej_n2_02"), ExtResource("n2_ej_n2_04")])
+position = Vector2(-198, 238)
+
+[node name="Vidente" parent="." unique_id=553864671 instance=ExtResource("21_bx0mg")]
+missions = Array[ExtResource("n2_mision_script")]([ExtResource("n2_ej_n2_07"), ExtResource("n2_ej_n2_08")])
+position = Vector2(150, 206)
+
+[node name="Memoria5" type="AnimatedSprite2D" parent="."]
+position = Vector2(-100, 300)
+sprite_frames = SubResource("SpriteFrames_qnkqk")
+autoplay = "default"
+script = ExtResource("mem_script")
+id = &"M3"
+

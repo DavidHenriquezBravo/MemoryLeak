@@ -20,8 +20,20 @@ var accion_actual: Accion = Accion.ATACAR
 @export_range(0.2, 2.0, 0.05) var velocidad_bytes := 1.0
 
 @export_group("Jefe")
+## Nivel del jefe: 1 = The Memory Leak, 2 = The Dangling Pointer. Decide el nombre (GameState.NOMBRES_JEFE),
+## qué misiones cuentan para endurecerlo y qué jefe queda derrotado al ganar.
+@export_range(1, 3) var nivel := 1
 ## Banco de preguntas del jefe (ver data/jefes/banco_jefe_1.gd).
 @export_file("*.gd") var banco_preguntas: String = "res://data/jefes/banco_jefe_1.gd"
+## Segundos para responder cada pregunta (informe: 15 el jefe 1, 12 el jefe 2, 10 el jefe 3).
+@export var segundos_pregunta := 15.0
+@export var vida_jefe := 100
+## Multiplica el daño que hace el jefe (el jugador del nivel 2 llega con más vida y armadura).
+@export_range(0.5, 3.0, 0.05) var multiplicador_danio := 1.0
+## Frase de los turnos tranquilos (la primera vez y entre provocaciones).
+@export var frase_espera := "* THE MEMORY LEAK GOTEA BYTES SOBRE EL SUELO."
+## Tercera línea del cartel de victoria.
+@export var frase_victoria := "Recuperaste el control de la memoria."
 ## Probabilidad por turno de que el jefe anuncie un ataque (ese turno solo se puede defender).
 @export_range(0.0, 1.0, 0.05) var prob_ataque := 0.3
 ## Probabilidad por turno de que el jefe te robe vida o una estadística.
@@ -109,6 +121,7 @@ var armadura: float = 0.20 # 20% de mitigación
 var suerte: float = 0.15   # probabilidad de golpe crítico
 var boss_max_hp: int = 100
 var boss_hp: int = 100
+var nombre := "THE MEMORY LEAK"   # nombre del jefe en mayúsculas, para los textos
 
 # --- Turno del Jefe ---
 var turno := 0
@@ -147,6 +160,10 @@ var provocaciones := {}    # frases del jefe por acción
 var pregunta_actual: Dictionary = {}
 
 func _ready() -> void:
+	nombre = String(GameState.NOMBRES_JEFE.get(nivel, nombre)).to_upper()
+	nombre_jefe.text = nombre
+	boss_max_hp = vida_jefe
+	boss_hp = vida_jefe
 	_cargar_stats()
 	_cargar_banco()
 	player_hp_bar.max_value = player_max_hp
@@ -280,7 +297,7 @@ func cambiar_estado(nuevo_estado: Estado) -> void:
 					_estilo_fase("RECUPERAR", COLOR_BIEN, COLOR_BIEN)
 			_cargar_pregunta(_siguiente_pregunta(accion_actual))
 
-			_iniciar_timer(15.0)
+			_iniciar_timer(segundos_pregunta)
 			_empezar_respuesta()
 
 		Estado.RESULTADO:
@@ -314,8 +331,8 @@ func _decidir_intencion_jefe() -> void:
 		Intencion.ATAQUE:
 			# Este turno solo se puede defender: ATACAR y RECUPERAR quedan bloqueados
 			acciones_bloqueadas = [0, 2]
-			texto_superior.text = "* ! THE MEMORY LEAK PREPARA UN ATAQUE DEVASTADOR !"
-			if GameState.misiones_completadas() == 0:
+			texto_superior.text = "* ! %s PREPARA UN ATAQUE DEVASTADOR !" % nombre
+			if GameState.misiones_completadas(nivel) == 0:
 				texto_inferior.text = "* ! NO ESTÁS PREPARADO: UN ERROR AL DEFENDERTE ES FATAL !"
 			else:
 				texto_inferior.text = "* ! SOLO PUEDES DEFENDERTE !"
@@ -335,11 +352,12 @@ const DANIO_LETAL := 9999
 const ATAQUE_SIN_MISIONES_PROB := 0.7      # sin misiones el jefe ataca más seguido
 
 func _prob_ataque_actual() -> float:
-	return ATAQUE_SIN_MISIONES_PROB if GameState.misiones_completadas() == 0 else prob_ataque
+	return ATAQUE_SIN_MISIONES_PROB if GameState.misiones_completadas(nivel) == 0 else prob_ataque
 
 ## `completo` es el daño que hace con todas las misiones hechas (45 al fallar, 40 por tiempo).
 func _danio_ataque_devastador(completo: int) -> int:
-	var hechas := GameState.misiones_completadas()
+	completo = roundi(completo * multiplicador_danio)
+	var hechas := GameState.misiones_completadas(nivel)
 	if hechas == 0:
 		return DANIO_LETAL
 	if hechas >= 7:
@@ -359,16 +377,16 @@ func _texto_turno_tranquilo() -> void:
 		texto_superior.text = "* EL JEFE SIGUE BLOQUEANDO EL PUNTERO A TU VIDA."
 		texto_inferior.text = "* USA RECUPERAR PARA VOLVER A VERLA."
 	else:
-		var frases: Array = ["* THE MEMORY LEAK GOTEA BYTES SOBRE EL SUELO."]
+		var frases: Array = [frase_espera]
 		for p in provocaciones.values():
 			frases.append("* \"%s\"" % p)
 		texto_superior.text = frases.pick_random() if turno > 1 else frases[0]
 		texto_inferior.text = "* ELIGE: ATACAR, DEFENDER O RECUPERAR."
 		if turno <= 1:
-			if GameState.listo_para_jefe():
+			if GameState.listo_para_jefe(nivel):
 				texto_superior.text = "* LA BENDICIÓN DEL ANCIANO TE ACOMPAÑA."
-			elif GameState.misiones_completadas() == 0:
-				texto_superior.text = "* THE MEMORY LEAK HUELE TU MEMORIA VACÍA. NO ESTÁS PREPARADO."
+			elif GameState.misiones_completadas(nivel) == 0:
+				texto_superior.text = "* %s HUELE TU MEMORIA VACÍA. NO ESTÁS PREPARADO." % nombre
 
 # --- Robo de memoria ---
 func _robos_disponibles() -> Array:
@@ -393,14 +411,14 @@ func _robar(tipo: String) -> Dictionary:
 			robos["vida"] = cantidad
 			_guardar_hp()
 			_parpadear(player_hp_label)
-			r = {"aviso": "* THE MEMORY LEAK TE ROBÓ %d DE VIDA Y SE CURÓ." % cantidad,
+			r = {"aviso": "* %s TE ROBÓ %d DE VIDA Y SE CURÓ." % [nombre, cantidad],
 				"detalle": "* ADEMÁS ESCONDIÓ TU VIDA. USA RECUPERAR PARA VERLA.",
 				"corto": "%d DE VIDA" % cantidad}
 		"danio":
 			danio_base -= ROBO_DANIO
 			robos["danio"] = ROBO_DANIO
 			_parpadear(danio_label)
-			r = {"aviso": "* THE MEMORY LEAK TE ROBÓ %d DE DAÑO." % ROBO_DANIO,
+			r = {"aviso": "* %s TE ROBÓ %d DE DAÑO." % [nombre, ROBO_DANIO],
 				"detalle": "* LO ESCONDIÓ EN UNA DIRECCIÓN CORRUPTA. USA RECUPERAR.",
 				"corto": "%d DE DAÑO" % ROBO_DANIO}
 		"armadura":
@@ -408,7 +426,7 @@ func _robar(tipo: String) -> Dictionary:
 			armadura -= cantidad
 			robos["armadura"] = cantidad
 			_parpadear(armadura_label)
-			r = {"aviso": "* THE MEMORY LEAK TE ROBÓ %d%% DE ARMADURA." % roundi(cantidad * 100.0),
+			r = {"aviso": "* %s TE ROBÓ %d%% DE ARMADURA." % [nombre, roundi(cantidad * 100.0)],
 				"detalle": "* LA ESCONDIÓ EN UNA DIRECCIÓN CORRUPTA. USA RECUPERAR.",
 				"corto": "%d%% DE ARMADURA" % roundi(cantidad * 100.0)}
 	_actualizar_hud()
@@ -809,6 +827,11 @@ func _on_tiempo_agotado() -> void:
 
 # --- Daño y Curación ---
 func recibir_danio_jugador(cantidad: int, mensaje: String, robo_corto := "", ignora_armadura := false) -> void:
+	# El ataque devastador ya viene calculado; el resto se ajusta a la fuerza de este jefe
+	if not ignora_armadura:
+		cantidad = roundi(cantidad * multiplicador_danio)
+	if jefe_anim.sprite_frames and jefe_anim.sprite_frames.has_animation("ataque"):
+		jefe_anim.play("ataque")
 	# Aplicar absorción de armadura del informe (el ataque devastador no se mitiga)
 	var danio_mitigado = cantidad if ignora_armadura else int(cantidad * (1.0 - armadura))
 	danio_mitigado = mini(danio_mitigado, player_hp)     # el texto muestra el daño real, no 9999
@@ -867,7 +890,7 @@ func _efecto_golpe_jefe(cantidad: int) -> void:
 	_numero_flotante(centro + Vector2(80, -80), "-%d" % cantidad, COLOR_MAL, 28)
 
 func _on_jefe_animacion_terminada() -> void:
-	if jefe_anim.animation == "dano":
+	if jefe_anim.animation == "dano" or jefe_anim.animation == "ataque":
 		jefe_anim.play("default")
 
 func _numero_flotante(pos_global: Vector2, texto: String, color: Color, tamano: int) -> void:
@@ -1019,14 +1042,17 @@ func _salir_al_menu() -> void:
 func _victoria() -> void:
 	cambiar_estado(Estado.VICTORIA)
 	_limpiar_bytes()
-	GameState.boss_defeated = true
+	if nivel == 2:
+		GameState.boss2_defeated = true
+	else:
+		GameState.boss_defeated = true
 	_guardar_hp()
 	await get_tree().create_timer(0.6).timeout   # deja ver el último golpe
 	await _muerte_jefe()
 
 	var banner = load("res://scenes/ui/banner_nivel.tscn").instantiate()
 	add_child(banner)
-	await banner.mostrar("¡NIVEL 1 SUPERADO!", "Derrotaste a THE MEMORY LEAK.", "Recuperaste el control de la memoria.")
+	await banner.mostrar("¡NIVEL %d SUPERADO!" % nivel, "Derrotaste a %s." % nombre, frase_victoria)
 	banner.queue_free()
 	await _ir_a_stage()
 

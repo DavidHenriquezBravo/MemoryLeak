@@ -1,0 +1,109 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://bpy3r0aq0orjc"]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n201"]
+script = ExtResource("1_cell")
+address = "0x0120"
+value = "0x0140"
+label = "placa vieja del atril"
+
+[sub_resource type="Resource" id="Resource_n208"]
+script = ExtResource("1_cell")
+address = "0x0170"
+value = "0"
+label = "caja"
+
+[sub_resource type="Resource" id="Resource_n209"]
+script = ExtResource("1_cell")
+address = "0x0FF0"
+value = "100"
+label = "saldo (copia)"
+
+[sub_resource type="Resource" id="Resource_n206"]
+script = ExtResource("1_cell")
+address = "0x0140"
+value = "0"
+label = "caja"
+
+[sub_resource type="Resource" id="Resource_n207"]
+script = ExtResource("1_cell")
+address = "0x0FF0"
+value = "10"
+label = "fondo (copia)"
+
+[sub_resource type="Resource" id="Resource_n202"]
+script = ExtResource("2_opt")
+text = "`10`, porque la función abonó al fondo"
+wrong_feedback = "Sara abre el buzón: sigue en cero. El oficio abonó a otra hoja, no a su caja."
+concept_on_error = "Una función que recibe un `int` trabaja con una copia del valor."
+hint = "Mira qué recibe la función: un `int`, no una placa. Lo que anotó no fue el libro de Sara."
+
+[sub_resource type="Resource" id="Resource_n203"]
+script = ExtResource("2_opt")
+text = "`0`, porque `abonar` recibió una copia local que se destruyó al terminar"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n204"]
+script = ExtResource("2_opt")
+text = "Error de compilación"
+wrong_feedback = "El oficio corre sin quejarse: compila y se ejecuta. El problema no es de escritura, es de destino."
+concept_on_error = "El programa es válido en C; lo que falla es adónde va el cambio."
+hint = "El programa sí corre. Sigue el 10: ¿en qué casilla quedó escrito?"
+
+[sub_resource type="Resource" id="Resource_n205"]
+script = ExtResource("3_reward")
+stat = 3
+amount = 20.0
+
+[sub_resource type="Resource" id="Resource_n210"]
+script = ExtResource("4_ex")
+title = "CASILLA DE MEMORIA"
+code = "void abonar(int fondo) {
+    fondo = fondo + 10;
+}
+int caja = 0;
+abonar(caja);
+printf(\"%d\", caja);"
+question = "¿Qué imprime este programa y por qué?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n206"), SubResource("Resource_n207")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n202"), SubResource("Resource_n203"), SubResource("Resource_n204")])
+conceptual_hint = "Al llamar a la función se copia el valor de `caja`. Lo que la función cambie se queda en esa copia y desaparece al terminar."
+example_code = "void abonar(int saldo) {
+    saldo += 100;
+}
+int caja = 0;
+abonar(caja);   // caja sigue en 0"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n208"), SubResource("Resource_n209")])
+example_text = "`abonar` suma 100 a `saldo`, que es una copia. Al salir, la copia se borra y `caja` sigue en 0."
+example_followup = "Mismo concepto, otro oficio. Vuelve al buzón: ¿qué imprime el programa de Sara?"
+success_title = "¡FUGA DIAGNOSTICADA!"
+success_text = "El oficio de Sara recibe una copia: abona a una hoja que se bota al salir."
+concept_text = "Paso por valor: la función recibe una copia; el original no cambia."
+reward = SubResource("Resource_n205")
+
+[sub_resource type="Resource" id="Resource_n211"]
+script = ExtResource("1_cell")
+address = "0x0140"
+value = "0 maná"
+label = "buzón del fondo de Sara"
+
+[resource]
+script = ExtResource("5_mision")
+id = &"EJ-N2-01"
+oa_code = "OA3.1"
+title = "Los Libros que no cuadran"
+objective = "→ Sigue la placa vieja del atril `0x0120`"
+giver_name = "Sara"
+cell_address = "0x0140"
+cadena = Array[ExtResource("1_cell")]([SubResource("Resource_n201")])
+intro_dialogue = Array[String](["¡Un lector! Perdona el desorden. Soy Sara, la escriba: llevo las cuentas del maná del distrito.", "Cada día abono diez al fondo común… y cada mañana el fondo amanece en cero.", "Anoto en una hoja que se deshace al cerrar el libro. Lo que escribo nunca llega al fondo real.", "El buzón que llené está donde apunta mi placa vieja, {addr:0x0120}. La dejé sobre el atril, al fondo a la derecha."])
+reminder_dialogue = Array[String](["¿Ya seguiste mi placa vieja `0x0120`? Está sobre el atril y sabe dónde quedó el buzón del fondo."])
+success_dialogue = Array[String](["Entonces el oficio nunca tocó mi caja… solo una hoja suelta que se borraba al salir.", "Diagnosticaste la fuga. Ahora hay que arreglarla: el Notario redacta los oficios del distrito.", "Toma, una ración de maná del fondo. Por fin sé adónde se iba."])
+done_dialogue = Array[String](["El fondo sigue en cero hasta que el Notario corrija el oficio. Pero ya sé por qué."])
+exercise = SubResource("Resource_n210")
+reveals = Array[ExtResource("1_cell")]([SubResource("Resource_n211")])

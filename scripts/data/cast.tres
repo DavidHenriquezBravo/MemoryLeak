@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="NpcData" format=3]
+
+[ext_resource type="Texture2D" path="res://Sprites/UI/Retratos/retrato_cast_64x48.png" id="1_1twll"]
+[ext_resource type="Script" path="res://scripts/data/npc_data.gd" id="2_ty4uy"]
+
+[resource]
+script = ExtResource("2_ty4uy")
+display_name = "Cast"
+portrait = ExtResource("1_1twll")

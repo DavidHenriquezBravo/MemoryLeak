@@ -5,18 +5,33 @@ extends Node
 
 const LOCK_SECONDS := 5.0
 
-# Orden en que el HUD sugiere las misiones (las 3 primeras personas se pueden hacer en cualquier orden)
-const RUTA := [
-	"res://data/missions/ej_n1_01.tres",
-	"res://data/missions/ej_n1_02.tres",
-	"res://data/missions/ej_n1_03.tres",
-	"res://data/missions/ej_n1_07.tres",
-	"res://data/missions/ej_n1_05.tres",
-	"res://data/missions/ej_n1_04.tres",
-	"res://data/missions/ej_n1_06.tres",
-	"res://data/missions/ej_n1_08.tres",
-	"res://data/missions/ej_n1_09.tres",
-]
+# Orden en que el HUD sugiere las misiones de cada nivel
+# (en el nivel 1 las 3 primeras personas se pueden hacer en cualquier orden)
+const RUTAS := {
+	1: [
+		"res://data/missions/ej_n1_01.tres",
+		"res://data/missions/ej_n1_02.tres",
+		"res://data/missions/ej_n1_03.tres",
+		"res://data/missions/ej_n1_07.tres",
+		"res://data/missions/ej_n1_05.tres",
+		"res://data/missions/ej_n1_04.tres",
+		"res://data/missions/ej_n1_06.tres",
+		"res://data/missions/ej_n1_08.tres",
+		"res://data/missions/ej_n1_09.tres",
+	],
+	2: [
+		"res://data/missions/ej_n2_01.tres",
+		"res://data/missions/ej_n2_02.tres",
+		"res://data/missions/ej_n2_05.tres",
+		"res://data/missions/ej_n2_03.tres",
+		"res://data/missions/ej_n2_06.tres",
+		"res://data/missions/ej_n2_04.tres",
+		"res://data/missions/ej_n2_07.tres",
+		"res://data/missions/ej_n2_08.tres",
+		"res://data/missions/ej_n2_09.tres",
+	],
+}
+const SISTEMA := preload("res://data/npc/sistema.tres")
 
 var active: MissionData = null
 var active_npc: NpcData = null
@@ -74,12 +89,52 @@ func start(mission: MissionData, npc: NpcData) -> void:
 func open_cell(address: String) -> bool:
 	if active == null:
 		return false
-	if GameState.norm(active.cell_address) != GameState.norm(address):
+	if casilla_objetivo() != GameState.norm(address):
 		return false
 	if is_locked():
 		return false
+	var paso := _paso_de_cadena(address)
+	if paso != null:
+		_seguir_placa(paso)
+		return true
 	EventBus.exercise_requested.emit(active)
 	return true
+
+
+# La casilla que el jugador tiene que abrir ahora: la primera de la cadena que falte,
+# y al final la del ejercicio ("" si la prueba es en diálogo)
+func casilla_objetivo() -> String:
+	if active == null:
+		return ""
+	for c in active.cadena:
+		if not GameState.is_revealed(c.address):
+			return GameState.norm(c.address)
+	return GameState.norm(active.cell_address)
+
+
+func _paso_de_cadena(address: String) -> MemoryCellData:
+	for c in active.cadena:
+		if GameState.norm(c.address) == GameState.norm(address):
+			return c
+	return null
+
+
+# Casilla intermedia: no guarda el dato, guarda otra placa. Se anota y se avisa adónde seguir.
+func _seguir_placa(c: MemoryCellData) -> void:
+	var mision := active
+	var misma_que := ""
+	for otra in mision.cadena:
+		if otra != c and GameState.is_revealed(otra.address) 				and GameState.norm(otra.value) == GameState.norm(c.value):
+			misma_que = GameState.norm(otra.address)
+	GameState.reveal(c.address, c.value, c.label)
+	EventBus.cadena_avanzo.emit(mision)
+	var lineas: Array[String] = []
+	if misma_que != "":
+		lineas.append("`%s` (%s) guarda la placa `%s`… ¡la misma que `%s`!" % [GameState.norm(c.address), c.label, GameState.norm(c.value), misma_que])
+	else:
+		lineas.append("`%s` (%s) no guarda el dato: guarda otra placa, `%s`." % [GameState.norm(c.address), c.label, GameState.norm(c.value)])
+	lineas.append("Anotado en el Registro. Ahora abre la casilla `%s`." % casilla_objetivo())
+	await Dialogue.say(SISTEMA, lineas)
 
 
 # Lo llama la pantalla del ejercicio al confirmar una opción
@@ -91,6 +146,7 @@ func answer(option: OptionData) -> void:
 		EventBus.exercise_passed.emit(active)
 	else:
 		attempts += 1
+		GameState.registrar_fallo(active.id)
 		_locked_until_ms = Time.get_ticks_msec() + int(LOCK_SECONDS * 1000.0)
 		EventBus.exercise_failed.emit(active, option, attempts)
 
@@ -111,11 +167,28 @@ func finish_success() -> void:
 func siguiente_sugerida() -> MissionData:
 	if active != null:
 		return null
-	for path: String in RUTA:
+	for path: String in RUTAS.get(GameState.nivel_historia(), []):
 		var m := load(path) as MissionData
 		if m != null and not GameState.is_completed(m.id) and GameState.requisitos_cumplidos(m):
-			return m
+			return con_repaso(m)
 	return null
+
+
+# Umbral del 70 %: si la misión tiene precision_minima y el nivel no la alcanza, se da el repaso
+# de la primera misión fallada (en el orden de la ruta). Si no hace falta, devuelve la misma misión.
+func con_repaso(m: MissionData) -> MissionData:
+	if m == null or m.precision_minima <= 0.0 or not GameState.requisitos_cumplidos(m):
+		return m
+	var nivel := int(String(m.id).substr(4, 1))      # "EJ-N2-09" -> 2
+	if GameState.precision(nivel) >= m.precision_minima:
+		return m
+	for path: String in RUTAS.get(nivel, []):
+		var original := load(path) as MissionData
+		if original != null and GameState.fallida(original.id):
+			var repaso := load(path.replace("/ej_", "/rp_")) as MissionData
+			if repaso != null:
+				return repaso
+	return m
 
 
 func is_locked() -> bool:

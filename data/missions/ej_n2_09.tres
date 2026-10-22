@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[resource]
+script = ExtResource("5_mision")
+id = &"EJ-N2-09"
+title = "Listo para The Dangling Pointer"
+objective = "→ Habla con el Anciano"
+requires_all = Array[StringName]([&"EJ-N2-01", &"EJ-N2-02", &"EJ-N2-03", &"EJ-N2-04", &"EJ-N2-05", &"EJ-N2-06", &"EJ-N2-07", &"EJ-N2-08"])
+giver_name = "el Anciano"
+precision_minima = 0.7
+intro_dialogue = Array[String](["Sara, el Notario, los gemelos, la Vidente… El distrito vuelve a respirar, viajero.", "Ya sabes que una función solo cambia el mundo si recibe una placa. Y que dos placas pueden mirar la misma casilla.", "Bajo el pozo abandonado espera The Dangling Pointer. Sostiene placas de casas que ya no existen.", "Si te ofrece una dirección, pregúntate primero si alguien todavía vive ahí."])
+success_dialogue = Array[String](["Bajaremos juntos por el pozo. Yo llevo el farol."])
+done_dialogue = Array[String](["Cuando estés listo, bajamos por el pozo abandonado. No te separes del farol."])
+locked_dialogue = Array[String](["Todavía hay gente en el distrito que necesita tu ayuda.", "Sara en la biblioteca, el Notario junto al registro, los gemelos en las forjas y la Vidente en el lago.", "Cuando todos te conozcan, bajaremos juntos."])

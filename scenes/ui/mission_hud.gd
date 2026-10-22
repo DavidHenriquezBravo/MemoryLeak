@@ -4,7 +4,10 @@ extends CanvasLayer
 #   - arriba a la derecha, la misión activa con su objetivo (caja dorada del boceto)
 #   - si no hay misión activa, la caja sugiere la siguiente: "→ Habla con Juan"
 #   - al empezar una misión: aviso "¡NUEVA MISIÓN!" unos segundos
-#   - al terminarla: aviso "¡MISIÓN COMPLETA!" con la recompensa
+#   - al terminarla: aviso "¡SUBISTE AL NIVEL N!" con la misión y la recompensa
+#   - en el nivel 2, al abrir una placa intermedia el objetivo pasa a la casilla siguiente
+#   - al recoger una memoria perdida: aviso "¡MEMORIA RECUPERADA N/6!"
+#   - el Registro de la Daga (tecla R) vive aquí como hijo: scenes/ui/registro.gd
 # No se muestra en el menú, en la pelea ni en el game over.
 
 const CAJA_MISION := preload("res://Sprites/UI/Cajas/caja_mision_9slice.png")
@@ -13,6 +16,7 @@ const C_GOLD := Color(0.933, 0.659, 0.251)
 const C_GREEN := Color(0.439, 0.902, 0.439)
 const SEGUNDOS_AVISO := 2.5
 const ESCENAS_SIN_HUD := ["menu", "pelea", "game_over"]
+const REGISTRO := preload("res://scenes/ui/registro.gd")
 
 # Cuándo empezó la última misión (lo usa ExercisePanel para no tapar el aviso)
 var ultimo_inicio_ms: int = -100000
@@ -21,6 +25,7 @@ var ultimo_inicio_ms: int = -100000
 @onready var aviso: NinePatchRect = %Aviso
 
 var _tween: Tween
+var registro: Control
 
 
 func _ready() -> void:
@@ -28,6 +33,11 @@ func _ready() -> void:
 	aviso.visible = false
 	EventBus.mission_started.connect(_on_started)
 	EventBus.mission_completed.connect(_on_completed)
+	EventBus.cadena_avanzo.connect(_on_cadena)
+	GameState.memoria_recuperada.connect(_on_memoria)
+	registro = REGISTRO.new()
+	registro.name = "Registro"
+	add_child(registro)
 	GameState.stats_changed.connect(_actualizar_sugerencia)
 	_actualizar_sugerencia.call_deferred()
 
@@ -53,6 +63,26 @@ func _on_started(m: MissionData) -> void:
 	_mostrar_aviso("¡NUEVA MISIÓN!", m.title, false)
 
 
+# Placa intermedia resuelta: el objetivo ahora es la casilla a la que apuntaba
+func _on_cadena(m: MissionData) -> void:
+	if MissionManager.active != m:
+		return
+	var siguiente := MissionManager.casilla_objetivo()
+	%Objetivo.text = AddrFormatter.format("→ Abre la casilla `%s`" % siguiente)
+	await get_tree().process_frame
+	caja.size.y = %Contenido.get_combined_minimum_size().y + 10
+
+
+# Memoria perdida: se avisa cuando termina de contarse el recuerdo
+func _on_memoria(id: StringName) -> void:
+	await get_tree().process_frame
+	while Dialogue.is_open:
+		await get_tree().process_frame
+	var datos := Memorias.buscar(id)
+	_mostrar_aviso("¡MEMORIA RECUPERADA %d/%d!" % [GameState.memorias.size(), Memorias.TOTAL],
+			str(datos.get("lugar", "")), true)
+
+
 func _on_completed(m: MissionData) -> void:
 	caja.visible = false
 	# Se avisa cuando el NPC termina su diálogo final, para no tapar el banner verde
@@ -62,7 +92,12 @@ func _on_completed(m: MissionData) -> void:
 	var texto := m.title
 	if m.exercise and m.exercise.reward:
 		texto += "   " + m.exercise.reward.label()
-	_mostrar_aviso("¡MISIÓN COMPLETA!", texto, true)
+		# Cada misión con premio es un nivel más (las del Anciano no suben)
+		_mostrar_aviso("¡SUBISTE AL NIVEL %d!" % GameState.nivel_jugador, texto, true)
+	elif m.variante_de != &"":
+		_mostrar_aviso("¡REPASO SUPERADO!", m.title, true)
+	else:
+		_mostrar_aviso("¡MISIÓN COMPLETA!", texto, true)
 	_actualizar_sugerencia()
 
 
@@ -70,7 +105,8 @@ func _on_completed(m: MissionData) -> void:
 func _actualizar_sugerencia() -> void:
 	if MissionManager.active != null:
 		return
-	if GameState.boss_defeated:
+	var nivel := GameState.nivel_historia()
+	if not GameState.NOMBRES_JEFE.has(nivel):
 		caja.visible = false
 		return
 	var m := MissionManager.siguiente_sugerida()
@@ -78,9 +114,9 @@ func _actualizar_sugerencia() -> void:
 	if m != null:
 		%Titulo.text = m.title
 		%Objetivo.text = AddrFormatter.format("→ Habla con %s" % m.giver_name)
-	elif GameState.listo_para_jefe():
-		%Titulo.text = "The Memory Leak"
-		%Objetivo.text = "→ Cruza la puerta del norte"
+	elif GameState.listo_para_jefe(nivel):
+		%Titulo.text = GameState.NOMBRES_JEFE[nivel]
+		%Objetivo.text = "→ Cruza la puerta del norte" if nivel == 1 else "→ Baja por el pozo con el Anciano"
 	else:
 		caja.visible = false
 		return

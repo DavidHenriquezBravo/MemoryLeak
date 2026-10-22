@@ -1,0 +1,128 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://cwre1f0l0rcu4"]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n201"]
+script = ExtResource("1_cell")
+address = "0x0150"
+value = "0x0160"
+label = "libro de la entrada"
+
+[sub_resource type="Resource" id="Resource_n202"]
+script = ExtResource("1_cell")
+address = "0x0158"
+value = "0x0160"
+label = "libro de los estantes"
+
+[sub_resource type="Resource" id="Resource_n210"]
+script = ExtResource("1_cell")
+address = "0x0168"
+value = "12"
+label = "oro"
+
+[sub_resource type="Resource" id="Resource_n211"]
+script = ExtResource("1_cell")
+address = "0x0FF0"
+value = "0x0168"
+label = "r"
+points_to = "0x0168"
+
+[sub_resource type="Resource" id="Resource_n212"]
+script = ExtResource("1_cell")
+address = "0x0FF8"
+value = "0x0168"
+label = "s"
+points_to = "0x0168"
+
+[sub_resource type="Resource" id="Resource_n207"]
+script = ExtResource("1_cell")
+address = "0x0160"
+value = "5"
+label = "mana"
+
+[sub_resource type="Resource" id="Resource_n208"]
+script = ExtResource("1_cell")
+address = "0x0150"
+value = "0x0160"
+label = "p"
+points_to = "0x0160"
+
+[sub_resource type="Resource" id="Resource_n209"]
+script = ExtResource("1_cell")
+address = "0x0158"
+value = "0x0160"
+label = "q"
+points_to = "0x0160"
+
+[sub_resource type="Resource" id="Resource_n203"]
+script = ExtResource("2_opt")
+text = "`5 5`"
+wrong_feedback = "El cofre brilla con 20 de maná. `*p = 20` sí escribió en él."
+concept_on_error = "Escribir con `*p` cambia la casilla apuntada."
+hint = "La tercera línea escribe en la casilla del maná. ¿Cuánto hay después?"
+
+[sub_resource type="Resource" id="Resource_n204"]
+script = ExtResource("2_opt")
+text = "`20 5`"
+wrong_feedback = "`q` no tiene su propia copia del maná: mira exactamente la misma casilla que `p` acaba de modificar."
+concept_on_error = "Si dos punteros guardan la misma dirección, los dos ven el mismo cambio (aliasing)."
+hint = "Abriste los dos libros: ¿qué placa traía cada uno?"
+
+[sub_resource type="Resource" id="Resource_n205"]
+script = ExtResource("2_opt")
+text = "`20 20`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n206"]
+script = ExtResource("3_reward")
+stat = 2
+amount = 0.05
+
+[sub_resource type="Resource" id="Resource_n213"]
+script = ExtResource("4_ex")
+title = "CASILLA DE MEMORIA"
+code = "int mana = 5;
+int *p = &mana, *q = &mana;
+*p = 20;
+printf(\"%d %d\", mana, *q);"
+question = "¿Qué imprime el fragmento?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n207"), SubResource("Resource_n208"), SubResource("Resource_n209")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n203"), SubResource("Resource_n204"), SubResource("Resource_n205")])
+conceptual_hint = "`p` y `q` guardan la misma placa. Lo que se escriba con uno se lee igual con el otro."
+example_code = "int oro = 3;
+int *r = &oro, *s = &oro;
+*s = 12;
+// *r vale 12"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n210"), SubResource("Resource_n211"), SubResource("Resource_n212")])
+example_text = "`r` y `s` apuntan a `oro`. `*s = 12` cambia `oro`, así que `*r` también vale 12."
+example_followup = "Mismo concepto, otro cofre. Vuelve con los libros de Sara: ¿qué imprime el fragmento?"
+success_title = "¡ALIASING DESCUBIERTO!"
+success_text = "Dos dagas, un solo balde. Sara reorganiza su archivo."
+concept_text = "Aliasing: dos punteros a la misma casilla ven y cambian el mismo dato."
+reward = SubResource("Resource_n206")
+
+[sub_resource type="Resource" id="Resource_n214"]
+script = ExtResource("1_cell")
+address = "0x0160"
+value = "20 maná"
+label = "cofre del maná (mesa de lectura)"
+
+[resource]
+script = ExtResource("5_mision")
+id = &"EJ-N2-05"
+oa_code = "OA3.3"
+title = "Los Dos Libros de Sara"
+objective = "→ Revisa los dos montones de libros: `0x0150` y `0x0158`"
+giver_name = "Sara"
+cell_address = "0x0160"
+cadena = Array[ExtResource("1_cell")]([SubResource("Resource_n201"), SubResource("Resource_n202")])
+intro_dialogue = Array[String](["Tengo otro misterio, y me da vergüenza contarlo.", "Llevo dos libros separados del maná. Juro que los actualizo por separado… pero cada vez que corrijo uno, el otro cambia solo.", "Creí tener dos registros. Tengo dos placas… con la misma dirección grabada, creo.", "Revisa los dos: {addr:0x0150} es el montón junto a la entrada y {addr:0x0158} el que está al lado de los estantes de la derecha."])
+reminder_dialogue = Array[String](["Revisa mis dos montones de libros, `0x0150` y `0x0158`. Quiero saber adónde apunta cada uno."])
+success_dialogue = Array[String](["Dos placas, un solo cofre. Con razón uno cambiaba al tocar el otro.", "Voy a reorganizar todo mi archivo. Toma este trébol de cuarzo: dicen que trae suerte."])
+done_dialogue = Array[String](["Ahora sé que mis dos libros miran el mismo cofre. Ya no me asustan."])
+exercise = SubResource("Resource_n213")
+reveals = Array[ExtResource("1_cell")]([SubResource("Resource_n214")])

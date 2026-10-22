@@ -11,7 +11,12 @@
 [ext_resource type="PackedScene" uid="uid://b1ny2grkxsprv" path="res://scenes/actors/player.tscn" id="9_a1mp4"]
 [ext_resource type="PackedScene" uid="uid://cv6la82ujg5g5" path="res://scenes/ui/estado_jugador.tscn" id="10_jlk5n"]
 [ext_resource type="Script" uid="uid://joxdwdb658t3" path="res://scripts/punto_llegada.gd" id="11_4plts"]
+[ext_resource type="PackedScene" path="res://scenes/actors/sara.tscn" id="11_vt0hi"]
 [ext_resource type="Script" uid="uid://dsbbxadbtylxf" path="res://scripts/puerta_escena.gd" id="12_vqndt"]
+[ext_resource type="PackedScene" path="res://scenes/world/casilla_ram.tscn" id="n2_casilla"]
+[ext_resource type="Resource" path="res://data/missions/ej_n2_01.tres" id="n2_ej_n2_01"]
+[ext_resource type="Resource" path="res://data/missions/ej_n2_05.tres" id="n2_ej_n2_05"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="n2_mision_script"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_chqwv"]
 size = Vector2(60, 10)
@@ -40,8 +45,8 @@ size = Vector2(18, 7)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rde6i"]
 size = Vector2(18, 7)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_p3cwn"]
-size = Vector2(88, 12)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vt0hi"]
+size = Vector2(68, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_swvjr"]
 size = Vector2(8, 6)
@@ -74,13 +79,13 @@ size = Vector2(60, 12)
 size = Vector2(60, 12)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4i1u8"]
-size = Vector2(56, 10)
+size = Vector2(40, 6)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dohju"]
-size = Vector2(14, 6)
+size = Vector2(10, 4)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8104r"]
-size = Vector2(14, 6)
+size = Vector2(10, 4)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_brb2b"]
 size = Vector2(16, 6)
@@ -232,6 +237,9 @@ animations = [{
 "speed": 4.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c8j05"]
+size = Vector2(46, 66)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dkvdq"]
 size = Vector2(64, 16)
 
@@ -255,6 +263,27 @@ texture = ExtResource("2_vt0hi")
 centered = false
 region_enabled = true
 region_rect = Rect2(384, 64, 128, 96)
+
+[node name="Casilla 0x0120" parent="." unique_id=2098209151 instance=ExtResource("n2_casilla")]
+position = Vector2(544, 390)
+address = "0x0120"
+objeto = NodePath("../Objetos/Atril")
+
+[node name="Casilla 0x0150" parent="." unique_id=1966866532 instance=ExtResource("n2_casilla")]
+position = Vector2(98, 390)
+address = "0x0150"
+objeto = NodePath("../Objetos/Libros")
+
+[node name="Casilla 0x0158" parent="." unique_id=1241668901 instance=ExtResource("n2_casilla")]
+position = Vector2(546, 256)
+address = "0x0158"
+objeto = NodePath("../Objetos/Libros2")
+
+[node name="Casilla 0x0160" parent="." unique_id=129799858 instance=ExtResource("n2_casilla")]
+position = Vector2(320, 330)
+address = "0x0160"
+objeto = NodePath("../Objetos/Mesa de lectura")
+alto_etiqueta = 44.0
 
 [node name="Objetos" type="Node2D" parent="." unique_id=771842519]
 y_sort_enabled = true
@@ -396,8 +425,8 @@ region_enabled = true
 region_rect = Rect2(320, 0, 96, 64)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Objetos/Mostrador de Sara" unique_id=60797364]
-position = Vector2(0, 6)
-shape = SubResource("RectangleShape2D_p3cwn")
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_vt0hi")
 
 [node name="Farol" type="StaticBody2D" parent="Objetos" unique_id=671345501]
 position = Vector2(248, 202)
@@ -550,11 +579,11 @@ region_enabled = true
 region_rect = Rect2(416, 0, 64, 64)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Objetos/Mesa de lectura" unique_id=183715263]
-position = Vector2(0, 7)
+position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_4i1u8")
 
 [node name="Taburete" type="StaticBody2D" parent="Objetos" unique_id=1355330732]
-position = Vector2(274, 322)
+position = Vector2(288, 322)
 
 [node name="Sprite2D" type="Sprite2D" parent="Objetos/Taburete" unique_id=1231693525]
 position = Vector2(-16, -20)
@@ -564,11 +593,11 @@ region_enabled = true
 region_rect = Rect2(480, 0, 32, 32)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Objetos/Taburete" unique_id=1694977175]
-position = Vector2(0, 9)
+position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_dohju")
 
 [node name="Taburete2" type="StaticBody2D" parent="Objetos" unique_id=868773707]
-position = Vector2(366, 322)
+position = Vector2(352, 322)
 
 [node name="Sprite2D" type="Sprite2D" parent="Objetos/Taburete2" unique_id=764248193]
 position = Vector2(-16, -20)
@@ -578,11 +607,11 @@ region_enabled = true
 region_rect = Rect2(480, 0, 32, 32)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Objetos/Taburete2" unique_id=321479276]
-position = Vector2(0, 9)
+position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_8104r")
 
 [node name="Libros" type="StaticBody2D" parent="Objetos" unique_id=588195344]
-position = Vector2(76, 384)
+position = Vector2(98, 384)
 
 [node name="Sprite2D" type="Sprite2D" parent="Objetos/Libros" unique_id=1828833252]
 position = Vector2(-16, -20)
@@ -596,7 +625,7 @@ position = Vector2(0, 9)
 shape = SubResource("RectangleShape2D_brb2b")
 
 [node name="Libros2" type="StaticBody2D" parent="Objetos" unique_id=935242311]
-position = Vector2(584, 250)
+position = Vector2(546, 250)
 
 [node name="Sprite2D" type="Sprite2D" parent="Objetos/Libros2" unique_id=933109696]
 position = Vector2(-16, -20)
@@ -610,7 +639,7 @@ position = Vector2(0, 9)
 shape = SubResource("RectangleShape2D_wlm52")
 
 [node name="Atril" type="StaticBody2D" parent="Objetos" unique_id=1474480706]
-position = Vector2(572, 384)
+position = Vector2(544, 384)
 
 [node name="Sprite2D" type="Sprite2D" parent="Objetos/Atril" unique_id=1227816375]
 position = Vector2(-16, -20)
@@ -624,7 +653,7 @@ position = Vector2(0, 9)
 shape = SubResource("RectangleShape2D_reael")
 
 [node name="Cristal chico" type="StaticBody2D" parent="Objetos" unique_id=1126778123]
-position = Vector2(76, 250)
+position = Vector2(100, 250)
 
 [node name="Sprite2D" type="Sprite2D" parent="Objetos/Cristal chico" unique_id=63398066]
 position = Vector2(-16, -20)
@@ -685,6 +714,14 @@ anchor_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 1
 
+[node name="Sara" parent="Objetos" unique_id=1527784614 instance=ExtResource("11_vt0hi")]
+position = Vector2(320, 170)
+missions = Array[ExtResource("n2_mision_script")]([ExtResource("n2_ej_n2_01"), ExtResource("n2_ej_n2_05")])
+
+[node name="CollisionShape2D" parent="Objetos/Sara/CollisionShape2D/Area2D" parent_id_path=PackedInt32Array(1527784614, 844319174) index="0" unique_id=1395132955]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_c8j05")
+
 [node name="DesdeDistrito" type="Marker2D" parent="." unique_id=1147763441]
 position = Vector2(320, 392)
 
@@ -699,3 +736,5 @@ punto_llegada = &"DesdeBiblioteca"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Salida al Distrito" unique_id=27598760]
 shape = SubResource("RectangleShape2D_dkvdq")
+
+[editable path="Objetos/Sara"]

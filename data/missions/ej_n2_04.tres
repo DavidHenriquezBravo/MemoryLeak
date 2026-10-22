@@ -1,0 +1,109 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://clupwt0qh8rxa"]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n201"]
+script = ExtResource("1_cell")
+address = "0x0300"
+value = "0x0310"
+label = "archivo del distrito"
+
+[sub_resource type="Resource" id="Resource_n208"]
+script = ExtResource("1_cell")
+address = "0x0320"
+value = "55"
+label = "codigo"
+
+[sub_resource type="Resource" id="Resource_n209"]
+script = ExtResource("1_cell")
+address = "0x0FF0"
+value = "0x0320"
+label = "p"
+points_to = "0x0320"
+
+[sub_resource type="Resource" id="Resource_n206"]
+script = ExtResource("1_cell")
+address = "0x0310"
+value = "77"
+label = "id_registro"
+
+[sub_resource type="Resource" id="Resource_n207"]
+script = ExtResource("1_cell")
+address = "0x0FF0"
+value = "0x0310"
+label = "ptr_id"
+points_to = "0x0310"
+
+[sub_resource type="Resource" id="Resource_n202"]
+script = ExtResource("2_opt")
+text = "`77`"
+wrong_feedback = "El Notario revisa el asiento y lo encuentra corregido. Tú sigues creyendo que escribiste en una minuta."
+concept_on_error = "El puntero no guarda una copia: escribir a través de él cambia el original."
+hint = "Mira adónde apunta `ptr_id` y qué hace la tercera línea en esa casilla."
+
+[sub_resource type="Resource" id="Resource_n203"]
+script = ExtResource("2_opt")
+text = "`99`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n204"]
+script = ExtResource("2_opt")
+text = "La dirección de `id_registro`"
+wrong_feedback = "El registro no imprime placas: `id_registro` es el número del asiento, no su dirección."
+concept_on_error = "`id_registro` es el valor; su dirección sería `&id_registro`."
+hint = "Se imprime la variable, no su placa. ¿Qué número quedó escrito en ella?"
+
+[sub_resource type="Resource" id="Resource_n205"]
+script = ExtResource("3_reward")
+stat = 3
+amount = 20.0
+
+[sub_resource type="Resource" id="Resource_n210"]
+script = ExtResource("4_ex")
+title = "CASILLA DE MEMORIA"
+code = "int id_registro = 77;
+int *ptr_id = &id_registro;
+*ptr_id = 99;
+printf(\"%d\", id_registro);"
+question = "Tras ejecutar `*ptr_id = 99;`, ¿qué imprime `printf(\"%d\", id_registro);`?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n206"), SubResource("Resource_n207")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n202"), SubResource("Resource_n203"), SubResource("Resource_n204")])
+conceptual_hint = "Escribir en la casilla que apunta un puntero cambia esa casilla para todos los que la lean."
+example_code = "int codigo = 10;
+int *p = &codigo;
+*p = 55;
+// codigo vale 55"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n208"), SubResource("Resource_n209")])
+example_text = "`*p = 55` escribe en la casilla de `codigo`. No hay copia: `codigo` pasa a valer 55."
+example_followup = "Mismo concepto, otro asiento. Vuelve al registro: ¿qué imprime `id_registro`?"
+success_title = "¡REGISTRO CORREGIDO!"
+success_text = "Reescribiste la RAM real. El registro queda corregido y te habilita el paso."
+concept_text = "`*p = v` escribe en la casilla apuntada: el original cambia."
+reward = SubResource("Resource_n205")
+
+[sub_resource type="Resource" id="Resource_n211"]
+script = ExtResource("1_cell")
+address = "0x0310"
+value = "99"
+label = "tu asiento en el registro"
+
+[resource]
+script = ExtResource("5_mision")
+id = &"EJ-N2-04"
+oa_code = "OA2.4"
+title = "El Registro del Distrito"
+objective = "→ Abre el archivo del distrito `0x0300`"
+requires_mission = &"EJ-N2-02"
+giver_name = "el Notario"
+cell_address = "0x0310"
+cadena = Array[ExtResource("1_cell")]([SubResource("Resource_n201")])
+intro_dialogue = Array[String](["Ah, vuelves. Tengo otro asunto, y este es tuyo.", "Custodio el registro donde figura cada oficio del distrito. El tuyo quedó inscrito con el número equivocado: dice 77 y debería decir 99.", "Tengo la dirección del asiento: `int *ptr_id = &id_registro;`.", "Mi registro está donde apunta el archivo del distrito, {addr:0x0300}, frente a esta oficina.", "Escribe el número correcto directamente en el asiento. No en una minuta. En el asiento."])
+reminder_dialogue = Array[String](["El archivo `0x0300` te dirá dónde está el asiento. Escribe en el asiento, no en una minuta."])
+success_dialogue = Array[String](["Noventa y nueve. Sellado en el registro real, no en un borrador.", "Ese número te habilita el paso. Y toma esto: el distrito cuida a los suyos."])
+done_dialogue = Array[String](["Tu asiento dice 99. Cualquiera que lea el registro verá lo mismo."])
+exercise = SubResource("Resource_n210")
+reveals = Array[ExtResource("1_cell")]([SubResource("Resource_n211")])

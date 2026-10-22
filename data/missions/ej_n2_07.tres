@@ -1,0 +1,101 @@
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://cb4nbolqwycoh"]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n207"]
+script = ExtResource("1_cell")
+address = "0x0338"
+value = "15"
+label = "y"
+
+[sub_resource type="Resource" id="Resource_n208"]
+script = ExtResource("1_cell")
+address = "0x0FF0"
+value = "0x0338"
+label = "p"
+points_to = "0x0338"
+
+[sub_resource type="Resource" id="Resource_n205"]
+script = ExtResource("1_cell")
+address = "0x0330"
+value = "9"
+label = "x (antes 3)"
+
+[sub_resource type="Resource" id="Resource_n206"]
+script = ExtResource("1_cell")
+address = "0x0FF0"
+value = "0x0330"
+label = "p"
+points_to = "0x0330"
+
+[sub_resource type="Resource" id="Resource_n201"]
+script = ExtResource("2_opt")
+text = "`9`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n202"]
+script = ExtResource("2_opt")
+text = "`3`"
+wrong_feedback = "Eso valía cuando se creó el enlace. `*p` se lee ahora, no entonces."
+concept_on_error = "Un puntero no congela un valor: sigue mirando la casilla."
+hint = "El espejo no es un retrato. ¿Qué hay en la casilla en este momento?"
+
+[sub_resource type="Resource" id="Resource_n203"]
+script = ExtResource("2_opt")
+text = "La dirección de `x`"
+wrong_feedback = "El espejo muestra lo que hay en la casilla, no su placa. Para la placa habría que imprimir `p`."
+concept_on_error = "`*p` es el valor apuntado; `p` es la dirección."
+hint = "Hay un `*` delante de `p`: eso lee la casilla, no la placa."
+
+[sub_resource type="Resource" id="Resource_n204"]
+script = ExtResource("3_reward")
+stat = 2
+amount = 0.05
+
+[sub_resource type="Resource" id="Resource_n209"]
+script = ExtResource("4_ex")
+title = "CASILLA DE MEMORIA"
+code = "int x = 3;
+int *p = &x;
+x = 9;    // la anomalía
+printf(\"%d\", *p);"
+question = "¿Qué imprime `printf(\"%d\", *p);`?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n205"), SubResource("Resource_n206")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n201"), SubResource("Resource_n202"), SubResource("Resource_n203")])
+conceptual_hint = "El puntero guarda dónde está `x`. Al leer `*p` se mira la casilla en ese momento, con lo que tenga ahora."
+example_code = "int y = 2;
+int *p = &y;
+y = 15;
+// *p vale 15"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n207"), SubResource("Resource_n208")])
+example_text = "`p` se enlazó cuando `y` valía 2, pero `*p` lee la casilla ahora: 15."
+example_followup = "Mismo concepto, otro espejo. Vuelve al de la Vidente: ¿qué imprime `*p`?"
+success_title = "¡REFLEJO VERDADERO!"
+success_text = "El puntero no congela un valor: sigue mirando la casilla, y la casilla cambió."
+concept_text = "`*p` siempre lee el valor actual de la casilla apuntada."
+reward = SubResource("Resource_n204")
+
+[sub_resource type="Resource" id="Resource_n210"]
+script = ExtResource("1_cell")
+address = "0x0330"
+value = "9"
+label = "tu reflejo"
+
+[resource]
+script = ExtResource("5_mision")
+id = &"EJ-N2-07"
+oa_code = "OA2.4"
+title = "El Espejo de la Vidente"
+objective = "→ Abre el espejo `0x0330`"
+giver_name = "la Vidente"
+cell_address = "0x0330"
+intro_dialogue = Array[String](["Te esperaba. Soy la Vidente: guardo los espejos del distrito.", "Este espejo está enlazado a tu vida: `int x = 3; int *p = &x;`.", "Mira… una anomalía acaba de alterar tu estadística real. Ahora vale 9.", "Mi reloj apunta a ti; mírate ahora. El espejo descansa en {addr:0x0330}, junto a las setas."])
+reminder_dialogue = Array[String](["El espejo `0x0330` sigue enlazado a ti. Mírate en él."])
+success_dialogue = Array[String](["¿Lo ves? Mi espejo no guardó un retrato tuyo. Guardó dónde estás. Y tú cambiaste.", "Llévate un reflejo de suerte. A veces el destino también se lee a través de una placa."])
+done_dialogue = Array[String](["El espejo sigue mirándote. Si cambias, él lo sabrá."])
+exercise = SubResource("Resource_n209")
+reveals = Array[ExtResource("1_cell")]([SubResource("Resource_n210")])

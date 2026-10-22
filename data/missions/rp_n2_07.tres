@@ -1,0 +1,86 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n201"]
+script = ExtResource("2_opt")
+text = "`2`"
+wrong_feedback = "Eso valía al crear el enlace. `*p` se lee ahora."
+concept_on_error = "Un puntero no congela el valor: sigue mirando la casilla."
+hint = "¿Qué hay en la casilla de `y` en este momento?"
+
+[sub_resource type="Resource" id="Resource_n202"]
+script = ExtResource("2_opt")
+text = "`15`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n203"]
+script = ExtResource("2_opt")
+text = "La dirección de `y`"
+wrong_feedback = "`*p` lee el contenido; la dirección es `p`."
+concept_on_error = "`*p` es el valor apuntado; `p` es la dirección."
+hint = "El `*` lee la casilla, no la placa."
+
+[sub_resource type="Resource" id="Resource_n204"]
+script = ExtResource("1_cell")
+address = "0x0338"
+value = "15"
+label = "y (antes 2)"
+
+[sub_resource type="Resource" id="Resource_n205"]
+script = ExtResource("1_cell")
+address = "0x0FF0"
+value = "0x0338"
+label = "p"
+points_to = "0x0338"
+
+[sub_resource type="Resource" id="Resource_n206"]
+script = ExtResource("1_cell")
+address = "0x0330"
+value = "9"
+label = "x"
+
+[sub_resource type="Resource" id="Resource_n207"]
+script = ExtResource("1_cell")
+address = "0x0FF0"
+value = "0x0330"
+label = "p"
+points_to = "0x0330"
+
+[sub_resource type="Resource" id="Resource_n208"]
+script = ExtResource("4_ex")
+title = "REPASO DEL ANCIANO"
+code = "int y = 2;
+int *p = &y;
+y = 15;"
+question = "¿Qué vale `*p`?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n204"), SubResource("Resource_n205")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n201"), SubResource("Resource_n202"), SubResource("Resource_n203")])
+conceptual_hint = "`*p` lee la casilla de `y` en el momento en que se usa, con lo que tenga ahora."
+example_code = "int x = 3;
+int *p = &x;
+x = 9;   // *p vale 9"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n206"), SubResource("Resource_n207")])
+example_text = "El espejo de la Vidente: no guardó un retrato, guardó dónde estabas."
+example_followup = "Es el mismo concepto del caso original. Vuelve al repaso."
+success_title = "¡REPASO SUPERADO!"
+success_text = "Lo que fallaste en el distrito ahora cuenta como acierto."
+concept_text = "`*p` siempre lee el valor actual de la casilla apuntada."
+
+[resource]
+script = ExtResource("5_mision")
+id = &"RP-N2-07"
+oa_code = "OA2.4"
+title = "Repaso: El Espejo de la Vidente"
+objective = "→ Responde el repaso del Anciano"
+giver_name = "el Anciano"
+variante_de = &"EJ-N2-07"
+intro_dialogue = Array[String](["Antes de bajar, quiero estar seguro de algo.", "En el distrito fallaste algunas pruebas. Para enfrentar al jefe hay que acertar al menos 7 de cada 10 al primer intento.", "Repasemos lo de «El Espejo de la Vidente». Te pondré un caso parecido: respóndelo con calma."])
+reminder_dialogue = Array[String](["Sigamos con el repaso de «El Espejo de la Vidente»."])
+success_dialogue = Array[String](["Bien. Eso ya no te lo van a quitar."])
+done_dialogue = Array[String](["Ese caso ya lo dominas."])
+exercise = SubResource("Resource_n208")

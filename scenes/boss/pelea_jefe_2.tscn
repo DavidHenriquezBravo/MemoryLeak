@@ -1,0 +1,246 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/boss/pelea.tscn" id="1_base"]
+[ext_resource type="Texture2D" path="res://Sprites/Jefe/Jefe Dangling Pointer ataque-Sheet.png" id="3_5h5vo"]
+[ext_resource type="Texture2D" path="res://Sprites/Jefe/Jefe Dangling Pointer recibe dano-Sheet.png" id="4_tdpb8"]
+[ext_resource type="Texture2D" path="res://Sprites/Jefe/Jefe Dangling Pointer reposo-Sheet.png" id="5_kyb63"]
+[ext_resource type="Texture2D" path="res://Sprites/Jefe/Jefe Dangling Pointer derrota-Sheet.png" id="6_bnhy0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b57tf"]
+atlas = ExtResource("3_5h5vo")
+region = Rect2(0, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mugue"]
+atlas = ExtResource("3_5h5vo")
+region = Rect2(112, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n3chm"]
+atlas = ExtResource("3_5h5vo")
+region = Rect2(224, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_88w22"]
+atlas = ExtResource("3_5h5vo")
+region = Rect2(336, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kgkix"]
+atlas = ExtResource("3_5h5vo")
+region = Rect2(448, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_blicx"]
+atlas = ExtResource("3_5h5vo")
+region = Rect2(560, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gyurk"]
+atlas = ExtResource("3_5h5vo")
+region = Rect2(672, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m80a6"]
+atlas = ExtResource("4_tdpb8")
+region = Rect2(0, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lxge1"]
+atlas = ExtResource("4_tdpb8")
+region = Rect2(112, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qv2ut"]
+atlas = ExtResource("4_tdpb8")
+region = Rect2(224, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fl1e7"]
+atlas = ExtResource("4_tdpb8")
+region = Rect2(336, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iah32"]
+atlas = ExtResource("4_tdpb8")
+region = Rect2(448, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t3w8d"]
+atlas = ExtResource("5_kyb63")
+region = Rect2(0, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iq1vj"]
+atlas = ExtResource("5_kyb63")
+region = Rect2(112, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b01cu"]
+atlas = ExtResource("5_kyb63")
+region = Rect2(224, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_47g6v"]
+atlas = ExtResource("5_kyb63")
+region = Rect2(336, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0x3pi"]
+atlas = ExtResource("5_kyb63")
+region = Rect2(448, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qccw6"]
+atlas = ExtResource("5_kyb63")
+region = Rect2(560, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qe1h"]
+atlas = ExtResource("5_kyb63")
+region = Rect2(672, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_heelk"]
+atlas = ExtResource("5_kyb63")
+region = Rect2(784, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dfn73"]
+atlas = ExtResource("6_bnhy0")
+region = Rect2(0, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_admyk"]
+atlas = ExtResource("6_bnhy0")
+region = Rect2(112, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wkdcb"]
+atlas = ExtResource("6_bnhy0")
+region = Rect2(224, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_exsqf"]
+atlas = ExtResource("6_bnhy0")
+region = Rect2(336, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_njvxi"]
+atlas = ExtResource("6_bnhy0")
+region = Rect2(448, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ps7rq"]
+atlas = ExtResource("6_bnhy0")
+region = Rect2(560, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xl54w"]
+atlas = ExtResource("6_bnhy0")
+region = Rect2(672, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m3fkx"]
+atlas = ExtResource("6_bnhy0")
+region = Rect2(784, 0, 112, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1kdt8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b57tf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mugue")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n3chm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_88w22")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kgkix")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_blicx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gyurk")
+}],
+"loop": 0,
+"name": &"ataque",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m80a6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lxge1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qv2ut")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fl1e7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iah32")
+}],
+"loop": 0,
+"name": &"dano",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t3w8d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iq1vj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b01cu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_47g6v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0x3pi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qccw6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5qe1h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_heelk")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dfn73")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_admyk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wkdcb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_exsqf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_njvxi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ps7rq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xl54w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m3fkx")
+}],
+"loop": 0,
+"name": &"muerte",
+"speed": 8.0
+}]
+
+[node name="Pelea" instance=ExtResource("1_base")]
+nivel = 2
+banco_preguntas = "res://data/jefes/banco_jefe_2.gd"
+segundos_pregunta = 12.0
+vida_jefe = 200
+multiplicador_danio = 1.5
+frase_espera = "* THE DANGLING POINTER SE BALANCEA SOBRE EL VACÍO."
+frase_victoria = "Ninguna placa vuelve a apuntar al vacío."
+prob_ataque = 0.35
+escena_stage = "res://scenes/levels/arena_jefe_2.tscn"
+
+[node name="NombreJefe" parent="CosasJefe" index="0"]
+text = "THE DANGLING POINTER"
+
+[node name="Jefe" parent="CosasJefe" index="1"]
+sprite_frames = SubResource("SpriteFrames_1kdt8")
+animation = &"default"
+frame = 0
+frame_progress = 0.0

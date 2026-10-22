@@ -1,0 +1,102 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n201"]
+script = ExtResource("2_opt")
+text = "`b = a;`"
+wrong_feedback = "Moviste las placas dentro del oficio; las casillas de afuera no cambian."
+concept_on_error = "Asignar punteros cambia adónde miran, no lo que hay en las casillas."
+hint = "Hay que verter contenido, no cambiar placas."
+
+[sub_resource type="Resource" id="Resource_n202"]
+script = ExtResource("2_opt")
+text = "`*b = *a;`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n203"]
+script = ExtResource("2_opt")
+text = "`&b = &a;`"
+wrong_feedback = "La dirección de una variable no se puede reasignar: eso ni compila."
+concept_on_error = "`&b` no es una casilla donde escribir."
+hint = "Esa línea no compila. Piensa en el contenido de cada casilla."
+
+[sub_resource type="Resource" id="Resource_n204"]
+script = ExtResource("1_cell")
+address = "0x0210"
+value = "5"
+label = "x"
+
+[sub_resource type="Resource" id="Resource_n205"]
+script = ExtResource("1_cell")
+address = "0x0214"
+value = "1"
+label = "y"
+
+[sub_resource type="Resource" id="Resource_n206"]
+script = ExtResource("1_cell")
+address = "0x0FF0"
+value = "0x0210"
+label = "a"
+points_to = "0x0210"
+
+[sub_resource type="Resource" id="Resource_n207"]
+script = ExtResource("1_cell")
+address = "0x0FF8"
+value = "0x0214"
+label = "b"
+points_to = "0x0214"
+
+[sub_resource type="Resource" id="Resource_n208"]
+script = ExtResource("1_cell")
+address = "0x0200"
+value = "8"
+label = "fuerza de Cast"
+
+[sub_resource type="Resource" id="Resource_n209"]
+script = ExtResource("1_cell")
+address = "0x0208"
+value = "3"
+label = "fuerza de Ref"
+
+[sub_resource type="Resource" id="Resource_n210"]
+script = ExtResource("4_ex")
+title = "REPASO DEL ANCIANO"
+code = "void trocar(int *a, int *b) {
+    int t = *b;
+    __________
+    *a = t;
+}"
+question = "¿Qué línea falta?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n204"), SubResource("Resource_n205"), SubResource("Resource_n206"), SubResource("Resource_n207")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n201"), SubResource("Resource_n202"), SubResource("Resource_n203")])
+conceptual_hint = "Esta vez se guardó primero `*b`. Falta que la casilla de `b` reciba el contenido de la de `a`."
+example_code = "void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n208"), SubResource("Resource_n209")])
+example_text = "El ritual de los gemelos: contenido a contenido, `*a = *b`."
+example_followup = "Es el mismo concepto del caso original. Vuelve al repaso."
+success_title = "¡REPASO SUPERADO!"
+success_text = "Lo que fallaste en el distrito ahora cuenta como acierto."
+concept_text = "Para intercambiar con punteros se escribe en `*a` y `*b`."
+
+[resource]
+script = ExtResource("5_mision")
+id = &"RP-N2-03"
+oa_code = "OA3.2"
+title = "Repaso: Los Gemelos Intercambiados"
+objective = "→ Responde el repaso del Anciano"
+giver_name = "el Anciano"
+variante_de = &"EJ-N2-03"
+intro_dialogue = Array[String](["Antes de bajar, quiero estar seguro de algo.", "En el distrito fallaste algunas pruebas. Para enfrentar al jefe hay que acertar al menos 7 de cada 10 al primer intento.", "Repasemos lo de «Los Gemelos Intercambiados». Te pondré un caso parecido: respóndelo con calma."])
+reminder_dialogue = Array[String](["Sigamos con el repaso de «Los Gemelos Intercambiados»."])
+success_dialogue = Array[String](["Bien. Eso ya no te lo van a quitar."])
+done_dialogue = Array[String](["Ese caso ya lo dominas."])
+exercise = SubResource("Resource_n210")

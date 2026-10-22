@@ -9,6 +9,14 @@ extends Resource
 @export var requires_all: Array[StringName] = [] # ids de TODAS las misiones que deben estar completas antes
 @export var giver_name: String = ""              # quién la da ("Juan"): lo usa la sugerencia del HUD
 @export var cell_address: String = ""            # "" = prueba en diálogo (sin casilla en el mapa)
+# Nivel 2 (indirección): casillas que hay que abrir ANTES de cell_address, en orden.
+# Cada una guarda en `value` la dirección de la siguiente; al abrirla se anota en el Registro.
+@export var cadena: Array[MemoryCellData] = []
+# Umbral del nivel (la misión del Anciano): si la precisión del nivel está por debajo,
+# en vez de esta misión se da el repaso de una misión fallada. 0 = sin umbral.
+@export var precision_minima: float = 0.0
+# Misión de repaso (id "RP-N2-01"): id de la misión original que recupera ("EJ-N2-01")
+@export var variante_de: StringName
 
 @export_group("Diálogos")
 @export var intro_dialogue: Array[String] = []
