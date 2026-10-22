@@ -13,8 +13,8 @@ const BASE_LUCK := 0.05
 const MISIONES_NIVEL_1 := 8
 const MISION_ANCIANO := &"EJ-N1-09"     # "Listo para el jefe": no cuenta entre las 8
 # Por nivel: cuántas misiones de NPC tiene y cuál es la del Anciano (no cuenta entre ellas).
-# Las 8 del nivel 2 suman +40 vida, +15 daño, +15 % armadura y +10 % suerte (= 140 / 40 / 35 % / 25 %).
-const MISIONES_POR_NIVEL := {1: 8, 2: 8}
+# Las 6 del nivel 2 suman +40 vida, +15 daño, +15 % armadura y +10 % suerte (= 140 / 40 / 35 % / 25 %).
+const MISIONES_POR_NIVEL := {1: 8, 2: 6}
 const MISIONES_ANCIANO := {1: &"EJ-N1-09", 2: &"EJ-N2-09"}
 const NOMBRES_JEFE := {1: "The Memory Leak", 2: "The Dangling Pointer"}
 const ARMOR_CAP := 0.75

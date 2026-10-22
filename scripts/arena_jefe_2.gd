@@ -7,6 +7,8 @@ extends Node2D
 
 const PELEA := "res://scenes/boss/pelea_jefe_2.tscn"
 const DATOS_JEFE := preload("res://scripts/data/dangling_pointer.tres")
+const ANCIANO := preload("res://scripts/data/anciano.tres")
+const ANCIANO_GUIA := preload("res://scenes/actors/anciano_guia.tscn")
 
 const LINEAS_ENTRADA: Array[String] = [
 	"Vaya, vaya... una placa nueva bajando por mi pozo.",
@@ -19,6 +21,11 @@ const LINEA_SIN_MISIONES := "Y encima bajas sin haber ayudado a nadie allá arri
 const LINEAS_DERROTA: Array[String] = [
 	"Suéltame si quieres... Las placas que guardaba ya no apuntan a nada.",
 	"Pero la tuya, la de tu memoria... esa no la tengo yo. Alguien más la guarda.",
+]
+
+const LINEAS_LLEGADA: Array[String] = [
+	"Llegamos. Esta isla es lo último que queda de la vieja mina.",
+	"Quédate cerca del farol... y si algo te ofrece una dirección, no la tomes sin mirar.",
 ]
 
 ## Dónde queda el jugador al volver de la pelea ganada (frente al jefe)
@@ -41,20 +48,45 @@ var _empezo := false
 
 func _ready() -> void:
 	_lugar_jefe = jefe.position
+	var llega_en_tirolesa := GameState.punto_entrada == &"DesdeTirolesa"
+	if llega_en_tirolesa:
+		GameState.punto_entrada = &""
 	if not GameState.boss2_defeated:
 		# El jefe espera escondido en el vacío hasta que el jugador se acerca al centro
 		jefe.visible = false
 		_crear_zona_entrada()
+		_poner_anciano()
+		if llega_en_tirolesa:
+			_llegada.call_deferred()
 	elif not final_visto:
 		puerta.cerrar_al_instante()
 		jugador.position = LUGAR_VICTORIA
 		jugador.last_direction = Vector2.RIGHT
+		_poner_anciano()
 		GameState.en_cinematica = true
 		_esconder_memoria(true)
 		_final.call_deferred()
 	else:
 		jefe.queue_free()
 		corrupcion.modulate.a = 0.0
+		_poner_anciano()
+
+
+## El Anciano baja con el jugador y lo sigue por la isla (anciano_guia.gd)
+func _poner_anciano() -> void:
+	if get_tree().get_first_node_in_group("anciano_guia") != null:
+		return
+	var anciano: Node2D = ANCIANO_GUIA.instantiate()
+	anciano.position = jugador.position + Vector2(-20, 0)
+	$Objetos.add_child(anciano)
+
+
+func _llegada() -> void:
+	GameState.en_cinematica = true
+	jugador.last_direction = Vector2.RIGHT
+	await get_tree().create_timer(1.4).timeout      # deja terminar el goteo de la transición
+	await Dialogue.say(ANCIANO, LINEAS_LLEGADA)
+	GameState.en_cinematica = false
 
 
 # ------------------------------------------------------------------ entrada del jefe

@@ -26,11 +26,10 @@
 [ext_resource type="Resource" path="res://data/missions/ej_n2_02.tres" id="n2_ej_n2_02"]
 [ext_resource type="Resource" path="res://data/missions/ej_n2_03.tres" id="n2_ej_n2_03"]
 [ext_resource type="Resource" path="res://data/missions/ej_n2_04.tres" id="n2_ej_n2_04"]
-[ext_resource type="Resource" path="res://data/missions/ej_n2_06.tres" id="n2_ej_n2_06"]
 [ext_resource type="Resource" path="res://data/missions/ej_n2_07.tres" id="n2_ej_n2_07"]
-[ext_resource type="Resource" path="res://data/missions/ej_n2_08.tres" id="n2_ej_n2_08"]
 [ext_resource type="Resource" path="res://data/missions/ej_n2_09.tres" id="n2_ej_n2_09"]
 [ext_resource type="Script" path="res://scripts/memoria_perdida.gd" id="mem_script"]
+[ext_resource type="Script" path="res://scripts/pozo_jefe_2.gd" id="pozo_jefe_2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vqv2h"]
 texture = ExtResource("2_xlgms")
@@ -1482,6 +1481,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_puerta_biblio"]
 size = Vector2(28, 12)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pozo_jefe"]
+size = Vector2(64, 30)
+
 [node name="Stage2" type="Node2D" unique_id=61945114]
 
 [node name="Provisorio" type="CanvasLayer" parent="." unique_id=817473386]
@@ -1555,10 +1557,6 @@ address = "0x0200"
 position = Vector2(476, -60)
 address = "0x0208"
 
-[node name="Casilla 0x0220" parent="." instance=ExtResource("n2_casilla")]
-position = Vector2(368, -4)
-address = "0x0220"
-
 [node name="Casilla 0x0300" parent="." instance=ExtResource("n2_casilla")]
 position = Vector2(-130, 215)
 address = "0x0300"
@@ -1570,14 +1568,6 @@ address = "0x0310"
 [node name="Casilla 0x0330" parent="." instance=ExtResource("n2_casilla")]
 position = Vector2(65, 215)
 address = "0x0330"
-
-[node name="Casilla 0x0340" parent="." instance=ExtResource("n2_casilla")]
-position = Vector2(-24, 170)
-address = "0x0340"
-
-[node name="Casilla 0x0344" parent="." instance=ExtResource("n2_casilla")]
-position = Vector2(12, 170)
-address = "0x0344"
 
 [node name="Player2" parent="." unique_id=376763523 instance=ExtResource("3_vqv2h")]
 position = Vector2(-497, 29)
@@ -1668,11 +1658,11 @@ missions = Array[ExtResource("n2_mision_script")]([ExtResource("n2_ej_n2_09")])
 position = Vector2(444, -241)
 
 [node name="Cast" parent="." unique_id=745460736 instance=ExtResource("18_klg0h")]
-missions = Array[ExtResource("n2_mision_script")]([ExtResource("n2_ej_n2_03"), ExtResource("n2_ej_n2_06")])
+missions = Array[ExtResource("n2_mision_script")]([ExtResource("n2_ej_n2_03")])
 position = Vector2(300, -58)
 
 [node name="Ref" parent="." unique_id=166648607 instance=ExtResource("19_i6eah")]
-missions = Array[ExtResource("n2_mision_script")]([ExtResource("n2_ej_n2_03"), ExtResource("n2_ej_n2_06")])
+missions = Array[ExtResource("n2_mision_script")]([ExtResource("n2_ej_n2_03")])
 position = Vector2(446, -50)
 
 [node name="Notario" parent="." unique_id=1073721876 instance=ExtResource("20_8rrdd")]
@@ -1680,7 +1670,7 @@ missions = Array[ExtResource("n2_mision_script")]([ExtResource("n2_ej_n2_02"), E
 position = Vector2(-198, 238)
 
 [node name="Vidente" parent="." unique_id=553864671 instance=ExtResource("21_bx0mg")]
-missions = Array[ExtResource("n2_mision_script")]([ExtResource("n2_ej_n2_07"), ExtResource("n2_ej_n2_08")])
+missions = Array[ExtResource("n2_mision_script")]([ExtResource("n2_ej_n2_07")])
 position = Vector2(150, 206)
 
 [node name="Memoria5" type="AnimatedSprite2D" parent="."]
@@ -1690,3 +1680,9 @@ autoplay = "default"
 script = ExtResource("mem_script")
 id = &"M3"
 
+[node name="Pozo al jefe" type="Area2D" parent="."]
+position = Vector2(480, -316)
+script = ExtResource("pozo_jefe_2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pozo al jefe"]
+shape = SubResource("RectangleShape2D_pozo_jefe")

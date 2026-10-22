@@ -24,10 +24,8 @@ const RUTAS := {
 		"res://data/missions/ej_n2_02.tres",
 		"res://data/missions/ej_n2_05.tres",
 		"res://data/missions/ej_n2_03.tres",
-		"res://data/missions/ej_n2_06.tres",
 		"res://data/missions/ej_n2_04.tres",
 		"res://data/missions/ej_n2_07.tres",
-		"res://data/missions/ej_n2_08.tres",
 		"res://data/missions/ej_n2_09.tres",
 	],
 }

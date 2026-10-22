@@ -72,7 +72,7 @@ hint = "Esa línea ni siquiera compila. Piensa en verter contenido, no en mover 
 [sub_resource type="Resource" id="Resource_n205"]
 script = ExtResource("3_reward")
 stat = 1
-amount = 0.1
+amount = 0.15
 
 [sub_resource type="Resource" id="Resource_n212"]
 script = ExtResource("4_ex")

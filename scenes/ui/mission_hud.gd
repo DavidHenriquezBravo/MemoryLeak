@@ -15,7 +15,7 @@ const CAJA_ACIERTO := preload("res://Sprites/UI/Cajas/caja_acierto_9slice.png")
 const C_GOLD := Color(0.933, 0.659, 0.251)
 const C_GREEN := Color(0.439, 0.902, 0.439)
 const SEGUNDOS_AVISO := 2.5
-const ESCENAS_SIN_HUD := ["menu", "pelea", "game_over"]
+const ESCENAS_SIN_HUD := ["menu", "pelea", "game_over", "cinematicas"]
 const REGISTRO := preload("res://scenes/ui/registro.gd")
 
 # Cuándo empezó la última misión (lo usa ExercisePanel para no tapar el aviso)
