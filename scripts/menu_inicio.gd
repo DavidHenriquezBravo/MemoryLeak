@@ -1,34 +1,59 @@
 extends Control
 
-# Ruta a la escena principal de tu juego (Gameplay/Mundo)
-# Asegúrate de cambiar esta ruta por la de tu archivo .tscn real
 const ESCENA_JUEGO_PATH: String = "res://scenes/levels/stage_1.tscn"
 
 # Referencias a los nodos de la interfaz
 @onready var boton_jugar: Button = $VBoxContainer/Jugar
-@onready var boton_opciones: Button = $VBoxContainer/Opciones
+@onready var boton_opciones: OptionButton = $VBoxContainer/Opciones # Ahora es OptionButton
 @onready var boton_salir: Button = $VBoxContainer/Salir
 
 func _ready() -> void:
-	# Conectar las señales de los botones por código (si no las conectaste en el editor)
 	if not boton_jugar.pressed.is_connected(_on_boton_jugar_pressed):
 		boton_jugar.pressed.connect(_on_boton_jugar_pressed)
 		
 	if not boton_salir.pressed.is_connected(_on_boton_salir_pressed):
 		boton_salir.pressed.connect(_on_boton_salir_pressed)
-	
-	# Desactivar temporalmente el botón de Opciones
+		
 	if boton_opciones:
-		boton_opciones.disabled = true
-		boton_opciones.tooltip_text = "Próximamente" # Mensaje flotante opcional
+		boton_opciones.clear() 
+		boton_opciones.add_item("Resolución: 1280x720", 0)
+		boton_opciones.add_item("Resolución: 1920x1080", 1)
+		
+		# --- NUEVO: Forzar la resolución inicial ---
+		boton_opciones.select(0) # Hace que el texto del botón diga 1280x720
+		_on_opciones_item_selected(0) # Ejecuta el código para poner la ventana en 1280x720
+		
+		# Conectar la señal
+		if not boton_opciones.item_selected.is_connected(_on_opciones_item_selected):
+			boton_opciones.item_selected.connect(_on_opciones_item_selected)
 
 func _on_boton_jugar_pressed() -> void:
-	# Cambia a la escena principal del juego
 	var error = get_tree().change_scene_to_file(ESCENA_JUEGO_PATH)
-	
 	if error != OK:
-		print("Error al intentar cargar la escena del juego: ", error)
+		print("Error al cargar la escena: ", error)
+
+# Esta función se ejecuta al elegir una opción del menú desplegable
+func _on_opciones_item_selected(index: int) -> void:
+	var nueva_resolucion: Vector2i
+	
+	match index:
+		0:
+			nueva_resolucion = Vector2i(1280, 720)
+		1:
+			nueva_resolucion = Vector2i(1920, 1080)
+			
+	print("Cambiando resolución a: ", nueva_resolucion)
+	
+	# Cambiar el tamaño de la ventana
+	DisplayServer.window_set_size(nueva_resolucion)
+	
+	# Centrar la ventana en la pantalla actual
+	var tamano_pantalla = DisplayServer.screen_get_size()
+	var posicion_centrada = (tamano_pantalla / 2) - (nueva_resolucion / 2)
+	
+	# Mover la ventana solo si el sistema lo permite
+	if DisplayServer.window_get_mode() != DisplayServer.WINDOW_MODE_FULLSCREEN:
+		DisplayServer.window_set_position(posicion_centrada)
 
 func _on_boton_salir_pressed() -> void:
-	# Cierra el juego
 	get_tree().quit()
