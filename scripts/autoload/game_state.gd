@@ -80,10 +80,24 @@ func is_completed(mission_id: StringName) -> bool:
 
 # En qué nivel de la historia va el jugador: el jefe 1 abre el nivel 2, el jefe 2 abre el 3
 func nivel_historia() -> int:
+	var n := 1
 	if boss2_defeated:
-		return 3
-	if boss_defeated:
-		return 2
+		n = 3
+	elif boss_defeated:
+		n = 2
+	return maxi(n, _nivel_de_escena())
+
+
+# El nivel al que pertenece la escena actual (para cuando se entra directo a un stage, sin pasar por los jefes)
+func _nivel_de_escena() -> int:
+	var esc := get_tree().current_scene if is_inside_tree() else null
+	var ruta := esc.scene_file_path if esc else ""
+	for clave in ["stage_3", "camino_nucleo"]:
+		if ruta.contains(clave):
+			return 3
+	for clave in ["stage_2", "biblioteca", "arena_jefe_2", "bajada_jefe_2"]:
+		if ruta.contains(clave):
+			return 2
 	return 1
 
 

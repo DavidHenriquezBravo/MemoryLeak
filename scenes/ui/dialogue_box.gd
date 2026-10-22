@@ -48,10 +48,11 @@ func _set_name(text: String) -> void:
 
 # "REGISTRO 0/1" en magenta, "REGISTRO 1/1 · OK" en verde; "" = sin pestaña
 func _set_registro(text: String) -> void:
-	registro_box.visible = text != ""
-	if text == "":
-		return
 	var ok := text.ends_with("OK")
+	# Solo se muestra mientras falta algo: "REGISTRO 1/1 · OK" no aporta nada
+	registro_box.visible = text != "" and not ok
+	if not registro_box.visible:
+		return
 	registro_label.text = text
 	registro_label.add_theme_color_override("font_color", COLOR_OK if ok else COLOR_PENDIENTE)
 	registro_box.texture = REGISTRO_OK if ok else REGISTRO_PENDIENTE

@@ -43,6 +43,9 @@ func _on_opciones_item_selected(index: int) -> void:
 			nueva_resolucion = Vector2i(1920, 1080)
 			
 	print("Cambiando resolución a: ", nueva_resolucion)
+	if Engine.is_embedded_in_editor():
+		print("(el juego está dentro del editor: la ventana no se puede cambiar; en el .exe sí)")
+		return
 	
 	# Cambiar el tamaño de la ventana
 	DisplayServer.window_set_size(nueva_resolucion)

@@ -7,7 +7,7 @@ extends CharacterBody2D
 ## Distancia a la que va detrás del jugador
 @export var distancia: float = 22.0
 ## Velocidad normal (la del jugador es 150)
-@export var velocidad: float = 140.0
+@export var velocidad: float = 150.0
 
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -36,7 +36,7 @@ func _physics_process(delta: float) -> void:
 		_quieto_mirando(jugador.global_position)
 		return
 	# si se quedó muy atrás, apura el paso
-	var v := velocidad if lejos < 90.0 else velocidad * 1.6
+	var v := velocidad if lejos < 48.0 else velocidad * 1.6
 	_avanzar_por_rastro(v * delta)
 
 

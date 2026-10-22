@@ -26,6 +26,7 @@ var ultimo_inicio_ms: int = -100000
 
 var _tween: Tween
 var registro: Control
+var _ruta_escena := ""   # para notar el cambio de escena (el nivel de la sugerencia depende de dónde estás)
 
 
 func _ready() -> void:
@@ -50,6 +51,9 @@ func _process(_delta: float) -> void:
 		if ruta.contains(clave):
 			oculto = true
 	visible = not oculto
+	if ruta != _ruta_escena:
+		_ruta_escena = ruta
+		_actualizar_sugerencia()
 
 
 func _on_started(m: MissionData) -> void:

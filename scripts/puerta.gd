@@ -23,11 +23,9 @@ func _ready() -> void:
 	entrada.body_entered.connect(_on_entrada_body_entered)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if jugador_cerca and not animando and event.is_action_pressed("interact"):
-		if abierta:
-			cerrar()
-		else:
-			abrir()
+	# Solo abre: si se pudiera cerrar, apretar E varias veces podía dejar al jugador encerrado del otro lado
+	if jugador_cerca and not animando and not abierta and event.is_action_pressed("interact"):
+		abrir()
 
 func abrir() -> void:
 	animando = true
@@ -64,6 +62,8 @@ func _on_entrada_body_entered(body: Node2D) -> void:
 		# Sin estar preparado, la primera vez solo avisa (la segunda ya te deja pasar)
 		if not GameState.boss_defeated and not GameState.listo_para_jefe() and not GameState.aviso_puerta_visto:
 			GameState.aviso_puerta_visto = true
+			# vuelve a quedar frente a la puerta: para pelear hay que cruzarla otra vez a propósito
+			body.set_deferred("global_position", to_global(Vector2(33, -172)))
 			_avisar_sin_preparacion()
 			return
 		entrando = true

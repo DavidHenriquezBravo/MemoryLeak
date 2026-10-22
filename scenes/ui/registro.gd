@@ -140,6 +140,9 @@ func abrir(pestana: int = -1) -> void:
 		_pestana = pestana
 	is_open = true
 	visible = true
+	# La pausa también detendría la música del nivel: los reproductores siguen sonando
+	for musica in get_tree().current_scene.find_children("*", "AudioStreamPlayer", true, false) 			+ get_tree().current_scene.find_children("*", "AudioStreamPlayer2D", true, false):
+		musica.process_mode = Node.PROCESS_MODE_ALWAYS
 	get_tree().paused = true
 	_refrescar()
 
