@@ -15,7 +15,7 @@ const CAJA_ACIERTO := preload("res://Sprites/UI/Cajas/caja_acierto_9slice.png")
 const C_GOLD := Color(0.933, 0.659, 0.251)
 const C_GREEN := Color(0.439, 0.902, 0.439)
 const SEGUNDOS_AVISO := 2.5
-const ESCENAS_SIN_HUD := ["menu", "pelea", "game_over", "cinematicas"]
+const ESCENAS_SIN_HUD := ["menu", "pelea", "game_over", "cinematicas", "nucleo_final", "levels/inicio"]
 const REGISTRO := preload("res://scenes/ui/registro.gd")
 
 # Cuándo empezó la última misión (lo usa ExercisePanel para no tapar el aviso)
@@ -120,7 +120,8 @@ func _actualizar_sugerencia() -> void:
 		%Objetivo.text = AddrFormatter.format("→ Habla con %s" % m.giver_name)
 	elif GameState.listo_para_jefe(nivel):
 		%Titulo.text = GameState.NOMBRES_JEFE[nivel]
-		%Objetivo.text = "→ Cruza la puerta del norte" if nivel == 1 else "→ Baja por el pozo con el Anciano"
+		%Objetivo.text = ["→ Cruza la puerta del norte", "→ Baja por el pozo con el Anciano",
+				"→ Entra al Núcleo del volcán"][nivel - 1]
 	else:
 		caja.visible = false
 		return

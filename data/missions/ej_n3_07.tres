@@ -1,0 +1,131 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n301"]
+script = ExtResource("2_opt")
+text = "`9 2`"
+wrong_feedback = "Trazaste el golpe con la daga en su posición inicial. Pero la anomalía la movió una línea antes."
+concept_on_error = "`*pp = &b` escribe en `p`: desde ahí, `p` apunta a `b`."
+hint = "Justo antes de `*p = 9`, ¿a quién apunta `p`?"
+
+[sub_resource type="Resource" id="Resource_n302"]
+script = ExtResource("2_opt")
+text = "`1 9`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n303"]
+script = ExtResource("2_opt")
+text = "`9 9`"
+wrong_feedback = "Una daga apunta a una sola casilla a la vez: el golpe cae en una, no en las dos."
+concept_on_error = "`*p = 9` escribe solo en la casilla a la que apunta `p` en ese momento."
+hint = "¿Puede `p` apuntar a dos casillas a la vez?"
+
+[sub_resource type="Resource" id="Resource_n304"]
+script = ExtResource("3_reward")
+stat = 1
+amount = 0.05
+
+[sub_resource type="Resource" id="Resource_n305"]
+script = ExtResource("1_cell")
+address = "0x0540"
+value = "1"
+label = "a"
+
+[sub_resource type="Resource" id="Resource_n306"]
+script = ExtResource("1_cell")
+address = "0x0544"
+value = "2"
+label = "b"
+
+[sub_resource type="Resource" id="Resource_n307"]
+script = ExtResource("1_cell")
+address = "0x0548"
+value = "0x0540"
+label = "p (al empezar)"
+points_to = "0x0540"
+
+[sub_resource type="Resource" id="Resource_n308"]
+script = ExtResource("1_cell")
+address = "0x0550"
+value = "0x0548"
+label = "pp"
+points_to = "0x0548"
+
+[sub_resource type="Resource" id="Resource_n309"]
+script = ExtResource("1_cell")
+address = "0x0560"
+value = "3"
+label = "a"
+
+[sub_resource type="Resource" id="Resource_n310"]
+script = ExtResource("1_cell")
+address = "0x0564"
+value = "1"
+label = "b"
+
+[sub_resource type="Resource" id="Resource_n311"]
+script = ExtResource("1_cell")
+address = "0x0568"
+value = "0x0564"
+label = "p"
+points_to = "0x0564"
+
+[sub_resource type="Resource" id="Resource_n312"]
+script = ExtResource("1_cell")
+address = "0x0570"
+value = "0x0568"
+label = "pp"
+points_to = "0x0568"
+
+[sub_resource type="Resource" id="Resource_n313"]
+script = ExtResource("4_ex")
+title = "EL GOLPE"
+code = "int a = 1, b = 2;
+int *p = &a;
+int **pp = &p;
+*pp = &b;
+*p = 9;
+printf(\"%d %d\", a, b);"
+question = "¿Qué imprime?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n305"), SubResource("Resource_n306"), SubResource("Resource_n307"), SubResource("Resource_n308")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n301"), SubResource("Resource_n302"), SubResource("Resource_n303")])
+conceptual_hint = "`pp` guarda la placa de `p`. `*pp = &b` escribe en `p`: la daga ahora apunta a `b`, y el golpe `*p = 9` cae sobre `b`."
+example_code = "int a = 3, b = 6;
+int *p = &a;
+int **pp = &p;
+*pp = &b;
+*p = 1;   // a = 3, b = 1"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n309"), SubResource("Resource_n310"), SubResource("Resource_n311"), SubResource("Resource_n312")])
+example_text = "La anomalía movió la daga a `b` antes del golpe: `a` queda en 3 y `b` en 1."
+example_followup = "Mismo ritual, otros números. Vuelve con el Armero: ¿qué imprime su prueba?"
+success_title = "¡GOLPE TRAZADO!"
+success_text = "`*pp = &b` movió la daga; el golpe siguiente cayó sobre `b`."
+concept_text = "Escribir en `*pp` cambia a dónde apunta `p`."
+reward = SubResource("Resource_n304")
+
+[sub_resource type="Resource" id="Resource_n314"]
+script = ExtResource("1_cell")
+address = "0x0548"
+value = "0x0544"
+label = "tu daga, tras la anomalía"
+
+[resource]
+script = ExtResource("5_mision")
+id = &"EJ-N3-07"
+oa_code = "OA3.3 / OA3.4"
+title = "La Daga que cambió de dueño"
+objective = "→ Traza el golpe del Armero"
+requires_all = Array[StringName]([&"EJ-N3-02", &"EJ-N3-03"])
+giver_name = "el Armero"
+intro_dialogue = Array[String](["Volviste. Quiero probar el filo de tu daga con el registro maestro del Archivista.", "La enlazo a un aldeano a través del registro: `int a = 1, b = 2; int *p = &a; int **pp = &p;`.", "Pero una anomalía reescribe el registro a mitad del ritual: `*pp = &b;`. Y recién después cae el golpe: `*p = 9;`.", "`pp` no toca a nadie: mueve la daga. Fíjate a quién apunta cuando cae el golpe."])
+reminder_dialogue = Array[String](["Traza la daga línea por línea. ¿A quién apunta cuando cae el golpe?"])
+success_dialogue = Array[String](["`*pp = &b` movió la daga, así que el golpe cayó sobre `b` y `a` quedó intacto.", "Tienes buen ojo. Te reforcé la armadura con lo que sobró del ritual."])
+done_dialogue = Array[String](["La daga se mueve antes del golpe. Siempre mira dónde está cuando golpeas."])
+locked_dialogue = Array[String](["Para esta prueba necesitas dos cosas: saber caminar mi arsenal y entender el servicio del Archivista.", "Vuelve cuando hayas hecho las dos."])
+exercise = SubResource("Resource_n313")
+reveals = Array[ExtResource("1_cell")]([SubResource("Resource_n314")])

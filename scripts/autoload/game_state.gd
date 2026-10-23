@@ -7,16 +7,17 @@ signal memoria_recuperada(id: StringName)
 # Stats de quien no ha hecho ninguna misión. Las 8 misiones del nivel 1 suman
 # +40 vida, +15 daño, +20 % armadura y +10 % suerte (= 100 / 25 / 20 % / 15 %).
 const BASE_MAX_HP := 60
-const BASE_DAMAGE := 1000
+const BASE_DAMAGE := 10
 const BASE_ARMOR := 0.0
 const BASE_LUCK := 0.05
 const MISIONES_NIVEL_1 := 8
 const MISION_ANCIANO := &"EJ-N1-09"     # "Listo para el jefe": no cuenta entre las 8
 # Por nivel: cuántas misiones de NPC tiene y cuál es la del Anciano (no cuenta entre ellas).
 # Las 6 del nivel 2 suman +40 vida, +15 daño, +15 % armadura y +10 % suerte (= 140 / 40 / 35 % / 25 %).
-const MISIONES_POR_NIVEL := {1: 8, 2: 6}
-const MISIONES_ANCIANO := {1: &"EJ-N1-09", 2: &"EJ-N2-09"}
-const NOMBRES_JEFE := {1: "The Memory Leak", 2: "The Dangling Pointer"}
+# Las 8 del nivel 3 suman lo mismo otra vez (= 180 / 55 / 50 % / 35 %).
+const MISIONES_POR_NIVEL := {1: 8, 2: 6, 3: 8}
+const MISIONES_ANCIANO := {1: &"EJ-N1-09", 2: &"EJ-N2-09", 3: &"EJ-N3-09"}
+const NOMBRES_JEFE := {1: "The Memory Leak", 2: "The Dangling Pointer", 3: "The Segmentation Fault"}
 const ARMOR_CAP := 0.75
 const LUCK_CAP := 0.60
 
@@ -33,8 +34,14 @@ var en_cinematica: bool = false     # congela al jugador durante animaciones
 var aviso_puerta_visto: bool = false  # ya se mostró la advertencia de la puerta (solo avisa una vez)
 var preguntas_jefe_resueltas: Array[String] = []   # ids del banco del jefe ya respondidos bien (no se repiten)
 var boss2_defeated: bool = false    # The Dangling Pointer ya cayó
+var boss3_defeated: bool = false    # The Segmentation Fault ya cayó: el jugador recuperó su memoria
+var final_visto_juego: bool = false # ya se vio el final del juego en el Núcleo
 var fallos: Dictionary = {}         # "EJ-N2-01" -> respuestas equivocadas antes de acertar (para el 70 %)
 var memorias: Array[StringName] = []   # memorias perdidas recogidas ("M1".."M6"), en el orden en que se encontraron
+var giro_visto: bool = false        # el Anciano ya confesó en la entrada del volcán (y dejó de acompañar)
+var nucleo_visto: bool = false      # ya se vio su aparición, corrupto, en el Núcleo
+var nombre_jugador: String = ""     # el que escribió en el inicio (se corrompe en ceros; lo recupera al final)
+var traje_visto: int = 0            # el último traje que ya se estrenó (con el destello de player.gd)
 
 # NV del jugador: cada misión de NPC y cada jefe derrotado suben un nivel (sin barra de experiencia).
 # Los repasos ("RP-...") y las misiones del Anciano no suben.
@@ -47,6 +54,8 @@ var nivel_jugador: int:
 		if boss_defeated:
 			n += 1
 		if boss2_defeated:
+			n += 1
+		if boss3_defeated:
 			n += 1
 		return n
 
@@ -88,11 +97,20 @@ func nivel_historia() -> int:
 	return maxi(n, _nivel_de_escena())
 
 
+# El traje del protagonista: el de inicio (venda), y uno nuevo al vencer a cada jefe: 1 chaqueta, 2 túnica
+func traje() -> int:
+	if boss2_defeated:
+		return 2
+	if boss_defeated:
+		return 1
+	return 0
+
+
 # El nivel al que pertenece la escena actual (para cuando se entra directo a un stage, sin pasar por los jefes)
 func _nivel_de_escena() -> int:
 	var esc := get_tree().current_scene if is_inside_tree() else null
 	var ruta := esc.scene_file_path if esc else ""
-	for clave in ["stage_3", "camino_nucleo"]:
+	for clave in ["stage_3", "camino_nucleo", "nucleo_final"]:
 		if ruta.contains(clave):
 			return 3
 	for clave in ["stage_2", "biblioteca", "arena_jefe_2", "bajada_jefe_2"]:

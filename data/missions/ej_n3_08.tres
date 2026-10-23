@@ -1,0 +1,126 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n301"]
+script = ExtResource("2_opt")
+text = "`1 0`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n302"]
+script = ExtResource("2_opt")
+text = "`1 1`"
+wrong_feedback = "Comparaste el contenido dos veces. La segunda comparación es entre placas, y están en estanterías distintas."
+concept_on_error = "`p == q` compara direcciones; `a` y `b` viven en casillas distintas."
+hint = "`p` y `q` guardan direcciones. ¿Son la misma?"
+
+[sub_resource type="Resource" id="Resource_n303"]
+script = ExtResource("2_opt")
+text = "`0 0`"
+wrong_feedback = "Las dos fichas dicen 7: `a == b` es verdadero."
+concept_on_error = "`a == b` compara valores, y 7 es igual a 7."
+hint = "Mira los valores: ¿7 es igual a 7?"
+
+[sub_resource type="Resource" id="Resource_n304"]
+script = ExtResource("3_reward")
+stat = 2
+amount = 0.05
+
+[sub_resource type="Resource" id="Resource_n305"]
+script = ExtResource("1_cell")
+address = "0x0660"
+value = "7"
+label = "a"
+
+[sub_resource type="Resource" id="Resource_n306"]
+script = ExtResource("1_cell")
+address = "0x0664"
+value = "7"
+label = "b"
+
+[sub_resource type="Resource" id="Resource_n307"]
+script = ExtResource("1_cell")
+address = "0x0668"
+value = "0x0660"
+label = "p"
+points_to = "0x0660"
+
+[sub_resource type="Resource" id="Resource_n308"]
+script = ExtResource("1_cell")
+address = "0x0670"
+value = "0x0664"
+label = "q"
+points_to = "0x0664"
+
+[sub_resource type="Resource" id="Resource_n309"]
+script = ExtResource("1_cell")
+address = "0x0680"
+value = "5"
+label = "x"
+
+[sub_resource type="Resource" id="Resource_n310"]
+script = ExtResource("1_cell")
+address = "0x0684"
+value = "5"
+label = "y"
+
+[sub_resource type="Resource" id="Resource_n311"]
+script = ExtResource("1_cell")
+address = "0x0688"
+value = "0x0680"
+label = "p"
+points_to = "0x0680"
+
+[sub_resource type="Resource" id="Resource_n312"]
+script = ExtResource("1_cell")
+address = "0x0690"
+value = "0x0684"
+label = "q"
+points_to = "0x0684"
+
+[sub_resource type="Resource" id="Resource_n313"]
+script = ExtResource("4_ex")
+title = "LAS DOS FICHAS"
+code = "int a = 7, b = 7;
+int *p = &a, *q = &b;
+printf(\"%d %d\", a == b, p == q);"
+question = "¿Qué imprime?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n305"), SubResource("Resource_n306"), SubResource("Resource_n307"), SubResource("Resource_n308")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n301"), SubResource("Resource_n302"), SubResource("Resource_n303")])
+conceptual_hint = "`a == b` compara lo que dicen las fichas; `p == q` compara dónde están. En C, verdadero se imprime como 1 y falso como 0."
+example_code = "int x = 5, y = 5;
+int *p = &x, *q = &y;
+// x == y vale 1, p == q vale 0"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n309"), SubResource("Resource_n310"), SubResource("Resource_n311"), SubResource("Resource_n312")])
+example_text = "`x` e `y` valen lo mismo, pero viven en casillas distintas: `x == y` da 1 y `p == q` da 0."
+example_followup = "Mismas fichas, otros números. Vuelve con la Bibliotecaria: ¿qué imprime su comparación?"
+success_title = "¡FICHAS SEPARADAS!"
+success_text = "Mismo valor, distinta dirección: `a == b` es 1 y `p == q` es 0."
+concept_text = "Comparar valores no es comparar direcciones."
+reward = SubResource("Resource_n304")
+
+[sub_resource type="Resource" id="Resource_n314"]
+script = ExtResource("1_cell")
+address = "0x0664"
+value = "7"
+label = "segunda ficha del censo"
+
+[resource]
+script = ExtResource("5_mision")
+id = &"EJ-N3-08"
+oa_code = "OA1.1 / OA3.4"
+title = "Las Dos Fichas Idénticas"
+objective = "→ Demuestra que iguales no es lo mismo"
+requires_mission = &"EJ-N3-04"
+giver_name = "la Bibliotecaria"
+intro_dialogue = Array[String](["Tengo un problema en el censo. Dos aldeanos tienen exactamente la misma edad y exigen figurar como una sola ficha.", "`int a = 7, b = 7; int *p = &a, *q = &b;` Demuéstrales que ser iguales no es ser el mismo.", "Dos fichas pueden decir lo mismo y estar guardadas en estanterías distintas."])
+reminder_dialogue = Array[String](["¿Qué imprime la comparación? Una compara lo que dicen las fichas; la otra, dónde están."])
+success_dialogue = Array[String](["Valores iguales, direcciones distintas. El censo conserva las dos fichas.", "Los aldeanos se van conformes. Te ganaste un poco de suerte."])
+done_dialogue = Array[String](["Iguales por dentro, distintos por fuera. Así se queda el censo."])
+locked_dialogue = Array[String](["Primero ayúdame a reconstruir el censo.", "Después hablamos de las fichas repetidas."])
+exercise = SubResource("Resource_n313")
+reveals = Array[ExtResource("1_cell")]([SubResource("Resource_n314")])

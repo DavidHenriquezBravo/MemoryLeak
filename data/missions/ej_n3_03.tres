@@ -1,0 +1,134 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n301"]
+script = ExtResource("2_opt")
+text = "`20`"
+wrong_feedback = "`p + 2` avanza dos posiciones desde la primera, no desde la segunda. Cuenta desde cero."
+concept_on_error = "`p` apunta a `armas[0]`; `p + 2` apunta a `armas[2]`."
+hint = "La primera arma es la posición 0. ¿Cuál es la posición 2?"
+
+[sub_resource type="Resource" id="Resource_n302"]
+script = ExtResource("2_opt")
+text = "La dirección del tercer elemento"
+wrong_feedback = "Avanzaste, pero no entraste: `p + 2` es la dirección; el `*` de afuera abre la casilla."
+concept_on_error = "`p + 2` es una dirección; `*(p + 2)` es el valor guardado ahí."
+hint = "Fíjate en el asterisco que envuelve el paréntesis."
+
+[sub_resource type="Resource" id="Resource_n303"]
+script = ExtResource("2_opt")
+text = "`30`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n304"]
+script = ExtResource("3_reward")
+stat = 0
+amount = 10.0
+
+[sub_resource type="Resource" id="Resource_n305"]
+script = ExtResource("1_cell")
+address = "0x0500"
+value = "10"
+label = "armas[0]"
+
+[sub_resource type="Resource" id="Resource_n306"]
+script = ExtResource("1_cell")
+address = "0x0504"
+value = "20"
+label = "armas[1]"
+
+[sub_resource type="Resource" id="Resource_n307"]
+script = ExtResource("1_cell")
+address = "0x0508"
+value = "30"
+label = "armas[2]"
+
+[sub_resource type="Resource" id="Resource_n308"]
+script = ExtResource("1_cell")
+address = "0x050C"
+value = "40"
+label = "armas[3]"
+
+[sub_resource type="Resource" id="Resource_n309"]
+script = ExtResource("1_cell")
+address = "0x0510"
+value = "0x0500"
+label = "p"
+points_to = "0x0500"
+
+[sub_resource type="Resource" id="Resource_n310"]
+script = ExtResource("1_cell")
+address = "0x0520"
+value = "2"
+label = "pociones[0]"
+
+[sub_resource type="Resource" id="Resource_n311"]
+script = ExtResource("1_cell")
+address = "0x0524"
+value = "4"
+label = "pociones[1]"
+
+[sub_resource type="Resource" id="Resource_n312"]
+script = ExtResource("1_cell")
+address = "0x0528"
+value = "6"
+label = "pociones[2]"
+
+[sub_resource type="Resource" id="Resource_n313"]
+script = ExtResource("1_cell")
+address = "0x052C"
+value = "8"
+label = "pociones[3]"
+
+[sub_resource type="Resource" id="Resource_n314"]
+script = ExtResource("1_cell")
+address = "0x0530"
+value = "0x0520"
+label = "p"
+points_to = "0x0520"
+
+[sub_resource type="Resource" id="Resource_n315"]
+script = ExtResource("4_ex")
+title = "EL ARSENAL"
+code = "int armas[4] = {10, 20, 30, 40};
+int *p = armas;
+printf(\"%d\", *(p + 2));"
+question = "¿Qué imprime `printf(\"%d\", *(p + 2));`?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n305"), SubResource("Resource_n306"), SubResource("Resource_n307"), SubResource("Resource_n308"), SubResource("Resource_n309")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n301"), SubResource("Resource_n302"), SubResource("Resource_n303")])
+conceptual_hint = "`p + 2` avanza dos casillas de `int` desde el inicio y el `*` lee lo que hay ahí. Es lo mismo que `armas[2]`."
+example_code = "int pociones[5] = {2, 4, 6, 8, 10};
+int *p = pociones;
+// *(p + 3) vale 8"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n310"), SubResource("Resource_n311"), SubResource("Resource_n312"), SubResource("Resource_n313"), SubResource("Resource_n314")])
+example_text = "Desde el inicio, tres pasos: `p + 3` es la cuarta poción y el `*` la abre: 8."
+example_followup = "Mismo arsenal, otro estante. Vuelve con el Armero: ¿qué imprime `*(p + 2)`?"
+success_title = "¡ARMA RECUPERADA!"
+success_text = "Desde el inicio, dos casillas, y adentro: `*(p + 2)` es la tercera arma."
+concept_text = "Aritmética de punteros: `*(p + i)` es lo mismo que `p[i]`."
+reward = SubResource("Resource_n304")
+
+[sub_resource type="Resource" id="Resource_n316"]
+script = ExtResource("1_cell")
+address = "0x0508"
+value = "30"
+label = "tercera arma del arsenal"
+
+[resource]
+script = ExtResource("5_mision")
+id = &"EJ-N3-03"
+oa_code = "OA3.4"
+title = "El Arsenal del Núcleo"
+objective = "→ Saca la tercera arma del arsenal"
+giver_name = "el Armero"
+intro_dialogue = Array[String](["¿Vienes por armas? Soy el Armero. O lo que queda de él: el arsenal se fragmentó con el colapso.", "Las armas quedaron en una fila continua: `int armas[4] = {10, 20, 30, 40};`. Mi daga apunta al inicio: `int *p = armas;`.", "Necesito la tercera arma, pero el índice quedó corrupto: nada de corchetes.", "El nombre del arsenal ya es una dirección. No le pongas &: avanza desde él."])
+reminder_dialogue = Array[String](["La tercera arma. Sin corchetes: avanza desde el inicio y entra."])
+success_dialogue = Array[String](["Avanzaste dos casillas y entraste. Esa es la tercera.", "Llévatela: corta más que cualquier cosa de Nullville."])
+done_dialogue = Array[String](["Desde el inicio, dos pasos, y adentro. Así se camina un arsenal."])
+exercise = SubResource("Resource_n315")
+reveals = Array[ExtResource("1_cell")]([SubResource("Resource_n316")])

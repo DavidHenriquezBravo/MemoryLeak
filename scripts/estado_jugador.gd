@@ -10,7 +10,12 @@ extends Control
 @onready var label_dano: Label = %LabelDano
 @onready var label_armadura: Label = %LabelArmadura
 @onready var label_nivel: Label = %LabelNivel
- 
+@onready var retrato: TextureRect = $Retrato
+
+# La cara del marco según el traje (GameState.traje()): venda, chaqueta, túnica
+const MARCOS := [preload("res://Sprites/UI/Cajas/Marco stage 1.png"), preload("res://Sprites/UI/Cajas/Marco traje 1.png"),
+	preload("res://Sprites/UI/Cajas/Marco traje 2.png")]
+
 var _previo: Dictionary = {}     # último valor mostrado, para detectar subidas
 var _tween_barra: Tween
  
@@ -21,6 +26,7 @@ func _ready() -> void:
  
  
 func refrescar(animar: bool = true) -> void:
+	retrato.texture = MARCOS[GameState.traje()]
 	# Vida: barra (se desliza) + número
 	barra_vida.max_value = GameState.max_hp
 	if animar:

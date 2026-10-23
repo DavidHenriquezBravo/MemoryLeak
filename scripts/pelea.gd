@@ -1042,10 +1042,13 @@ func _salir_al_menu() -> void:
 func _victoria() -> void:
 	cambiar_estado(Estado.VICTORIA)
 	_limpiar_bytes()
-	if nivel == 2:
-		GameState.boss2_defeated = true
-	else:
-		GameState.boss_defeated = true
+	match nivel:
+		2:
+			GameState.boss2_defeated = true
+		3:
+			GameState.boss3_defeated = true
+		_:
+			GameState.boss_defeated = true
 	_guardar_hp()
 	await get_tree().create_timer(0.6).timeout   # deja ver el último golpe
 	await _muerte_jefe()

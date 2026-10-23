@@ -28,6 +28,17 @@ const RUTAS := {
 		"res://data/missions/ej_n2_07.tres",
 		"res://data/missions/ej_n2_09.tres",
 	],
+	3: [
+		"res://data/missions/ej_n3_01.tres",
+		"res://data/missions/ej_n3_02.tres",
+		"res://data/missions/ej_n3_03.tres",
+		"res://data/missions/ej_n3_04.tres",
+		"res://data/missions/ej_n3_05.tres",
+		"res://data/missions/ej_n3_06.tres",
+		"res://data/missions/ej_n3_07.tres",
+		"res://data/missions/ej_n3_08.tres",
+		"res://data/missions/ej_n3_09.tres",
+	],
 }
 const SISTEMA := preload("res://data/npc/sistema.tres")
 

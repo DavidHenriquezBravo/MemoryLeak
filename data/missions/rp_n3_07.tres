@@ -1,0 +1,118 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n301"]
+script = ExtResource("2_opt")
+text = "`1 6`"
+wrong_feedback = "Trazaste el golpe con la daga en su lugar inicial; la anomalía la movió antes."
+concept_on_error = "`*pp = &b` hace que `p` apunte a `b`."
+hint = "Justo antes de `*p = 1`, ¿a quién apunta `p`?"
+
+[sub_resource type="Resource" id="Resource_n302"]
+script = ExtResource("2_opt")
+text = "`3 1`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n303"]
+script = ExtResource("2_opt")
+text = "`1 1`"
+wrong_feedback = "La daga apunta a una sola casilla: el golpe cae en una."
+concept_on_error = "`*p = 1` escribe solo donde apunta `p`."
+hint = "¿Puede `p` apuntar a las dos?"
+
+[sub_resource type="Resource" id="Resource_n304"]
+script = ExtResource("1_cell")
+address = "0x0560"
+value = "3"
+label = "a"
+
+[sub_resource type="Resource" id="Resource_n305"]
+script = ExtResource("1_cell")
+address = "0x0564"
+value = "6"
+label = "b"
+
+[sub_resource type="Resource" id="Resource_n306"]
+script = ExtResource("1_cell")
+address = "0x0568"
+value = "0x0560"
+label = "p (al empezar)"
+points_to = "0x0560"
+
+[sub_resource type="Resource" id="Resource_n307"]
+script = ExtResource("1_cell")
+address = "0x0570"
+value = "0x0568"
+label = "pp"
+points_to = "0x0568"
+
+[sub_resource type="Resource" id="Resource_n308"]
+script = ExtResource("1_cell")
+address = "0x0540"
+value = "1"
+label = "a"
+
+[sub_resource type="Resource" id="Resource_n309"]
+script = ExtResource("1_cell")
+address = "0x0544"
+value = "2"
+label = "b"
+
+[sub_resource type="Resource" id="Resource_n310"]
+script = ExtResource("1_cell")
+address = "0x0548"
+value = "0x0540"
+label = "p (al empezar)"
+points_to = "0x0540"
+
+[sub_resource type="Resource" id="Resource_n311"]
+script = ExtResource("1_cell")
+address = "0x0550"
+value = "0x0548"
+label = "pp"
+points_to = "0x0548"
+
+[sub_resource type="Resource" id="Resource_n312"]
+script = ExtResource("4_ex")
+title = "REPASO DEL ANCIANO"
+code = "int a = 3, b = 6;
+int *p = &a;
+int **pp = &p;
+*pp = &b;
+*p = 1;
+printf(\"%d %d\", a, b);"
+question = "¿Qué imprime?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n304"), SubResource("Resource_n305"), SubResource("Resource_n306"), SubResource("Resource_n307")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n301"), SubResource("Resource_n302"), SubResource("Resource_n303")])
+conceptual_hint = "`*pp = &b` mueve la daga a `b`; el golpe `*p = 1` cae sobre `b` y `a` queda en 3."
+example_code = "int a = 1, b = 2;
+int *p = &a;
+int **pp = &p;
+*pp = &b;
+*p = 9;
+printf(\"%d %d\", a, b);"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n308"), SubResource("Resource_n309"), SubResource("Resource_n310"), SubResource("Resource_n311")])
+example_text = "La prueba del Armero: la daga se movió a `b` y quedó `1 9`."
+example_followup = "Es el mismo concepto del caso original. Vuelve al repaso."
+success_title = "¡REPASO SUPERADO!"
+success_text = "Lo que fallaste en el Núcleo ahora cuenta como acierto."
+concept_text = "Escribir en `*pp` cambia a dónde apunta `p`."
+
+[resource]
+script = ExtResource("5_mision")
+id = &"RP-N3-07"
+oa_code = "OA3.3 / OA3.4"
+title = "Repaso: La Daga que cambió de dueño"
+objective = "→ Responde el repaso del Anciano"
+giver_name = "el Anciano, en la entrada del volcán"
+variante_de = &"EJ-N3-07"
+intro_dialogue = Array[String](["Antes de entrar al Núcleo, quiero estar seguro de algo.", "Fallaste algunas pruebas en la ciudad. Para enfrentar al jefe hay que acertar al menos 7 de cada 10 al primer intento.", "Repasemos lo de «La Daga que cambió de dueño». Te pondré un caso parecido: respóndelo con calma."])
+reminder_dialogue = Array[String](["Sigamos con el repaso de «La Daga que cambió de dueño»."])
+success_dialogue = Array[String](["Bien. Eso ya no te lo van a quitar."])
+done_dialogue = Array[String](["Ese caso ya lo dominas."])
+exercise = SubResource("Resource_n312")

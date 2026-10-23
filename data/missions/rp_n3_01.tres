@@ -1,0 +1,102 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n301"]
+script = ExtResource("2_opt")
+text = "La dirección de `p`"
+wrong_feedback = "Eso es lo que guarda `pp` sin abrirlo. Hay dos saltos que dar."
+concept_on_error = "Cada `*` sigue una placa."
+hint = "Cuenta los asteriscos."
+
+[sub_resource type="Resource" id="Resource_n302"]
+script = ExtResource("2_opt")
+text = "La dirección de `fuerza`"
+wrong_feedback = "Un solo salto te deja en la daga intermedia. Falta otro."
+concept_on_error = "`*pp` es `p`; `**pp` es lo que `p` sostiene."
+hint = "Diste un salto; ¿cuántos pide `**pp`?"
+
+[sub_resource type="Resource" id="Resource_n303"]
+script = ExtResource("2_opt")
+text = "`45`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n304"]
+script = ExtResource("1_cell")
+address = "0x0420"
+value = "45"
+label = "fuerza"
+
+[sub_resource type="Resource" id="Resource_n305"]
+script = ExtResource("1_cell")
+address = "0x0428"
+value = "0x0420"
+label = "p"
+points_to = "0x0420"
+
+[sub_resource type="Resource" id="Resource_n306"]
+script = ExtResource("1_cell")
+address = "0x0430"
+value = "0x0428"
+label = "pp"
+points_to = "0x0428"
+
+[sub_resource type="Resource" id="Resource_n307"]
+script = ExtResource("1_cell")
+address = "0x0400"
+value = "100"
+label = "vida"
+
+[sub_resource type="Resource" id="Resource_n308"]
+script = ExtResource("1_cell")
+address = "0x0408"
+value = "0x0400"
+label = "p"
+points_to = "0x0400"
+
+[sub_resource type="Resource" id="Resource_n309"]
+script = ExtResource("1_cell")
+address = "0x0410"
+value = "0x0408"
+label = "pp"
+points_to = "0x0408"
+
+[sub_resource type="Resource" id="Resource_n310"]
+script = ExtResource("4_ex")
+title = "REPASO DEL ANCIANO"
+code = "int fuerza = 45;
+int *p = &fuerza;
+int **pp = &p;
+printf(\"%d\", **pp);"
+question = "¿Qué imprime `**pp`?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n304"), SubResource("Resource_n305"), SubResource("Resource_n306")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n301"), SubResource("Resource_n302"), SubResource("Resource_n303")])
+conceptual_hint = "`pp` → `p` → `fuerza`: dos saltos hasta el valor."
+example_code = "int vida = 100;
+int *p = &vida;
+int **pp = &p;
+printf(\"%d\", **pp);"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n307"), SubResource("Resource_n308"), SubResource("Resource_n309")])
+example_text = "La cadena del Archivista: dos saltos desde `pp` llegan a la vida, 100."
+example_followup = "Es el mismo concepto del caso original. Vuelve al repaso."
+success_title = "¡REPASO SUPERADO!"
+success_text = "Lo que fallaste en el Núcleo ahora cuenta como acierto."
+concept_text = "Doble indirección: `**pp` sigue dos placas hasta el valor."
+
+[resource]
+script = ExtResource("5_mision")
+id = &"RP-N3-01"
+oa_code = "OA3.4"
+title = "Repaso: La Cadena de Custodia"
+objective = "→ Responde el repaso del Anciano"
+giver_name = "el Anciano, en la entrada del volcán"
+variante_de = &"EJ-N3-01"
+intro_dialogue = Array[String](["Antes de entrar al Núcleo, quiero estar seguro de algo.", "Fallaste algunas pruebas en la ciudad. Para enfrentar al jefe hay que acertar al menos 7 de cada 10 al primer intento.", "Repasemos lo de «La Cadena de Custodia». Te pondré un caso parecido: respóndelo con calma."])
+reminder_dialogue = Array[String](["Sigamos con el repaso de «La Cadena de Custodia»."])
+success_dialogue = Array[String](["Bien. Eso ya no te lo van a quitar."])
+done_dialogue = Array[String](["Ese caso ya lo dominas."])
+exercise = SubResource("Resource_n310")

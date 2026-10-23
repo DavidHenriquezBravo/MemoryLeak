@@ -1,0 +1,114 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n301"]
+script = ExtResource("2_opt")
+text = "La dirección de `p`"
+wrong_feedback = "Te quedaste parado frente al cajón: eso es lo que guarda `pp` sin abrirlo."
+concept_on_error = "Cada `*` es un salto. `pp` guarda la dirección de `p`; `**pp` llega hasta `vida`."
+hint = "Cuenta los asteriscos del printf: cada uno abre un cajón."
+
+[sub_resource type="Resource" id="Resource_n302"]
+script = ExtResource("2_opt")
+text = "La dirección de `vida`"
+wrong_feedback = "Un solo salto te deja en la daga intermedia: ahí está la dirección de `vida`. Necesitas seguir saltando."
+concept_on_error = "`*pp` es `p`, una dirección; `**pp` es lo que hay en esa dirección."
+hint = "Diste un salto. ¿Cuántos asteriscos tiene `**pp`?"
+
+[sub_resource type="Resource" id="Resource_n303"]
+script = ExtResource("2_opt")
+text = "`100`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n304"]
+script = ExtResource("3_reward")
+stat = 0
+amount = 5.0
+
+[sub_resource type="Resource" id="Resource_n305"]
+script = ExtResource("1_cell")
+address = "0x0400"
+value = "100"
+label = "vida"
+
+[sub_resource type="Resource" id="Resource_n306"]
+script = ExtResource("1_cell")
+address = "0x0408"
+value = "0x0400"
+label = "p"
+points_to = "0x0400"
+
+[sub_resource type="Resource" id="Resource_n307"]
+script = ExtResource("1_cell")
+address = "0x0410"
+value = "0x0408"
+label = "pp"
+points_to = "0x0408"
+
+[sub_resource type="Resource" id="Resource_n308"]
+script = ExtResource("1_cell")
+address = "0x0420"
+value = "45"
+label = "fuerza"
+
+[sub_resource type="Resource" id="Resource_n309"]
+script = ExtResource("1_cell")
+address = "0x0428"
+value = "0x0420"
+label = "p"
+points_to = "0x0420"
+
+[sub_resource type="Resource" id="Resource_n310"]
+script = ExtResource("1_cell")
+address = "0x0430"
+value = "0x0428"
+label = "pp"
+points_to = "0x0428"
+
+[sub_resource type="Resource" id="Resource_n311"]
+script = ExtResource("4_ex")
+title = "REGISTRO MAESTRO"
+code = "int vida = 100;
+int *p = &vida;
+int **pp = &p;
+printf(\"%d\", **pp);"
+question = "¿Qué imprime `printf(\"%d\", **pp);`?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n305"), SubResource("Resource_n306"), SubResource("Resource_n307")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n301"), SubResource("Resource_n302"), SubResource("Resource_n303")])
+conceptual_hint = "`pp` → `p` → `vida`. Con `*pp` llegas a la daga; con `**pp`, a lo que la daga sostiene."
+example_code = "int fuerza = 45;
+int *p = &fuerza;
+int **pp = &p;
+// **pp vale 45"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n308"), SubResource("Resource_n309"), SubResource("Resource_n310")])
+example_text = "Dos saltos: `*pp` es `p`, que guarda la dirección de `fuerza`; `**pp` abre esa casilla: 45."
+example_followup = "Mismo registro, otra cadena. Vuelve al cajón del Archivista: ¿qué imprime `**pp`?"
+success_title = "¡CADENA RECORRIDA!"
+success_text = "Dos saltos desde el cajón maestro: `**pp` llega hasta la vida."
+concept_text = "Doble indirección: `**pp` sigue dos placas hasta el valor."
+reward = SubResource("Resource_n304")
+
+[sub_resource type="Resource" id="Resource_n312"]
+script = ExtResource("1_cell")
+address = "0x0410"
+value = "0x0408"
+label = "cajón maestro del Archivista"
+
+[resource]
+script = ExtResource("5_mision")
+id = &"EJ-N3-01"
+oa_code = "OA3.4"
+title = "La Cadena de Custodia"
+objective = "→ Recorre la cadena del registro maestro"
+giver_name = "el Archivista"
+intro_dialogue = Array[String](["Bienvenido al Núcleo. Soy el Archivista: custodio el registro maestro de la Realidad.", "Mi cajón no guarda valores. Guarda dónde están otras dagas, y cada daga guarda dónde está algo más.", "Para verificar que la cadena está intacta tienes que recorrerla completa, hasta el valor del final.", "Mi cajón guarda dónde está tu daga. Tu daga guarda dónde está la vida. Dos saltos, no uno."])
+reminder_dialogue = Array[String](["¿Ya recorriste la cadena? Dos saltos: del cajón a la daga, y de la daga a la vida."])
+success_dialogue = Array[String](["Recorriste la cadena completa, sin quedarte a mitad de camino.", "Toma la Daga Doble: sirve para sostener placas de placas."])
+done_dialogue = Array[String](["Mi cajón sigue en orden. Dos saltos y llegas a lo que guarda."])
+exercise = SubResource("Resource_n311")
+reveals = Array[ExtResource("1_cell")]([SubResource("Resource_n312")])

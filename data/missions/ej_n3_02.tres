@@ -1,0 +1,118 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n301"]
+script = ExtResource("2_opt")
+text = "`int *p`"
+wrong_feedback = "Con `int *p` puedes cambiar el balde, no la daga. La daga de afuera sigue igual."
+concept_on_error = "Para cambiar una variable desde una función se recibe su dirección; la dirección de un `int *` es un `int **`."
+hint = "¿Qué quieres cambiar: el cofre o la daga? Recibe la placa de eso."
+
+[sub_resource type="Resource" id="Resource_n302"]
+script = ExtResource("2_opt")
+text = "`int **p`, porque para modificar el puntero se necesita su dirección"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n303"]
+script = ExtResource("2_opt")
+text = "`int p`"
+wrong_feedback = "Con un `int` suelto la función recibe una copia de un número: ni el cofre ni la daga se enteran."
+concept_on_error = "Paso por valor: la función trabaja con una copia."
+hint = "Un número suelto no lleva a ninguna parte. Necesitas una placa."
+
+[sub_resource type="Resource" id="Resource_n304"]
+script = ExtResource("3_reward")
+stat = 3
+amount = 20.0
+
+[sub_resource type="Resource" id="Resource_n305"]
+script = ExtResource("1_cell")
+address = "0x0440"
+value = "7"
+label = "cofre"
+
+[sub_resource type="Resource" id="Resource_n306"]
+script = ExtResource("1_cell")
+address = "0x0444"
+value = "9"
+label = "otro"
+
+[sub_resource type="Resource" id="Resource_n307"]
+script = ExtResource("1_cell")
+address = "0x0448"
+value = "0x0440"
+label = "p"
+points_to = "0x0440"
+
+[sub_resource type="Resource" id="Resource_n308"]
+script = ExtResource("1_cell")
+address = "0x0450"
+value = "'x'"
+label = "a"
+
+[sub_resource type="Resource" id="Resource_n309"]
+script = ExtResource("1_cell")
+address = "0x0451"
+value = "'y'"
+label = "b"
+
+[sub_resource type="Resource" id="Resource_n310"]
+script = ExtResource("1_cell")
+address = "0x0458"
+value = "0x0451"
+label = "letra"
+points_to = "0x0451"
+
+[sub_resource type="Resource" id="Resource_n311"]
+script = ExtResource("4_ex")
+title = "SERVICIO DE REASIGNACIÓN"
+code = "void reasignar(______ daga, int *nuevo) {
+    *daga = nuevo;
+}
+int cofre = 7, otro = 9;
+int *p = &cofre;
+reasignar(&p, &otro);"
+question = "Para que una función haga que tu puntero apunte a otra variable, ¿qué parámetro debe recibir?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n305"), SubResource("Resource_n306"), SubResource("Resource_n307")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n301"), SubResource("Resource_n302"), SubResource("Resource_n303")])
+conceptual_hint = "Para cambiar algo desde una función, la función recibe su dirección. Si lo que cambias es un `int *`, su dirección es un `int **`."
+example_code = "void mover(char **p, char *nuevo) {
+    *p = nuevo;
+}
+char a = 'x', b = 'y';
+char *letra = &a;
+mover(&letra, &b);   // letra apunta a b"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n308"), SubResource("Resource_n309"), SubResource("Resource_n310")])
+example_text = "Para reasignar un `char *`, la función recibe un `char **`: la placa de la daga. Con `*p = nuevo`, la daga de afuera cambia de cofre."
+example_followup = "Mismo servicio, otra daga. Vuelve con el Archivista: ¿qué parámetro debe recibir?"
+success_title = "¡DAGA REASIGNADA!"
+success_text = "Para mover un puntero desde una función, se le entrega la dirección del puntero."
+concept_text = "Para cambiar un `int *` dentro de una función, el parámetro es `int **`."
+reward = SubResource("Resource_n304")
+
+[sub_resource type="Resource" id="Resource_n312"]
+script = ExtResource("1_cell")
+address = "0x0448"
+value = "0x0444"
+label = "tu daga, reasignada"
+
+[resource]
+script = ExtResource("5_mision")
+id = &"EJ-N3-02"
+oa_code = "OA3.4"
+title = "El Servicio de Reasignación"
+objective = "→ Dile al Archivista qué debe recibir su servicio"
+requires_mission = &"EJ-N3-01"
+giver_name = "el Archivista"
+intro_dialogue = Array[String](["Tengo otro servicio: muevo tu daga a otro cofre sin que tengas que soltarla.", "Pero no opero a ciegas. No quiero saber a dónde apuntas. Quiero saber dónde estás tú.", "Para cambiar el contenido de un balde recibo su placa. Para cambiar una daga… recibo la placa de la daga."])
+reminder_dialogue = Array[String](["Dime qué tiene que recibir mi servicio para mover tu daga."])
+success_dialogue = Array[String](["Exacto: la placa de la daga. Misma regla de siempre, un nivel más arriba.", "Mientras operaba te reasigné algo de vitalidad. No me lo agradezcas."])
+done_dialogue = Array[String](["Para mover una daga, me das dónde está la daga. Nunca lo olvides."])
+locked_dialogue = Array[String](["El registro maestro primero, viajero.", "Recorre mi cadena de custodia antes de pedirme servicios."])
+exercise = SubResource("Resource_n311")
+reveals = Array[ExtResource("1_cell")]([SubResource("Resource_n312")])

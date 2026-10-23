@@ -86,7 +86,26 @@ func _temblar(cam: Camera2D) -> void:
 
 
 func _mover_camara(cam: Camera2D, hasta: Vector2, zoom: Vector2) -> void:
+	hasta = _dentro_de_los_limites(cam, hasta, zoom)
 	var tw := create_tween().set_parallel().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tw.tween_property(cam, "offset", hasta, duracion_mirar)
 	tw.tween_property(cam, "zoom", zoom, duracion_mirar)
 	await tw.finished
+
+
+# El offset de la cámara se salta sus límites: si la vista (con el zoom final) se sale del nivel, se recorta
+# para que no se vea el vacío ni lo que hay fuera del mapa. Ojo: con otro zoom la cámara misma se corre
+# por sus límites, así que el punto de partida se calcula con el zoom final.
+func _dentro_de_los_limites(cam: Camera2D, hasta: Vector2, zoom: Vector2) -> Vector2:
+	var mitad := get_viewport().get_visible_rect().size / zoom / 2.0
+	var lim_min := Vector2(cam.limit_left, cam.limit_top) + mitad
+	var lim_max := Vector2(cam.limit_right, cam.limit_bottom) - mitad
+	var base := _recortar(cam.global_position, lim_min, lim_max, cam)
+	var centro := _recortar(base + hasta, lim_min, lim_max, cam)
+	return centro - base
+
+
+func _recortar(p: Vector2, lim_min: Vector2, lim_max: Vector2, cam: Camera2D) -> Vector2:
+	var x := clampf(p.x, lim_min.x, lim_max.x) if lim_min.x <= lim_max.x else (cam.limit_left + cam.limit_right) / 2.0
+	var y := clampf(p.y, lim_min.y, lim_max.y) if lim_min.y <= lim_max.y else (cam.limit_top + cam.limit_bottom) / 2.0
+	return Vector2(x, y)

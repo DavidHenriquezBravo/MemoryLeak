@@ -1872,6 +1872,12 @@ size = Vector2(42, 8)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cueva_zona"]
 size = Vector2(44, 34)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_muralla0"]
+size = Vector2(352, 52)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_muralla1"]
+size = Vector2(352, 52)
+
 [node name="Stage1" type="Node2D" unique_id=1779471578]
 script = ExtResource("1_tko0c")
 npc = ExtResource("2_cwmvl")
@@ -2181,3 +2187,13 @@ origen_ola = NodePath("../Puerta")
 stream = ExtResource("48_rn2fb")
 volume_db = -4.356
 autoplay = true
+
+[node name="Muralla (colisión)" type="StaticBody2D" parent="."]
+
+[node name="Pared 1" type="CollisionShape2D" parent="Muralla (colisión)"]
+position = Vector2(-160, -218)
+shape = SubResource("RectangleShape2D_muralla0")
+
+[node name="Pared 2" type="CollisionShape2D" parent="Muralla (colisión)"]
+position = Vector2(224, -218)
+shape = SubResource("RectangleShape2D_muralla1")

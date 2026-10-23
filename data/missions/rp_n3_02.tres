@@ -1,0 +1,99 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n301"]
+script = ExtResource("2_opt")
+text = "`char **p`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n302"]
+script = ExtResource("2_opt")
+text = "`char *p`"
+wrong_feedback = "Con `char *p` puedes cambiar la letra, no la daga."
+concept_on_error = "Para cambiar un `char *` se recibe su dirección: `char **`."
+hint = "¿Qué quieres cambiar, la letra o la daga?"
+
+[sub_resource type="Resource" id="Resource_n303"]
+script = ExtResource("2_opt")
+text = "`char p`"
+wrong_feedback = "Una letra suelta es una copia: nada de afuera cambia."
+concept_on_error = "Paso por valor: la función trabaja con una copia."
+hint = "Necesitas una placa, no una letra."
+
+[sub_resource type="Resource" id="Resource_n304"]
+script = ExtResource("1_cell")
+address = "0x0450"
+value = "'x'"
+label = "a"
+
+[sub_resource type="Resource" id="Resource_n305"]
+script = ExtResource("1_cell")
+address = "0x0451"
+value = "'y'"
+label = "b"
+
+[sub_resource type="Resource" id="Resource_n306"]
+script = ExtResource("1_cell")
+address = "0x0458"
+value = "0x0450"
+label = "letra"
+points_to = "0x0450"
+
+[sub_resource type="Resource" id="Resource_n307"]
+script = ExtResource("1_cell")
+address = "0x0440"
+value = "7"
+label = "cofre"
+
+[sub_resource type="Resource" id="Resource_n308"]
+script = ExtResource("1_cell")
+address = "0x0444"
+value = "9"
+label = "otro"
+
+[sub_resource type="Resource" id="Resource_n309"]
+script = ExtResource("1_cell")
+address = "0x0448"
+value = "0x0444"
+label = "p"
+points_to = "0x0444"
+
+[sub_resource type="Resource" id="Resource_n310"]
+script = ExtResource("4_ex")
+title = "REPASO DEL ANCIANO"
+code = "void mover(______ p, char *nuevo) {
+    *p = nuevo;
+}"
+question = "Para que una función reasigne tu puntero `char *`, ¿qué recibe?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n304"), SubResource("Resource_n305"), SubResource("Resource_n306")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n301"), SubResource("Resource_n302"), SubResource("Resource_n303")])
+conceptual_hint = "Para cambiar algo desde una función se recibe su dirección. La dirección de un `char *` es un `char **`."
+example_code = "void reasignar(int **daga, int *nuevo) {
+    *daga = nuevo;
+}
+reasignar(&p, &otro);"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n307"), SubResource("Resource_n308"), SubResource("Resource_n309")])
+example_text = "El servicio del Archivista: recibe `int **`, la placa de tu daga, y la mueve a `otro`."
+example_followup = "Es el mismo concepto del caso original. Vuelve al repaso."
+success_title = "¡REPASO SUPERADO!"
+success_text = "Lo que fallaste en el Núcleo ahora cuenta como acierto."
+concept_text = "Para reasignar un puntero en una función, el parámetro es un puntero a puntero."
+
+[resource]
+script = ExtResource("5_mision")
+id = &"RP-N3-02"
+oa_code = "OA3.4"
+title = "Repaso: El Servicio de Reasignación"
+objective = "→ Responde el repaso del Anciano"
+giver_name = "el Anciano, en la entrada del volcán"
+variante_de = &"EJ-N3-02"
+intro_dialogue = Array[String](["Antes de entrar al Núcleo, quiero estar seguro de algo.", "Fallaste algunas pruebas en la ciudad. Para enfrentar al jefe hay que acertar al menos 7 de cada 10 al primer intento.", "Repasemos lo de «El Servicio de Reasignación». Te pondré un caso parecido: respóndelo con calma."])
+reminder_dialogue = Array[String](["Sigamos con el repaso de «El Servicio de Reasignación»."])
+success_dialogue = Array[String](["Bien. Eso ya no te lo van a quitar."])
+done_dialogue = Array[String](["Ese caso ya lo dominas."])
+exercise = SubResource("Resource_n310")

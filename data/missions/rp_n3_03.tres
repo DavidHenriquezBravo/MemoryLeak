@@ -1,0 +1,122 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n301"]
+script = ExtResource("2_opt")
+text = "`6`"
+wrong_feedback = "`p + 3` avanza tres posiciones desde la primera. Cuenta desde cero."
+concept_on_error = "`p + 3` apunta a `pociones[3]`."
+hint = "La posición 0 es la primera."
+
+[sub_resource type="Resource" id="Resource_n302"]
+script = ExtResource("2_opt")
+text = "`8`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n303"]
+script = ExtResource("2_opt")
+text = "La dirección del cuarto"
+wrong_feedback = "Avanzaste pero no entraste: el `*` abre la casilla."
+concept_on_error = "`p + 3` es una dirección; `*(p + 3)` es su valor."
+hint = "Mira el asterisco de afuera."
+
+[sub_resource type="Resource" id="Resource_n304"]
+script = ExtResource("1_cell")
+address = "0x0520"
+value = "2"
+label = "pociones[0]"
+
+[sub_resource type="Resource" id="Resource_n305"]
+script = ExtResource("1_cell")
+address = "0x0524"
+value = "4"
+label = "pociones[1]"
+
+[sub_resource type="Resource" id="Resource_n306"]
+script = ExtResource("1_cell")
+address = "0x0528"
+value = "6"
+label = "pociones[2]"
+
+[sub_resource type="Resource" id="Resource_n307"]
+script = ExtResource("1_cell")
+address = "0x052C"
+value = "8"
+label = "pociones[3]"
+
+[sub_resource type="Resource" id="Resource_n308"]
+script = ExtResource("1_cell")
+address = "0x0530"
+value = "0x0520"
+label = "p"
+points_to = "0x0520"
+
+[sub_resource type="Resource" id="Resource_n309"]
+script = ExtResource("1_cell")
+address = "0x0500"
+value = "10"
+label = "armas[0]"
+
+[sub_resource type="Resource" id="Resource_n310"]
+script = ExtResource("1_cell")
+address = "0x0504"
+value = "20"
+label = "armas[1]"
+
+[sub_resource type="Resource" id="Resource_n311"]
+script = ExtResource("1_cell")
+address = "0x0508"
+value = "30"
+label = "armas[2]"
+
+[sub_resource type="Resource" id="Resource_n312"]
+script = ExtResource("1_cell")
+address = "0x050C"
+value = "40"
+label = "armas[3]"
+
+[sub_resource type="Resource" id="Resource_n313"]
+script = ExtResource("1_cell")
+address = "0x0510"
+value = "0x0500"
+label = "p"
+points_to = "0x0500"
+
+[sub_resource type="Resource" id="Resource_n314"]
+script = ExtResource("4_ex")
+title = "REPASO DEL ANCIANO"
+code = "int pociones[5] = {2, 4, 6, 8, 10};
+int *p = pociones;
+printf(\"%d\", *(p + 3));"
+question = "¿Qué vale `*(p + 3)`?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n304"), SubResource("Resource_n305"), SubResource("Resource_n306"), SubResource("Resource_n307"), SubResource("Resource_n308")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n301"), SubResource("Resource_n302"), SubResource("Resource_n303")])
+conceptual_hint = "`p + 3` avanza tres casillas desde el inicio y el `*` lee lo que hay ahí: `pociones[3]`."
+example_code = "int armas[4] = {10, 20, 30, 40};
+int *p = armas;
+printf(\"%d\", *(p + 2));"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n309"), SubResource("Resource_n310"), SubResource("Resource_n311"), SubResource("Resource_n312"), SubResource("Resource_n313")])
+example_text = "El arsenal del Armero: `*(p + 2)` es la tercera arma, 30."
+example_followup = "Es el mismo concepto del caso original. Vuelve al repaso."
+success_title = "¡REPASO SUPERADO!"
+success_text = "Lo que fallaste en el Núcleo ahora cuenta como acierto."
+concept_text = "`*(p + i)` es lo mismo que `p[i]`."
+
+[resource]
+script = ExtResource("5_mision")
+id = &"RP-N3-03"
+oa_code = "OA3.4"
+title = "Repaso: El Arsenal del Núcleo"
+objective = "→ Responde el repaso del Anciano"
+giver_name = "el Anciano, en la entrada del volcán"
+variante_de = &"EJ-N3-03"
+intro_dialogue = Array[String](["Antes de entrar al Núcleo, quiero estar seguro de algo.", "Fallaste algunas pruebas en la ciudad. Para enfrentar al jefe hay que acertar al menos 7 de cada 10 al primer intento.", "Repasemos lo de «El Arsenal del Núcleo». Te pondré un caso parecido: respóndelo con calma."])
+reminder_dialogue = Array[String](["Sigamos con el repaso de «El Arsenal del Núcleo»."])
+success_dialogue = Array[String](["Bien. Eso ya no te lo van a quitar."])
+done_dialogue = Array[String](["Ese caso ya lo dominas."])
+exercise = SubResource("Resource_n314")

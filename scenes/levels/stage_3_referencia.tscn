@@ -575,7 +575,7 @@ script = ExtResource("18_13c8m")
 lineas = Array[String](["Mira arriba.", "Ese es el Núcleo. Ahí adentro se guarda el registro maestro de la Realidad… y ahí empezó todo."])
 lugar_anciano = Vector2(-26, 4)
 espera = 0.6
-mirar_hacia = Vector2(768, -416)
+mirar_hacia = Vector2(768, -350)
 zoom_mirar = 1.6
 duracion_mirar = 2.6
 

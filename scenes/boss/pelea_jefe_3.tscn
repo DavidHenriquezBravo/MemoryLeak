@@ -1,0 +1,246 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/boss/pelea.tscn" id="1_base"]
+[ext_resource type="Texture2D" path="res://Sprites/Jefe/Jefe Anciano corrupto reposo-Sheet.png" id="2_default"]
+[ext_resource type="Texture2D" path="res://Sprites/Jefe/Jefe Anciano corrupto recibe dano-Sheet.png" id="3_dano"]
+[ext_resource type="Texture2D" path="res://Sprites/Jefe/Jefe Anciano corrupto derrota-Sheet.png" id="4_muerte"]
+[ext_resource type="Texture2D" path="res://Sprites/Jefe/Jefe Anciano corrupto ataque-Sheet.png" id="5_ataque"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_default_0"]
+atlas = ExtResource("2_default")
+region = Rect2(0, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_default_1"]
+atlas = ExtResource("2_default")
+region = Rect2(112, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_default_2"]
+atlas = ExtResource("2_default")
+region = Rect2(224, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_default_3"]
+atlas = ExtResource("2_default")
+region = Rect2(336, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_default_4"]
+atlas = ExtResource("2_default")
+region = Rect2(448, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_default_5"]
+atlas = ExtResource("2_default")
+region = Rect2(560, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_default_6"]
+atlas = ExtResource("2_default")
+region = Rect2(672, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_default_7"]
+atlas = ExtResource("2_default")
+region = Rect2(784, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dano_0"]
+atlas = ExtResource("3_dano")
+region = Rect2(0, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dano_1"]
+atlas = ExtResource("3_dano")
+region = Rect2(112, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dano_2"]
+atlas = ExtResource("3_dano")
+region = Rect2(224, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dano_3"]
+atlas = ExtResource("3_dano")
+region = Rect2(336, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dano_4"]
+atlas = ExtResource("3_dano")
+region = Rect2(448, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_muerte_0"]
+atlas = ExtResource("4_muerte")
+region = Rect2(0, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_muerte_1"]
+atlas = ExtResource("4_muerte")
+region = Rect2(112, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_muerte_2"]
+atlas = ExtResource("4_muerte")
+region = Rect2(224, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_muerte_3"]
+atlas = ExtResource("4_muerte")
+region = Rect2(336, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_muerte_4"]
+atlas = ExtResource("4_muerte")
+region = Rect2(448, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_muerte_5"]
+atlas = ExtResource("4_muerte")
+region = Rect2(560, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_muerte_6"]
+atlas = ExtResource("4_muerte")
+region = Rect2(672, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_muerte_7"]
+atlas = ExtResource("4_muerte")
+region = Rect2(784, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_0"]
+atlas = ExtResource("5_ataque")
+region = Rect2(0, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_1"]
+atlas = ExtResource("5_ataque")
+region = Rect2(112, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_2"]
+atlas = ExtResource("5_ataque")
+region = Rect2(224, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_3"]
+atlas = ExtResource("5_ataque")
+region = Rect2(336, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_4"]
+atlas = ExtResource("5_ataque")
+region = Rect2(448, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_5"]
+atlas = ExtResource("5_ataque")
+region = Rect2(560, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_6"]
+atlas = ExtResource("5_ataque")
+region = Rect2(672, 0, 112, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jefe3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_default_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_default_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_default_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_default_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_default_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_default_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_default_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_default_7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dano_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dano_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dano_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dano_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dano_4")
+}],
+"loop": false,
+"name": &"dano",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_muerte_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_muerte_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_muerte_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_muerte_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_muerte_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_muerte_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_muerte_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_muerte_7")
+}],
+"loop": false,
+"name": &"muerte",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ataque_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ataque_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ataque_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ataque_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ataque_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ataque_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ataque_6")
+}],
+"loop": false,
+"name": &"ataque",
+"speed": 10.0
+}]
+
+[node name="Pelea" instance=ExtResource("1_base")]
+nivel = 3
+banco_preguntas = "res://data/jefes/banco_jefe_3.gd"
+segundos_pregunta = 10.0
+vida_jefe = 330
+multiplicador_danio = 2.0
+frase_espera = "* THE SEGMENTATION FAULT PARPADEA ENTRE DOS DIRECCIONES."
+frase_victoria = "Recuperaste tu nombre: el Compilador Supremo ha vuelto."
+prob_ataque = 0.4
+escena_stage = "res://scenes/levels/nucleo_final.tscn"
+
+[node name="NombreJefe" parent="CosasJefe" index="0"]
+text = "THE SEGMENTATION FAULT"
+
+[node name="Jefe" parent="CosasJefe" index="1"]
+sprite_frames = SubResource("SpriteFrames_jefe3")
+animation = &"default"
+frame = 0
+frame_progress = 0.0

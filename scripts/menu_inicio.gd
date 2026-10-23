@@ -1,6 +1,6 @@
 extends Control
 
-const ESCENA_JUEGO_PATH: String = "res://scenes/levels/stage_1.tscn"
+const ESCENA_JUEGO_PATH: String = "res://scenes/levels/inicio.tscn"
 
 # Referencias a los nodos de la interfaz
 @onready var boton_jugar: Button = $VBoxContainer/Jugar

@@ -1,0 +1,128 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n301"]
+script = ExtResource("2_opt")
+text = "La letra `'N'`"
+wrong_feedback = "Cada elemento es una placa, no una letra."
+concept_on_error = "`lugares` es un arreglo de `char *`."
+hint = "¿Qué tipo tiene cada elemento?"
+
+[sub_resource type="Resource" id="Resource_n302"]
+script = ExtResource("2_opt")
+text = "Un puntero al inicio de `\"Nullville\"`"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n303"]
+script = ExtResource("2_opt")
+text = "Una copia del texto"
+wrong_feedback = "El arreglo no copia los textos: guarda dónde empiezan."
+concept_on_error = "Cada `char *` guarda una dirección."
+hint = "Las estanterías guardan dónde está cada libro."
+
+[sub_resource type="Resource" id="Resource_n304"]
+script = ExtResource("1_cell")
+address = "0x0640"
+value = "0x0650"
+label = "lugares[0]"
+points_to = "0x0650"
+
+[sub_resource type="Resource" id="Resource_n305"]
+script = ExtResource("1_cell")
+address = "0x0648"
+value = "0x065A"
+label = "lugares[1]"
+points_to = "0x065A"
+
+[sub_resource type="Resource" id="Resource_n306"]
+script = ExtResource("1_cell")
+address = "0x0650"
+value = "\"Nullville\""
+label = "nombre"
+
+[sub_resource type="Resource" id="Resource_n307"]
+script = ExtResource("1_cell")
+address = "0x065A"
+value = "\"Nucleo\""
+label = "nombre"
+
+[sub_resource type="Resource" id="Resource_n308"]
+script = ExtResource("1_cell")
+address = "0x0600"
+value = "0x0620"
+label = "aldeanos[0]"
+points_to = "0x0620"
+
+[sub_resource type="Resource" id="Resource_n309"]
+script = ExtResource("1_cell")
+address = "0x0608"
+value = "0x0628"
+label = "aldeanos[1]"
+points_to = "0x0628"
+
+[sub_resource type="Resource" id="Resource_n310"]
+script = ExtResource("1_cell")
+address = "0x0610"
+value = "0x0630"
+label = "aldeanos[2]"
+points_to = "0x0630"
+
+[sub_resource type="Resource" id="Resource_n311"]
+script = ExtResource("1_cell")
+address = "0x0620"
+value = "\"Andres\""
+label = "nombre"
+
+[sub_resource type="Resource" id="Resource_n312"]
+script = ExtResource("1_cell")
+address = "0x0628"
+value = "\"Juan\""
+label = "nombre"
+
+[sub_resource type="Resource" id="Resource_n313"]
+script = ExtResource("1_cell")
+address = "0x0630"
+value = "\"Rivera\""
+label = "nombre"
+
+[sub_resource type="Resource" id="Resource_n314"]
+script = ExtResource("4_ex")
+title = "REPASO DEL ANCIANO"
+code = "char *lugares[2] = {
+    \"Nullville\",
+    \"Nucleo\"
+};"
+question = "¿Qué es `lugares[0]`?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n304"), SubResource("Resource_n305"), SubResource("Resource_n306"), SubResource("Resource_n307")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n301"), SubResource("Resource_n302"), SubResource("Resource_n303")])
+conceptual_hint = "`lugares[0]` es un `char *`: guarda la dirección del inicio de \"Nullville\"."
+example_code = "char *aldeanos[3] = {
+    \"Andres\",
+    \"Juan\",
+    \"Rivera\"
+};"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n308"), SubResource("Resource_n309"), SubResource("Resource_n310"), SubResource("Resource_n311"), SubResource("Resource_n312"), SubResource("Resource_n313")])
+example_text = "El censo de la Bibliotecaria: tres placas, cada una al inicio de un nombre."
+example_followup = "Es el mismo concepto del caso original. Vuelve al repaso."
+success_title = "¡REPASO SUPERADO!"
+success_text = "Lo que fallaste en el Núcleo ahora cuenta como acierto."
+concept_text = "Un arreglo de punteros guarda direcciones, no los textos."
+
+[resource]
+script = ExtResource("5_mision")
+id = &"RP-N3-04"
+oa_code = "OA3.4"
+title = "Repaso: El Censo de Nullville"
+objective = "→ Responde el repaso del Anciano"
+giver_name = "el Anciano, en la entrada del volcán"
+variante_de = &"EJ-N3-04"
+intro_dialogue = Array[String](["Antes de entrar al Núcleo, quiero estar seguro de algo.", "Fallaste algunas pruebas en la ciudad. Para enfrentar al jefe hay que acertar al menos 7 de cada 10 al primer intento.", "Repasemos lo de «El Censo de Nullville». Te pondré un caso parecido: respóndelo con calma."])
+reminder_dialogue = Array[String](["Sigamos con el repaso de «El Censo de Nullville»."])
+success_dialogue = Array[String](["Bien. Eso ya no te lo van a quitar."])
+done_dialogue = Array[String](["Ese caso ya lo dominas."])
+exercise = SubResource("Resource_n314")

@@ -1,0 +1,96 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n301"]
+script = ExtResource("2_opt")
+text = "Se liberaron automáticamente al reasignar `p`"
+wrong_feedback = "Soltar la placa no devuelve el bloque. Solo pierde el camino hacia él."
+concept_on_error = "En C, la memoria de `malloc` solo se devuelve con `free`."
+hint = "¿Alguien llamó a `free`?"
+
+[sub_resource type="Resource" id="Resource_n302"]
+script = ExtResource("2_opt")
+text = "Quedaron ocupados y sin forma de alcanzarlos: es una fuga de memoria"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n303"]
+script = ExtResource("2_opt")
+text = "Se convirtieron en `NULL`"
+wrong_feedback = "`NULL` es lo que guarda ahora la placa, no el bloque: el 42 sigue ahí, reservado."
+concept_on_error = "`p = NULL` cambia el puntero, no la memoria a la que apuntaba."
+hint = "¿Qué variable recibió el `NULL`: el bloque o la placa?"
+
+[sub_resource type="Resource" id="Resource_n304"]
+script = ExtResource("3_reward")
+stat = 3
+amount = 20.0
+
+[sub_resource type="Resource" id="Resource_n305"]
+script = ExtResource("1_cell")
+address = "0x0700"
+value = "42"
+label = "bloque reservado"
+
+[sub_resource type="Resource" id="Resource_n306"]
+script = ExtResource("1_cell")
+address = "0x0708"
+value = "NULL"
+label = "p (antes 0x0700)"
+
+[sub_resource type="Resource" id="Resource_n307"]
+script = ExtResource("1_cell")
+address = "0x0720"
+value = "8"
+label = "bloque reservado"
+
+[sub_resource type="Resource" id="Resource_n308"]
+script = ExtResource("1_cell")
+address = "0x0728"
+value = "NULL"
+label = "q (antes 0x0720)"
+
+[sub_resource type="Resource" id="Resource_n309"]
+script = ExtResource("4_ex")
+title = "EL ORIGEN DEL JEFE"
+code = "int *p = malloc(sizeof(int));
+*p = 42;
+p = NULL;"
+question = "¿Qué ocurrió con los bytes reservados?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n305"), SubResource("Resource_n306")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n301"), SubResource("Resource_n302"), SubResource("Resource_n303")])
+conceptual_hint = "`p = NULL` cambia la placa, no el bloque. Si nadie más guarda su dirección, el bloque queda reservado y perdido: una fuga."
+example_code = "int *q = malloc(sizeof(int));
+*q = 8;
+q = NULL;   // fuga de memoria"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n307"), SubResource("Resource_n308")])
+example_text = "El mismo error: el 8 sigue reservado, pero `q` ya no sabe dónde está y nadie puede liberarlo."
+example_followup = "Mismo error, otro bloque. Vuelve con el Alquimista: ¿qué pasó con sus bytes?"
+success_title = "¡ORIGEN REVELADO!"
+success_text = "Perder la única placa de un bloque reservado lo deja ocupado para siempre."
+concept_text = "Fuga de memoria: memoria reservada sin ninguna referencia para liberarla."
+reward = SubResource("Resource_n304")
+
+[sub_resource type="Resource" id="Resource_n310"]
+script = ExtResource("1_cell")
+address = "0x0700"
+value = "42"
+label = "bloque huérfano del Alquimista"
+
+[resource]
+script = ExtResource("5_mision")
+id = &"EJ-N3-05"
+oa_code = "OA3.5"
+title = "El Origen del Jefe"
+objective = "→ Descubre qué pasó con el bloque del Alquimista"
+giver_name = "el Alquimista"
+intro_dialogue = Array[String](["Acércate. Soy el Alquimista de Bloques: guardo la memoria que se reserva en el Núcleo.", "Te voy a mostrar cómo nació The Memory Leak. Reservo un bloque, escribo en él… y suelto la única placa.", "`int *p = malloc(sizeof(int));` `*p = 42;` `p = NULL;`", "El bloque sigue reservado. Nadie sabe ya dónde está. Nadie puede devolverlo. Así creció él."])
+reminder_dialogue = Array[String](["¿Qué pasó con el bloque cuando solté la placa?"])
+success_dialogue = Array[String](["Ocupado y perdido. Cada vez que alguien soltó su única placa, The Memory Leak creció un poco más.", "Toma este frasco de vida. Este sí lo devolví a tiempo."])
+done_dialogue = Array[String](["Un bloque sin placa es un bloque perdido para siempre."])
+exercise = SubResource("Resource_n309")
+reveals = Array[ExtResource("1_cell")]([SubResource("Resource_n310")])

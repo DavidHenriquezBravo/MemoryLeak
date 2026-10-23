@@ -1,0 +1,84 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n301"]
+script = ExtResource("2_opt")
+text = "Se liberó solo"
+wrong_feedback = "Soltar la placa no devuelve el bloque."
+concept_on_error = "Solo `free` devuelve la memoria de `malloc`."
+hint = "¿Alguien llamó a `free`?"
+
+[sub_resource type="Resource" id="Resource_n302"]
+script = ExtResource("2_opt")
+text = "Error de compilación"
+wrong_feedback = "El código compila y corre; el problema es lo que deja atrás."
+concept_on_error = "Perder un puntero es válido en C, pero deja la memoria reservada."
+hint = "Corre sin errores. ¿Qué queda reservado?"
+
+[sub_resource type="Resource" id="Resource_n303"]
+script = ExtResource("2_opt")
+text = "Fuga de memoria"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n304"]
+script = ExtResource("1_cell")
+address = "0x0720"
+value = "8"
+label = "bloque reservado"
+
+[sub_resource type="Resource" id="Resource_n305"]
+script = ExtResource("1_cell")
+address = "0x0728"
+value = "NULL"
+label = "q (antes 0x0720)"
+
+[sub_resource type="Resource" id="Resource_n306"]
+script = ExtResource("1_cell")
+address = "0x0700"
+value = "42"
+label = "bloque reservado"
+
+[sub_resource type="Resource" id="Resource_n307"]
+script = ExtResource("1_cell")
+address = "0x0708"
+value = "NULL"
+label = "p (antes 0x0700)"
+
+[sub_resource type="Resource" id="Resource_n308"]
+script = ExtResource("4_ex")
+title = "REPASO DEL ANCIANO"
+code = "int *q = malloc(sizeof(int));
+*q = 8;
+q = NULL;"
+question = "¿Qué pasó con el bloque?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n304"), SubResource("Resource_n305")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n301"), SubResource("Resource_n302"), SubResource("Resource_n303")])
+conceptual_hint = "El 8 sigue reservado, pero nadie guarda ya su dirección: no se puede liberar."
+example_code = "int *p = malloc(sizeof(int));
+*p = 42;
+p = NULL;"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n306"), SubResource("Resource_n307")])
+example_text = "El origen del jefe: el 42 quedó reservado y sin placa."
+example_followup = "Es el mismo concepto del caso original. Vuelve al repaso."
+success_title = "¡REPASO SUPERADO!"
+success_text = "Lo que fallaste en el Núcleo ahora cuenta como acierto."
+concept_text = "Fuga de memoria: memoria reservada sin referencia."
+
+[resource]
+script = ExtResource("5_mision")
+id = &"RP-N3-05"
+oa_code = "OA3.5"
+title = "Repaso: El Origen del Jefe"
+objective = "→ Responde el repaso del Anciano"
+giver_name = "el Anciano, en la entrada del volcán"
+variante_de = &"EJ-N3-05"
+intro_dialogue = Array[String](["Antes de entrar al Núcleo, quiero estar seguro de algo.", "Fallaste algunas pruebas en la ciudad. Para enfrentar al jefe hay que acertar al menos 7 de cada 10 al primer intento.", "Repasemos lo de «El Origen del Jefe». Te pondré un caso parecido: respóndelo con calma."])
+reminder_dialogue = Array[String](["Sigamos con el repaso de «El Origen del Jefe»."])
+success_dialogue = Array[String](["Bien. Eso ya no te lo van a quitar."])
+done_dialogue = Array[String](["Ese caso ya lo dominas."])
+exercise = SubResource("Resource_n308")

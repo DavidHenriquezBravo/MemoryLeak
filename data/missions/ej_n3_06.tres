@@ -1,0 +1,101 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n301"]
+script = ExtResource("2_opt")
+text = "Reasignar `p` antes de ponerlo en `NULL`"
+wrong_feedback = "Reasignar la placa la aleja del bloque igual que el `NULL`: el bloque sigue reservado."
+concept_on_error = "Cambiar el puntero no libera la memoria; solo `free` la devuelve."
+hint = "Moviste la placa otra vez. ¿Qué función devuelve el bloque?"
+
+[sub_resource type="Resource" id="Resource_n302"]
+script = ExtResource("2_opt")
+text = "Nada; el sistema operativo lo resuelve solo"
+wrong_feedback = "Mientras el programa corre, el bloque sigue ocupado. En el Núcleo, eso alimenta al jefe."
+concept_on_error = "Un programa en C debe liberar con `free` lo que reserva con `malloc`."
+hint = "Si nadie lo devuelve, ¿quién lo hace?"
+
+[sub_resource type="Resource" id="Resource_n303"]
+script = ExtResource("2_opt")
+text = "Llamar `free(p);` antes de perder la referencia"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n304"]
+script = ExtResource("3_reward")
+stat = 1
+amount = 0.1
+
+[sub_resource type="Resource" id="Resource_n305"]
+script = ExtResource("1_cell")
+address = "0x0700"
+value = "42"
+label = "bloque reservado"
+
+[sub_resource type="Resource" id="Resource_n306"]
+script = ExtResource("1_cell")
+address = "0x0708"
+value = "0x0700"
+label = "p"
+points_to = "0x0700"
+
+[sub_resource type="Resource" id="Resource_n307"]
+script = ExtResource("1_cell")
+address = "0x0720"
+value = "libre"
+label = "bloque devuelto"
+
+[sub_resource type="Resource" id="Resource_n308"]
+script = ExtResource("1_cell")
+address = "0x0728"
+value = "NULL"
+label = "q"
+
+[sub_resource type="Resource" id="Resource_n309"]
+script = ExtResource("4_ex")
+title = "LA DEVOLUCIÓN"
+code = "int *p = malloc(sizeof(int));
+*p = 42;
+__________
+p = NULL;"
+question = "¿Qué corrige la fuga del ejercicio anterior?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n305"), SubResource("Resource_n306")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n301"), SubResource("Resource_n302"), SubResource("Resource_n303")])
+conceptual_hint = "Mientras `p` todavía guarda la dirección del bloque, `free(p)` lo devuelve. Después ya se puede soltar la placa."
+example_code = "int *q = malloc(sizeof(int));
+*q = 8;
+free(q);    // primero se devuelve
+q = NULL;   // después se suelta"
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n307"), SubResource("Resource_n308")])
+example_text = "`free(q)` devuelve el bloque mientras `q` aún sabe dónde está; recién después se suelta con `NULL`."
+example_followup = "Mismo sello, otro bloque. Vuelve con el Alquimista: ¿qué corrige su fuga?"
+success_title = "¡FUGA SELLADA!"
+success_text = "`free` devuelve el bloque antes de perder la placa."
+concept_text = "Para evitar fugas: `free(p);` antes de reasignar o perder `p`."
+reward = SubResource("Resource_n304")
+
+[sub_resource type="Resource" id="Resource_n310"]
+script = ExtResource("1_cell")
+address = "0x0700"
+value = "libre"
+label = "bloque devuelto al pozo"
+
+[resource]
+script = ExtResource("5_mision")
+id = &"EJ-N3-06"
+oa_code = "OA3.5"
+title = "La Devolución"
+objective = "→ Sella la fuga del Alquimista"
+requires_mission = &"EJ-N3-05"
+giver_name = "el Alquimista"
+intro_dialogue = Array[String](["Ahora que sabes cómo nació la fuga, ayúdame a sellarla: hay que devolver el bloque antes de perder la placa.", "Devuelve primero. Suelta después. Nunca al revés."])
+reminder_dialogue = Array[String](["¿Qué hay que hacer antes de soltar la placa?"])
+success_dialogue = Array[String](["El bloque vuelve al pozo. Ese es el sello que vas a necesitar contra el jefe final.", "Toma también esta capa de cristal: aguanta golpes que vienen de direcciones inválidas."])
+done_dialogue = Array[String](["Primero `free`, después `NULL`. En ese orden."])
+locked_dialogue = Array[String](["Primero tienes que entender cómo nació la fuga.", "Deja que te muestre el origen del jefe."])
+exercise = SubResource("Resource_n309")
+reveals = Array[ExtResource("1_cell")]([SubResource("Resource_n310")])

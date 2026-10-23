@@ -15,10 +15,24 @@
 [ext_resource type="Texture2D" path="res://Sprites/Mundo/Entrada del volcan.png" id="13_cgfun"]
 [ext_resource type="PackedScene" path="res://scenes/actors/player.tscn" id="14_5ydmh"]
 [ext_resource type="PackedScene" path="res://scenes/actors/anciano_guia.tscn" id="15_d4kj5"]
+[ext_resource type="PackedScene" path="res://scenes/actors/archivista.tscn" id="16_mkqc7"]
 [ext_resource type="Texture2D" path="res://Sprites/Mundo/Brasero-Sheet.png" id="16_xqppo"]
 [ext_resource type="Script" path="res://scripts/puerta_escena.gd" id="17_17one"]
+[ext_resource type="Script" path="res://scripts/data/mission_data.gd" id="17_d4kj5"]
+[ext_resource type="PackedScene" path="res://scenes/actors/armero.tscn" id="17_osih0"]
 [ext_resource type="Script" path="res://scripts/parada_historia.gd" id="18_j1nsi"]
+[ext_resource type="PackedScene" path="res://scenes/actors/bibliotecaria.tscn" id="18_t5hl5"]
+[ext_resource type="Resource" path="res://data/missions/ej_n3_01.tres" id="18_xqppo"]
+[ext_resource type="PackedScene" path="res://scenes/actors/alquimista.tscn" id="19_3tus0"]
+[ext_resource type="Resource" path="res://data/missions/ej_n3_02.tres" id="19_17one"]
 [ext_resource type="Script" path="res://scripts/punto_llegada.gd" id="19_ch3ii"]
+[ext_resource type="Resource" path="res://data/missions/ej_n3_03.tres" id="21_j1nsi"]
+[ext_resource type="Resource" path="res://data/missions/ej_n3_07.tres" id="22_ch3ii"]
+[ext_resource type="Resource" path="res://data/missions/ej_n3_04.tres" id="24_v3iug"]
+[ext_resource type="Resource" path="res://data/missions/ej_n3_08.tres" id="25_2u7wf"]
+[ext_resource type="Resource" path="res://data/missions/ej_n3_05.tres" id="27_k0l3x"]
+[ext_resource type="Resource" path="res://data/missions/ej_n3_06.tres" id="28_d86sq"]
+[ext_resource type="Script" path="res://scripts/entrada_nucleo.gd" id="33_sxqi6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_10bu1"]
 size = Vector2(48, 20)
@@ -98,6 +112,9 @@ size = Vector2(30, 12)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xpw8s"]
 size = Vector2(30, 12)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d4kj5"]
+size = Vector2(88, 62)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_tp05j"]
 atlas = ExtResource("16_xqppo")
 region = Rect2(0, 0, 32, 32)
@@ -175,6 +192,12 @@ size = Vector2(28, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_34me3"]
 size = Vector2(16, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xqppo"]
+size = Vector2(72, 44)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_borde_oeste"]
+size = Vector2(24, 1220)
 
 [node name="Stage3" type="Node2D" unique_id=1816365911]
 
@@ -454,7 +477,7 @@ position = Vector2(0, 6)
 shape = SubResource("RectangleShape2D_pcj1b")
 
 [node name="Farol 8" type="StaticBody2D" parent="Objetos" unique_id=1058135323]
-position = Vector2(1056, 180)
+position = Vector2(1140, 184)
 
 [node name="Sprite2D" type="Sprite2D" parent="Objetos/Farol 8" unique_id=2132987702]
 position = Vector2(-8, -36)
@@ -517,6 +540,10 @@ shape = SubResource("RectangleShape2D_yremd")
 position = Vector2(49, 2)
 shape = SubResource("RectangleShape2D_xpw8s")
 
+[node name="Puerta" type="CollisionShape2D" parent="Objetos/Entrada al Nucleo" unique_id=2057881416]
+position = Vector2(0, -29)
+shape = SubResource("RectangleShape2D_d4kj5")
+
 [node name="Player" parent="Objetos" unique_id=376763523 instance=ExtResource("14_5ydmh")]
 position = Vector2(48, 456)
 
@@ -529,6 +556,22 @@ limit_bottom = 960
 
 [node name="Anciano" parent="Objetos" unique_id=302908514 instance=ExtResource("15_d4kj5")]
 position = Vector2(20, 462)
+
+[node name="Archivista" parent="Objetos" unique_id=1967970335 instance=ExtResource("16_mkqc7")]
+position = Vector2(212, 270)
+missions = Array[ExtResource("17_d4kj5")]([ExtResource("18_xqppo"), ExtResource("19_17one")])
+
+[node name="Armero" parent="Objetos" unique_id=922324881 instance=ExtResource("17_osih0")]
+position = Vector2(928, 428.8)
+missions = Array[ExtResource("17_d4kj5")]([ExtResource("21_j1nsi"), ExtResource("22_ch3ii")])
+
+[node name="Bibliotecaria" parent="Objetos" unique_id=1016236362 instance=ExtResource("18_t5hl5")]
+position = Vector2(185.6, 652.8)
+missions = Array[ExtResource("17_d4kj5")]([ExtResource("24_v3iug"), ExtResource("25_2u7wf")])
+
+[node name="Alquimista" parent="Objetos" unique_id=1756164491 instance=ExtResource("19_3tus0")]
+position = Vector2(1024, 812.8)
+missions = Array[ExtResource("17_d4kj5")]([ExtResource("27_k0l3x"), ExtResource("28_d86sq")])
 
 [node name="Puente frente" type="TileMapLayer" parent="." unique_id=1677144709]
 tile_map_data = PackedByteArray("AAARAA0AAQAAAA0AAAAUAA0AAQACAA0AAAASAA0AAQABAA0AAAATAA0AAQABAA0AAAATABUAAQAAAA0AAAAWABUAAQACAA0AAAAUABUAAQABAA0AAAAVABUAAQABAA0AAAA=")
@@ -560,7 +603,7 @@ script = ExtResource("18_j1nsi")
 lineas = Array[String](["Mira arriba.", "Ese es el Núcleo. Ahí adentro se guarda el registro maestro de la Realidad… y ahí empezó todo."])
 lugar_anciano = Vector2(-26, 4)
 espera = 0.6
-mirar_hacia = Vector2(768, -416)
+mirar_hacia = Vector2(768, -350)
 zoom_mirar = 1.6
 duracion_mirar = 2.6
 
@@ -604,3 +647,17 @@ initial_velocity_max = 80.0
 scale_amount_min = 3.0
 scale_amount_max = 5.0
 color = Color(0.66, 0.6, 0.58, 0.85)
+
+[node name="Entrada al Núcleo (Anciano)" type="Area2D" parent="." unique_id=848396068]
+position = Vector2(1056, 152)
+script = ExtResource("33_sxqi6")
+escena_nucleo = "res://scenes/levels/nucleo_final.tscn"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Entrada al Núcleo (Anciano)" unique_id=1154579081]
+shape = SubResource("RectangleShape2D_xqppo")
+
+[node name="Borde oeste" type="StaticBody2D" parent="."]
+
+[node name="Pared 1" type="CollisionShape2D" parent="Borde oeste"]
+position = Vector2(-12, 350)
+shape = SubResource("RectangleShape2D_borde_oeste")

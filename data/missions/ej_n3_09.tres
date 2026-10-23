@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[resource]
+script = ExtResource("5_mision")
+id = &"EJ-N3-09"
+title = "Listo para The Segmentation Fault"
+objective = "→ Ve con el Anciano a la entrada del volcán"
+requires_all = Array[StringName]([&"EJ-N3-01", &"EJ-N3-02", &"EJ-N3-03", &"EJ-N3-04", &"EJ-N3-05", &"EJ-N3-06", &"EJ-N3-07", &"EJ-N3-08"])
+giver_name = "el Anciano, en la entrada del volcán"
+precision_minima = 0.7
+intro_dialogue = Array[String](["El Archivista, el Armero, la Bibliotecaria, el Alquimista… El Núcleo ya te conoce, viajero.", "Placas de placas, filas de placas, bloques que nadie devuelve. Ya sabes seguirlas todas.", "Ahí dentro espera The Segmentation Fault. Todo lo que toca lo lleva a una dirección que no existe.", "Y ahí dentro también está lo que viniste a buscar. Tu memoria."])
+success_dialogue = Array[String](["Bien. Estás listo… más listo de lo que crees."])
+done_dialogue = Array[String](["El Núcleo nos espera."])
+locked_dialogue = Array[String](["Todavía no, viajero. En el Núcleo hay gente que necesita tu ayuda.", "El Archivista en su torre, el Armero en la forja, la Bibliotecaria en el censo y el Alquimista en su laboratorio.", "Cuando todos te conozcan, entraremos juntos."])

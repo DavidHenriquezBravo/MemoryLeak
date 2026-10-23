@@ -2553,6 +2553,9 @@ size = Vector2(48, 58)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nrq3n"]
 size = Vector2(48, 58)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_borde_oeste"]
+size = Vector2(24, 946)
+
 [node name="Stage2" type="Node2D" unique_id=61945114]
 y_sort_enabled = true
 
@@ -2783,3 +2786,9 @@ offset = Vector2(0, -45)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Entrada de mina 2" unique_id=789674394]
 position = Vector2(28, -16)
 shape = SubResource("RectangleShape2D_nrq3n")
+
+[node name="Borde oeste" type="StaticBody2D" parent="."]
+
+[node name="Pared 1" type="CollisionShape2D" parent="Borde oeste"]
+position = Vector2(-522, 32)
+shape = SubResource("RectangleShape2D_borde_oeste")

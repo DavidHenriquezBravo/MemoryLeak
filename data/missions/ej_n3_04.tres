@@ -1,0 +1,141 @@
+[gd_resource type="Resource" script_class="MissionData" format=3]
+
+[ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
+[ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
+[ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
+[ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n301"]
+script = ExtResource("2_opt")
+text = "Un arreglo de 3 punteros a `char`, cada uno apuntando al inicio de un nombre"
+is_correct = true
+
+[sub_resource type="Resource" id="Resource_n302"]
+script = ExtResource("2_opt")
+text = "Un arreglo de 3 caracteres"
+wrong_feedback = "Cada elemento no es una letra: es una placa hacia una cadena completa."
+concept_on_error = "`char *x[3]` es un arreglo de 3 `char *`: cada uno guarda una dirección."
+hint = "Fíjate en el asterisco: cada elemento es un `char *`, no un `char`."
+
+[sub_resource type="Resource" id="Resource_n303"]
+script = ExtResource("2_opt")
+text = "Un puntero a un solo texto"
+wrong_feedback = "Hay tres estanterías, no una: el `[3]` arma un arreglo, y cada elemento es una placa."
+concept_on_error = "`char *aldeanos[3]` declara tres punteros, no uno."
+hint = "¿Cuántas placas hay? Mira el `[3]`."
+
+[sub_resource type="Resource" id="Resource_n304"]
+script = ExtResource("3_reward")
+stat = 2
+amount = 0.05
+
+[sub_resource type="Resource" id="Resource_n305"]
+script = ExtResource("1_cell")
+address = "0x0600"
+value = "0x0620"
+label = "aldeanos[0]"
+points_to = "0x0620"
+
+[sub_resource type="Resource" id="Resource_n306"]
+script = ExtResource("1_cell")
+address = "0x0608"
+value = "0x0628"
+label = "aldeanos[1]"
+points_to = "0x0628"
+
+[sub_resource type="Resource" id="Resource_n307"]
+script = ExtResource("1_cell")
+address = "0x0610"
+value = "0x0630"
+label = "aldeanos[2]"
+points_to = "0x0630"
+
+[sub_resource type="Resource" id="Resource_n308"]
+script = ExtResource("1_cell")
+address = "0x0620"
+value = "\"Andres\""
+label = "nombre"
+
+[sub_resource type="Resource" id="Resource_n309"]
+script = ExtResource("1_cell")
+address = "0x0628"
+value = "\"Juan\""
+label = "nombre"
+
+[sub_resource type="Resource" id="Resource_n310"]
+script = ExtResource("1_cell")
+address = "0x0630"
+value = "\"Rivera\""
+label = "nombre"
+
+[sub_resource type="Resource" id="Resource_n311"]
+script = ExtResource("1_cell")
+address = "0x0640"
+value = "0x0650"
+label = "lugares[0]"
+points_to = "0x0650"
+
+[sub_resource type="Resource" id="Resource_n312"]
+script = ExtResource("1_cell")
+address = "0x0648"
+value = "0x065A"
+label = "lugares[1]"
+points_to = "0x065A"
+
+[sub_resource type="Resource" id="Resource_n313"]
+script = ExtResource("1_cell")
+address = "0x0650"
+value = "\"Nullville\""
+label = "nombre"
+
+[sub_resource type="Resource" id="Resource_n314"]
+script = ExtResource("1_cell")
+address = "0x065A"
+value = "\"Nucleo\""
+label = "nombre"
+
+[sub_resource type="Resource" id="Resource_n315"]
+script = ExtResource("4_ex")
+title = "EL CENSO"
+code = "char *aldeanos[3] = {
+    \"Andres\",
+    \"Juan\",
+    \"Rivera\"
+};"
+question = "¿Qué es `aldeanos`?"
+memory_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n305"), SubResource("Resource_n306"), SubResource("Resource_n307"), SubResource("Resource_n308"), SubResource("Resource_n309"), SubResource("Resource_n310")])
+options = Array[ExtResource("2_opt")]([SubResource("Resource_n301"), SubResource("Resource_n302"), SubResource("Resource_n303")])
+conceptual_hint = "En `char *aldeanos[3]`, el `[3]` arma tres estanterías y el `char *` dice qué guarda cada una: la dirección del inicio de un nombre."
+example_code = "char *lugares[2] = {
+    \"Nullville\",
+    \"Nucleo\"
+};
+// lugares[0]: inicio de \"Nullville\""
+example_cells = Array[ExtResource("1_cell")]([SubResource("Resource_n311"), SubResource("Resource_n312"), SubResource("Resource_n313"), SubResource("Resource_n314")])
+example_text = "`lugares[0]` no es la letra 'N' ni una copia del texto: es la placa que lleva al inicio de \"Nullville\"."
+example_followup = "Mismo censo, otros nombres. Vuelve con la Bibliotecaria: ¿qué es `aldeanos`?"
+success_title = "¡CENSO RECONSTRUIDO!"
+success_text = "Cada estantería del censo guarda una placa hacia un nombre completo."
+concept_text = "`char *a[n]` es un arreglo de punteros: cada elemento apunta al inicio de una cadena."
+reward = SubResource("Resource_n304")
+
+[sub_resource type="Resource" id="Resource_n316"]
+script = ExtResource("1_cell")
+address = "0x0600"
+value = "0x0620"
+label = "primera estantería del censo"
+
+[resource]
+script = ExtResource("5_mision")
+id = &"EJ-N3-04"
+oa_code = "OA3.4"
+title = "El Censo de Nullville"
+objective = "→ Explícale a la Bibliotecaria qué guarda el censo"
+giver_name = "la Bibliotecaria"
+intro_dialogue = Array[String](["Silencio, por favor. Soy la Bibliotecaria del Censo: aquí se anota a cada habitante de la Realidad.", "El censo no guarda los nombres en una fila. Guarda una fila de placas, y cada una lleva al inicio de un nombre guardado en otra parte.", "Este es el censo de tu pueblo: `char *aldeanos[3] = {\"Andres\", \"Juan\", \"Rivera\"};`.", "Mis estanterías no contienen los libros. Contienen dónde está cada libro."])
+reminder_dialogue = Array[String](["Dime qué es `aldeanos`. Mira bien qué guarda cada estantería."])
+success_dialogue = Array[String](["El censo se reconstruye. Y mira… aquí hay una ficha con tu nombre.", "Está demasiado borrosa para leerla, pero existe. Llévate algo de suerte."])
+done_dialogue = Array[String](["Cada estantería, una placa. Cada placa, un nombre completo."])
+exercise = SubResource("Resource_n315")
+reveals = Array[ExtResource("1_cell")]([SubResource("Resource_n316")])

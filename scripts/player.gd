@@ -4,8 +4,45 @@ extends CharacterBody2D
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
+# Trajes por nivel (GameState.traje()): 0 el de la escena (venda), 1 chaqueta, 2 túnica
+const TRAJES := [null, preload("res://scenes/actors/trajes/traje_1.tres"), preload("res://scenes/actors/trajes/traje_2.tres")]
+
 # Guarda la última dirección en la que miró el personaje
 var last_direction: Vector2 = Vector2.DOWN
+
+func _ready() -> void:
+	var n := GameState.traje()
+	if TRAJES[n]:
+		animated_sprite.sprite_frames = TRAJES[n]
+	if n > GameState.traje_visto:
+		GameState.traje_visto = n
+		_estrenar_traje.call_deferred()
+
+# La primera vez que aparece con un traje nuevo: destella y suelta chispas cyan
+func _estrenar_traje() -> void:
+	await get_tree().create_timer(0.9).timeout
+	if not is_inside_tree():
+		return
+	var t := create_tween()
+	for i in 3:
+		t.tween_property(animated_sprite, "modulate", Color(2.6, 2.6, 2.6), 0.12)
+		t.tween_property(animated_sprite, "modulate", Color.WHITE, 0.2)
+	var chispas := CPUParticles2D.new()
+	chispas.one_shot = true
+	chispas.amount = 26
+	chispas.lifetime = 1.0
+	chispas.explosiveness = 0.85
+	chispas.spread = 180.0
+	chispas.gravity = Vector2(0, -30)
+	chispas.initial_velocity_min = 25.0
+	chispas.initial_velocity_max = 55.0
+	chispas.scale_amount_min = 1.0
+	chispas.scale_amount_max = 2.0
+	chispas.color = Color("3de4dd")
+	chispas.z_index = 5
+	add_child(chispas)
+	chispas.emitting = true
+	get_tree().create_timer(1.6).timeout.connect(chispas.queue_free)
 
 func _physics_process(_delta: float) -> void:
 	# Quieto mientras hay un diálogo o una casilla de RAM abierta
