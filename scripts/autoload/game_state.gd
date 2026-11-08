@@ -42,6 +42,19 @@ var giro_visto: bool = false        # el Anciano ya confesó en la entrada del v
 var nucleo_visto: bool = false      # ya se vio su aparición, corrupto, en el Núcleo
 var nombre_jugador: String = ""     # el que escribió en el inicio (se corrompe en ceros; lo recupera al final)
 var traje_visto: int = 0            # el último traje que ya se estrenó (con el destello de player.gd)
+var paradas_vistas: Dictionary = {} # paradas de la historia ya contadas (parada_historia.gd)
+var final_arena_visto: bool = false # ya se vio el final de The Dangling Pointer en su arena
+var aviso_pozo_visto: bool = false  # ya se advirtió que bajar al jefe 2 sin estar listo es peligroso
+
+# Lo que entra en una partida guardada. punto_entrada y en_cinematica son pasajeros y quedan fuera.
+# Un dato nuevo del avance del jugador hay que agregarlo aquí para que se guarde.
+const CAMPOS_PARTIDA := [
+	"hp", "bonus", "completed", "revealed", "boss_defeated", "final_visto", "aviso_puerta_visto",
+	"preguntas_jefe_resueltas", "boss2_defeated", "boss3_defeated", "final_visto_juego", "fallos",
+	"memorias", "giro_visto", "nucleo_visto", "nombre_jugador", "traje_visto", "paradas_vistas",
+	"final_arena_visto", "aviso_pozo_visto",
+]
+var _valores_iniciales := {}
 
 # NV del jugador: cada misión de NPC y cada jefe derrotado suben un nivel (sin barra de experiencia).
 # Los repasos ("RP-...") y las misiones del Anciano no suben.
@@ -76,6 +89,34 @@ var luck: float:
 		return minf(BASE_LUCK + float(bonus["luck"]), LUCK_CAP)
  
  
+func _ready() -> void:
+	_valores_iniciales = exportar_partida()
+
+
+func exportar_partida() -> Dictionary:
+	var datos := {}
+	for campo: String in CAMPOS_PARTIDA:
+		datos[campo] = _copia(get(campo))
+	return datos
+
+
+# Con un diccionario vacío deja todo como al empezar una partida nueva
+func importar_partida(datos: Dictionary) -> void:
+	for campo: String in CAMPOS_PARTIDA:
+		var valor = _copia(datos.get(campo, _valores_iniciales[campo]))
+		if get(campo) is Array:
+			(get(campo) as Array).assign(valor)     # conserva el tipo (Array[StringName], etc.)
+		else:
+			set(campo, valor)
+	punto_entrada = &""
+	en_cinematica = false
+	stats_changed.emit()
+
+
+func _copia(valor: Variant) -> Variant:
+	return valor.duplicate(true) if valor is Array or valor is Dictionary else valor
+
+
 func norm(address: String) -> String:
 	var s := address.strip_edges()
 	if s.to_lower().begins_with("0x"):

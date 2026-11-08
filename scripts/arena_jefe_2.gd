@@ -33,9 +33,6 @@ const LUGAR_VICTORIA := Vector2(372, 352)
 ## Lo que sube el vagón desde el vacío en la entrada
 const SUBIDA := 150.0
 
-## Ya se vio el final de la pelea en esta partida: el jefe no vuelve y la puerta queda abierta
-static var final_visto := false
-
 @onready var jefe: AnimatedSprite2D = $"Objetos/The Dangling Pointer"
 @onready var puerta = $"Objetos/Puerta sellada al stage final"      # puerta_sellada.gd
 @onready var corrupcion: TileMapLayer = $"Corrupcion piso"
@@ -58,7 +55,7 @@ func _ready() -> void:
 		_poner_anciano()
 		if llega_en_tirolesa:
 			_llegada.call_deferred()
-	elif not final_visto:
+	elif not GameState.final_arena_visto:
 		puerta.cerrar_al_instante()
 		jugador.position = LUGAR_VICTORIA
 		jugador.last_direction = Vector2.RIGHT
@@ -146,7 +143,7 @@ func _entrada() -> void:
 # ------------------------------------------------------------------ final: vuelve ganando
 
 func _final() -> void:
-	final_visto = true
+	GameState.final_arena_visto = true
 	await get_tree().create_timer(0.8).timeout
 	var cam := _camara_cinematica()
 	await _mover_camara(cam, (jugador.global_position + to_global(_lugar_jefe)) / 2.0, 0.6)

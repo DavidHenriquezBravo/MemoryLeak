@@ -182,6 +182,7 @@ func _ready() -> void:
 	pregunta_label.hide()
 
 	cambiar_estado(Estado.MENU)
+	Analitica.inicio_pelea(nivel)
 
 # Stats del jugador desde GameState (incluye las recompensas de misiones)
 func _cargar_stats() -> void:
@@ -201,6 +202,7 @@ func _process(delta: float) -> void:
 		if tiempo_restante <= 0.0:
 			timer_activo = false
 			_terminar_respuesta()
+			_anotar_respuesta(Analitica.SIN_RESPUESTA, false)
 			_on_tiempo_agotado()
 			return
 
@@ -638,6 +640,7 @@ func _confirmar_opcion(i: int) -> void:
 	_terminar_respuesta()
 	var correcta: int = pregunta_actual["correcta"]
 	var acierto := i == correcta
+	_anotar_respuesta(pregunta_actual["opciones"][i], acierto)
 	# Se marca la correcta en verde y, si fallaste, la tuya en rojo
 	_pintar_opcion(correcta, estilo_bien, Color.BLACK)
 	if not acierto:
@@ -647,6 +650,10 @@ func _confirmar_opcion(i: int) -> void:
 	if not is_inside_tree() or estado_actual != Estado.ACCION_COMBATE:
 		return
 	_on_opcion_seleccionada(i)
+
+func _anotar_respuesta(texto: String, acierto: bool) -> void:
+	var tiempo_ms := int((tiempo_maximo - tiempo_restante) * 1000.0)
+	Analitica.respuesta_jefe(nivel, pregunta_actual["base"]["id"], texto, acierto, tiempo_ms, Accion.keys()[accion_actual])
 
 func _texto_remate(acierto: bool) -> String:
 	if not acierto:
@@ -1015,6 +1022,7 @@ func _pintar_opcion(i: int, estilo: StyleBoxFlat, color_texto: Color) -> void:
 
 # --- Derrota: la vida llegó a 0 -> pantalla de GAME OVER ---
 func _derrota() -> void:
+	Analitica.fin_pelea(nivel, "derrota")
 	cambiar_estado(Estado.DERROTA)
 	_limpiar_bytes()
 	await get_tree().create_timer(_duracion_texto() + 1.5).timeout
@@ -1050,6 +1058,8 @@ func _victoria() -> void:
 		_:
 			GameState.boss_defeated = true
 	_guardar_hp()
+	Analitica.fin_pelea(nivel, "victoria")
+	Analitica.fin_nivel(nivel)
 	await get_tree().create_timer(0.6).timeout   # deja ver el último golpe
 	await _muerte_jefe()
 

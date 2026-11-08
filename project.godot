@@ -24,6 +24,8 @@ Dialogue="*uid://bhlrdktfu0k5j"
 Transicion="*uid://t5wrf75b7o7r"
 MissionHud="*res://scenes/ui/mission_hud.tscn"
 ExercisePanel="*res://scenes/ui/exercise_panel.tscn"
+Analitica="*res://scripts/autoload/analitica.gd"
+Guardado="*res://scripts/autoload/guardado.gd"
 
 [display]
 

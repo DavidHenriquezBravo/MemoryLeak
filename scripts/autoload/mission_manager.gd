@@ -48,6 +48,29 @@ var attempts: int = 0
 var _locked_until_ms: int = 0
 
 
+func exportar_partida() -> Dictionary:
+	return {
+		"mision": active.resource_path if active != null else "",
+		"npc": active_npc.resource_path if active_npc != null else "",
+		"intentos": attempts,
+	}
+
+
+# Con un diccionario vacío queda sin misión en curso
+func importar_partida(datos: Dictionary) -> void:
+	active = null
+	active_npc = null
+	attempts = 0
+	_locked_until_ms = 0
+	var mision: String = datos.get("mision", "")
+	if mision == "" or not ResourceLoader.exists(mision):
+		return
+	active = load(mision) as MissionData
+	var npc: String = datos.get("npc", "")
+	active_npc = load(npc) as NpcData if ResourceLoader.exists(npc) else SISTEMA
+	attempts = int(datos.get("intentos", 0))
+
+
 # Lo llama el NPC al interactuar
 func start(mission: MissionData, npc: NpcData) -> void:
 	if GameState.is_completed(mission.id):

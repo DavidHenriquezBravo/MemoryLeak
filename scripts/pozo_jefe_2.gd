@@ -11,7 +11,6 @@ const MISION_ANCIANO := &"EJ-N2-09"
 const C_CYAN := Color("3de4dd")
 
 ## El Anciano ya avisó una vez en esta partida (la segunda vez deja bajar)
-static var aviso_visto := false
 
 var _cerca := false
 var _ocupado := false
@@ -54,11 +53,11 @@ func _hay_algo_abierto() -> bool:
 
 
 func _asomarse() -> void:
-	if GameState.listo_para_jefe(2) or aviso_visto:
+	if GameState.listo_para_jefe(2) or GameState.aviso_pozo_visto:
 		_bajar()
 		return
 	# Todavía no está al nivel: el Anciano avisa, pero no lo impide
-	aviso_visto = true
+	GameState.aviso_pozo_visto = true
 	_ocupado = true
 	var faltan: int = GameState.MISIONES_POR_NIVEL.get(2, 0) - GameState.misiones_completadas(2)
 	var lineas: Array[String] = ["Espera, viajero. Todavía no estás al nivel de lo que hay ahí abajo."]

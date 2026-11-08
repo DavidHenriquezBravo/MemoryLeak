@@ -58,13 +58,19 @@ func _process(_delta: float) -> void:
 
 func _on_started(m: MissionData) -> void:
 	ultimo_inicio_ms = Time.get_ticks_msec()
+	await _mostrar_mision(m)
+	_mostrar_aviso("¡NUEVA MISIÓN!", m.title, false)
+
+
+func _mostrar_mision(m: MissionData) -> void:
 	%Etiqueta.text = "MISIÓN"
 	%Titulo.text = m.title
-	%Objetivo.text = AddrFormatter.format(m.objective)
+	# Con una cadena ya empezada (partida cargada) el objetivo es la casilla que sigue
+	var empezada := m.cadena.any(func(c: MemoryCellData) -> bool: return GameState.is_revealed(c.address))
+	%Objetivo.text = AddrFormatter.format("→ Abre la casilla `%s`" % MissionManager.casilla_objetivo() if empezada else m.objective)
 	caja.visible = true
 	await get_tree().process_frame
 	caja.size.y = %Contenido.get_combined_minimum_size().y + 10
-	_mostrar_aviso("¡NUEVA MISIÓN!", m.title, false)
 
 
 # Placa intermedia resuelta: el objetivo ahora es la casilla a la que apuntaba
@@ -108,6 +114,7 @@ func _on_completed(m: MissionData) -> void:
 # Sin misión activa, la caja dice qué hacer ahora (la ruta guiada de MissionManager)
 func _actualizar_sugerencia() -> void:
 	if MissionManager.active != null:
+		_mostrar_mision(MissionManager.active)      # p. ej. al cargar una partida con misión en curso
 		return
 	var nivel := GameState.nivel_historia()
 	if not GameState.NOMBRES_JEFE.has(nivel):

@@ -34,17 +34,24 @@ const ANCIANO := preload("res://scripts/data/anciano.tres")
 ## Hacia dónde mira el Anciano cuando se queda ("frente", "izquierda", "derecha" o "espalda")
 @export var mira_al_quedarse: String = "frente"
 
-static var _vistas := {}
-
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
+	if se_queda and GameState.paradas_vistas.has(name):
+		_anciano_en_su_lugar.call_deferred()       # al cargar una partida sigue donde se quedó
+
+
+func _anciano_en_su_lugar() -> void:
+	var anciano := get_tree().get_first_node_in_group("anciano_guia")
+	if anciano:
+		anciano.global_position = global_position + lugar_anciano
+		anciano.quedarse(mira_al_quedarse)
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if not body.is_in_group("player") or _vistas.has(name) or GameState.en_cinematica or Dialogue.is_open:
+	if not body.is_in_group("player") or GameState.paradas_vistas.has(name) or GameState.en_cinematica or Dialogue.is_open:
 		return
-	_vistas[name] = true
+	GameState.paradas_vistas[name] = true
 	_contar(body)
 
 

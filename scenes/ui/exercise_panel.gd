@@ -27,6 +27,7 @@ var estado := Estado.CERRADO
 var _mision: MissionData
 var _sel := 0
 var _filas: Array[Control] = []
+var _pregunta_abierta_ms := 0   # para medir el tiempo de respuesta
 
 @onready var oscuro: ColorRect = %Oscuro
 @onready var pregunta: Control = %Pregunta
@@ -117,6 +118,7 @@ func _mostrar_pregunta() -> void:
 	oscuro.visible = true
 	pregunta.visible = true
 	estado = Estado.PREGUNTA
+	_pregunta_abierta_ms = Time.get_ticks_msec()
 
 	%Titulo.text = e.title
 	%Titulo.size.x = %Titulo.get_minimum_size().x
@@ -154,7 +156,9 @@ func _marcar() -> void:
 
 
 func _confirmar() -> void:
-	MissionManager.answer(_mision.exercise.options[_sel])   # emite exercise_failed o exercise_passed
+	var opcion := _mision.exercise.options[_sel]
+	Analitica.respuesta_mision(_mision, opcion, Time.get_ticks_msec() - _pregunta_abierta_ms)
+	MissionManager.answer(opcion)   # emite exercise_failed o exercise_passed
 
 
 func _cerrar() -> void:

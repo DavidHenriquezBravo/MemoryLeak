@@ -1,8 +1,9 @@
 extends Control
 
-# Registro de la Daga (lo crea MissionHud; tecla R o Tab). Dos pestañas:
+# Registro de la Daga (lo crea MissionHud; tecla R o Tab). Tres pestañas:
 #   DIRECCIONES -> lo que se anotó al resolver casillas: [0x0140 | 0 maná] buzón del fondo de Sara
 #   MEMORIAS    -> las memorias perdidas M1–M6; las que faltan salen como "???" con una pista del lugar
+#   GUARDAR     -> los saves de la partida (autoload Guardado); ↑↓ elige, E guarda, X cancela
 # Mientras está abierto, el juego queda en pausa. ←→ cambia de pestaña, ↑↓ desplaza, R / X cierra.
 # Coordenadas en el espacio de MissionHud (640×360, escala 2).
 
@@ -13,7 +14,8 @@ const CODIGO := preload("res://Fuentes/codigo.tres")
 const C_CYAN := Color(0.239, 0.894, 0.867)
 const C_GOLD := Color(0.933, 0.659, 0.251)
 const C_DIM := Color(0.61, 0.61, 0.77)
-const PESTANAS := ["DIRECCIONES", "MEMORIAS"]
+const PESTANAS := ["DIRECCIONES", "MEMORIAS", "GUARDAR"]
+const PESTANA_GUARDAR := 2
 const PASO_SCROLL := 24
 
 var is_open := false
@@ -21,6 +23,10 @@ var _pestana := 0
 var _etiquetas: Array[Label] = []
 var _scroll: ScrollContainer
 var _contenido: RichTextLabel
+var _ayuda: Label
+var _slot_elegido := 1
+var _confirmando := false     # el save elegido tiene datos: falta confirmar que se sobrescribe
+var _mensaje := ""
 
 
 func _ready() -> void:
@@ -101,13 +107,12 @@ func _armar() -> void:
 	_contenido.add_theme_color_override("default_color", Color(0.933, 0.933, 0.965))
 	_scroll.add_child(_contenido)
 
-	var ayuda := Label.new()
-	ayuda.text = "←→ pestaña    ↑↓ mover    R cerrar"
-	ayuda.position = Vector2(96, 312)
-	ayuda.add_theme_font_override("font", TEXTO)
-	ayuda.add_theme_font_size_override("font_size", 10)
-	ayuda.add_theme_color_override("font_color", C_DIM)
-	add_child(ayuda)
+	_ayuda = Label.new()
+	_ayuda.position = Vector2(96, 312)
+	_ayuda.add_theme_font_override("font", TEXTO)
+	_ayuda.add_theme_font_size_override("font_size", 10)
+	_ayuda.add_theme_color_override("font_color", C_DIM)
+	add_child(_ayuda)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -116,19 +121,61 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			abrir()
 		return
-	if event.is_action_pressed(&"registro") or event.is_action_pressed(&"ui_cancel") \
-			or (InputMap.has_action(&"cancelar") and event.is_action_pressed(&"cancelar")):
+	var en_guardar := _pestana == PESTANA_GUARDAR
+	if event.is_action_pressed(&"registro"):
 		cerrar()
-	elif event.is_action_pressed(&"ui_left") or event.is_action_pressed(&"ui_right"):
-		_pestana = 1 - _pestana
-		_refrescar()
+	elif event.is_action_pressed(&"ui_cancel") or (InputMap.has_action(&"cancelar") and event.is_action_pressed(&"cancelar")):
+		if _confirmando:
+			_confirmando = false
+			_refrescar()
+		else:
+			cerrar()
+	elif event.is_action_pressed(&"ui_left"):
+		_cambiar_pestana(-1)
+	elif event.is_action_pressed(&"ui_right"):
+		_cambiar_pestana(1)
 	elif event.is_action_pressed(&"ui_down"):
-		_scroll.scroll_vertical += PASO_SCROLL
+		if en_guardar:
+			_mover_slot(1)
+		else:
+			_scroll.scroll_vertical += PASO_SCROLL
 	elif event.is_action_pressed(&"ui_up"):
-		_scroll.scroll_vertical -= PASO_SCROLL
+		if en_guardar:
+			_mover_slot(-1)
+		else:
+			_scroll.scroll_vertical -= PASO_SCROLL
+	elif en_guardar and (event.is_action_pressed(&"interact") or event.is_action_pressed(&"ui_accept")):
+		_guardar()
 	else:
 		return
 	get_viewport().set_input_as_handled()
+
+
+func _cambiar_pestana(paso: int) -> void:
+	_pestana = wrapi(_pestana + paso, 0, PESTANAS.size())
+	_confirmando = false
+	_mensaje = ""
+	_refrescar()
+
+
+func _mover_slot(paso: int) -> void:
+	_slot_elegido = wrapi(_slot_elegido + paso, 1, Guardado.SLOTS + 1)
+	_confirmando = false
+	_mensaje = ""
+	_refrescar()
+
+
+func _guardar() -> void:
+	if not _confirmando and not Guardado.resumen(_slot_elegido).is_empty():
+		_confirmando = true
+		_mensaje = ""
+	else:
+		_confirmando = false
+		if Guardado.guardar(_slot_elegido):
+			_mensaje = "[color=#70e670]Partida guardada en SAVE %d.[/color]" % _slot_elegido
+		else:
+			_mensaje = "[color=#e0679d]No se pudo guardar.[/color]"
+	_refrescar()
 
 
 func _puede_abrir() -> bool:
@@ -138,6 +185,9 @@ func _puede_abrir() -> bool:
 func abrir(pestana: int = -1) -> void:
 	if pestana >= 0:
 		_pestana = pestana
+	_slot_elegido = maxi(Guardado.slot_actual, 1)
+	_confirmando = false
+	_mensaje = ""
 	is_open = true
 	visible = true
 	# La pausa también detendría la música del nivel: los reproductores siguen sonando
@@ -155,12 +205,30 @@ func cerrar() -> void:
 
 func _refrescar() -> void:
 	var nombres := ["DIRECCIONES %d" % GameState.revealed.size(),
-			"MEMORIAS %d/%d" % [GameState.memorias.size(), Memorias.TOTAL]]
+			"MEMORIAS %d/%d" % [GameState.memorias.size(), Memorias.TOTAL], "GUARDAR"]
 	for i in _etiquetas.size():
 		_etiquetas[i].text = ("▸ " if i == _pestana else "  ") + nombres[i]
 		_etiquetas[i].add_theme_color_override("font_color", C_GOLD if i == _pestana else C_DIM)
-	_contenido.text = _texto_direcciones() if _pestana == 0 else _texto_memorias()
+	match _pestana:
+		0:
+			_contenido.text = _texto_direcciones()
+		1:
+			_contenido.text = _texto_memorias()
+		_:
+			_contenido.text = _texto_guardar()
+	_ayuda.text = "←→ pestaña    ↑↓ elegir    E guardar    R cerrar" if _pestana == PESTANA_GUARDAR else "←→ pestaña    ↑↓ mover    R cerrar"
 	_scroll.scroll_vertical = 0
+
+
+func _texto_guardar() -> String:
+	var t := ""
+	for slot in range(1, Guardado.SLOTS + 1):
+		var elegido := slot == _slot_elegido
+		t += "[color=%s]%sSAVE %d[/color]   %s\n\n" % ["#eea840" if elegido else "#9c9cc4", "▸ " if elegido else "   ", slot,
+				Guardado.descripcion(Guardado.resumen(slot))]
+	if _confirmando:
+		t += "[color=#eea840]SAVE %d ya tiene una partida. E: sobrescribir    X: cancelar[/color]" % _slot_elegido
+	return t + _mensaje
 
 
 func _texto_direcciones() -> String:
