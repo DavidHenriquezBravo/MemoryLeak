@@ -73,6 +73,7 @@ theme_override_font_sizes/font_size = 50
 text = "Salir"
 
 [node name="PanelCorreo" type="PanelContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -80,9 +81,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -340.0
-offset_top = -190.0
+offset_top = -230.0
 offset_right = 340.0
-offset_bottom = 90.0
+offset_bottom = 130.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_correo")
@@ -125,6 +126,12 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("3_xrfhq")
 theme_override_font_sizes/font_size = 44
 text = "Continuar"
+
+[node name="Volver" type="Button" parent="PanelCorreo/Contenido"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_xrfhq")
+theme_override_font_sizes/font_size = 32
+text = "Volver"
 
 [node name="PanelPartidas" type="PanelContainer" parent="."]
 visible = false

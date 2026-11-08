@@ -26,6 +26,7 @@ MissionHud="*res://scenes/ui/mission_hud.tscn"
 ExercisePanel="*res://scenes/ui/exercise_panel.tscn"
 Analitica="*res://scripts/autoload/analitica.gd"
 Guardado="*res://scripts/autoload/guardado.gd"
+CierreJuego="*res://scripts/autoload/cierre_juego.gd"
 
 [display]
 

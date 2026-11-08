@@ -7,12 +7,13 @@ const ESCENA_JUEGO_PATH: String = "res://scenes/levels/inicio.tscn"
 @onready var boton_opciones: OptionButton = $VBoxContainer/Opciones # Ahora es OptionButton
 @onready var boton_salir: Button = $VBoxContainer/Salir
 
-# Pantalla del correo: se muestra antes del menú, una sola vez por cada vez que se abre el juego
+# Pantalla del correo: se muestra cada vez que alguien elige un save
 @onready var menu: VBoxContainer = $VBoxContainer
 @onready var panel_correo: PanelContainer = $PanelCorreo
 @onready var campo_correo: LineEdit = $PanelCorreo/Contenido/Campo
 @onready var error_correo: Label = $PanelCorreo/Contenido/Error
 @onready var boton_continuar: Button = $PanelCorreo/Contenido/Continuar
+@onready var boton_volver_correo: Button = $PanelCorreo/Contenido/Volver
 
 # Pantalla de partidas: se abre con Jugar. Las filas (una por save) se arman por código.
 const FUENTE_PARTIDAS := preload("res://Fuentes/upheavtt.ttf")
@@ -25,19 +26,18 @@ const FUENTE_PARTIDAS := preload("res://Fuentes/upheavtt.ttf")
 @onready var boton_volver: Button = $PanelPartidas/Contenido/Volver
 
 var _slot_a_borrar := 0
+var _slot_elegido := 0
+var _slot_vacio := false
 
 func _ready() -> void:
+	# Volver al menú termina la sesión del jugador: el próximo save pide un correo nuevo
+	Analitica.cerrar_sesion("volvio al menu")
 	boton_borrar_si.pressed.connect(_borrar_confirmado)
 	boton_borrar_no.pressed.connect(_armar_partidas)
 	boton_volver.pressed.connect(_volver_al_menu)
 	campo_correo.text_submitted.connect(_confirmar_correo)
 	boton_continuar.pressed.connect(_confirmar_correo.bind(""))
-	var falta_correo := Analitica.correo == ""
-	panel_correo.visible = falta_correo
-	menu.visible = not falta_correo
-	if falta_correo:
-		campo_correo.grab_focus()
-
+	boton_volver_correo.pressed.connect(_volver_a_partidas)
 
 	if not boton_jugar.pressed.is_connected(_on_boton_jugar_pressed):
 		boton_jugar.pressed.connect(_on_boton_jugar_pressed)
@@ -58,13 +58,27 @@ func _ready() -> void:
 		if not boton_opciones.item_selected.is_connected(_on_opciones_item_selected):
 			boton_opciones.item_selected.connect(_on_opciones_item_selected)
 
+func _pedir_correo(slot: int, vacia: bool) -> void:
+	_slot_elegido = slot
+	_slot_vacio = vacia
+	panel_partidas.hide()
+	campo_correo.clear()                      # vacío a propósito: el siguiente jugador no hereda el correo del anterior
+	error_correo.text = ""
+	panel_correo.show()
+	campo_correo.grab_focus()
+
 func _confirmar_correo(_texto: String) -> void:
 	if Analitica.identificar(campo_correo.text):
 		panel_correo.hide()
-		menu.show()
+		_elegir_partida(_slot_elegido, _slot_vacio)
 	else:
 		error_correo.text = "CORREO NO VÁLIDO"
 		campo_correo.grab_focus()
+
+func _volver_a_partidas() -> void:
+	panel_correo.hide()
+	panel_partidas.show()
+	_armar_partidas()
 
 func _on_boton_jugar_pressed() -> void:
 	menu.hide()
@@ -90,7 +104,7 @@ func _armar_partidas() -> void:
 		elegir.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		elegir.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		elegir.disabled = resumen.get("danado", false)
-		elegir.pressed.connect(_elegir_partida.bind(slot, resumen.is_empty()))
+		elegir.pressed.connect(_pedir_correo.bind(slot, resumen.is_empty()))
 		fila.add_child(elegir)
 		if not resumen.is_empty():
 			var borrar := _boton_partida("BORRAR")
@@ -110,9 +124,9 @@ func _elegir_partida(slot: int, vacia: bool) -> void:
 	if vacia:
 		Guardado.nueva_partida(slot)
 		get_tree().change_scene_to_file(ESCENA_JUEGO_PATH)
-	elif Guardado.cargar(slot):
-		panel_partidas.hide()
-	else:
+	elif not Guardado.cargar(slot):
+		panel_partidas.show()
+		_armar_partidas()
 		aviso_partidas.text = "NO SE PUDO CARGAR ESTE SAVE"
 
 func _pedir_borrado(slot: int) -> void:

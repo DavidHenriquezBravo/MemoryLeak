@@ -1,13 +1,17 @@
 extends Node
 
 # Registro local de la partida para analíticas (autoload "Analitica").
-# Guarda un CSV con una fila por evento: apertura y cierre del juego, cada respuesta
+# Guarda un CSV con una fila por evento: inicio y cierre de cada sesión, cada respuesta
 # (correcta o no, con su tiempo) y lo que tardó cada nivel. El correo identifica al jugador.
+#
+# Una sesión va desde que el jugador ingresa su correo (al elegir un save) hasta que vuelve
+# al menú o cierra el juego. Así varias personas pueden jugar seguidas sin reabrir el juego.
 #
 # Separador ";", UTF-8 con BOM y tiempos en milisegundos enteros: así Excel en español
 # abre las columnas bien. En Python: pandas.read_csv(ruta, sep=";", encoding="utf-8-sig").
 #
-# Sin correo no se escribe nada: las pruebas del editor que entran directo a un stage no ensucian el log.
+# Sin correo no se escribe nada: las pruebas del editor que entran directo a un stage no ensucian
+# el log. La excepción es borrar un save, que se hace en el menú, antes de que alguien se identifique.
 
 const CARPETA := "registros"
 const ARCHIVO := "registro_partidas.csv"
@@ -16,6 +20,7 @@ const COLUMNAS: PackedStringArray = [
 	"fecha_hora", "sesion", "correo", "evento", "nivel", "origen", "id_pregunta", "intento",
 	"respuesta", "correcta", "tiempo_respuesta_ms", "duracion_ms", "detalle",
 ]
+const EVENTOS_SIN_CORREO := ["partida_borrada"]
 const SIN_RESPUESTA := "(sin responder)"
 # Entrar por primera vez a una de estas escenas empieza el nivel; vencer a su jefe lo termina
 const ESCENAS_NIVEL := {"stage_1": 1, "stage_2": 2, "stage_3": 3}
@@ -24,8 +29,7 @@ var correo := ""
 
 var _ruta := ""
 var _sesion := ""
-var _fecha_apertura := ""
-var _apertura_ms := 0
+var _sesion_inicio_ms := 0
 var _inicio_nivel_ms := {}      # nivel -> ticks al empezarlo
 var _niveles_terminados := {}
 var _intentos := {}             # id de la pregunta o "JEFE-n" -> veces respondida o peleada en esta partida
@@ -36,29 +40,39 @@ var _marca_addr := RegEx.create_from_string("\\{addr:([^}]*)\\}")
 
 
 func _ready() -> void:
-	_apertura_ms = Time.get_ticks_msec()
-	_fecha_apertura = _ahora()
-	_sesion = Time.get_datetime_string_from_system().replace("-", "").replace(":", "").replace("T", "-")
 	_ruta = _elegir_carpeta().path_join(ARCHIVO)
 	get_tree().scene_changed.connect(_on_escena_cambiada)
 
 
 # Corre tanto al cerrar la ventana como con el botón Salir
 func _exit_tree() -> void:
-	_escribir("cierre_juego", {
-		"nivel": _ultimo_nivel if _ultimo_nivel > 0 else "",
-		"duracion_ms": Time.get_ticks_msec() - _apertura_ms,
-	})
+	cerrar_sesion()
 
 
-# Lo llama la pantalla inicial. Devuelve false si el correo no es válido.
+# Lo llama la pantalla del correo al elegir un save. Devuelve false si el correo no es válido.
 func identificar(texto: String) -> bool:
 	var limpio := texto.strip_edges().to_lower()
 	if _formato_correo.search(limpio) == null:
 		return false
+	cerrar_sesion()
 	correo = limpio
-	_escribir("inicio_juego", {"fecha_hora": _fecha_apertura})
+	_sesion = Time.get_datetime_string_from_system().replace("-", "").replace(":", "").replace("T", "-")
+	_sesion_inicio_ms = Time.get_ticks_msec()
+	_escribir("inicio_juego", {})
 	return true
+
+
+# Termina la sesión del jugador actual, si hay una
+func cerrar_sesion(detalle := "") -> void:
+	if correo == "":
+		return
+	_escribir("cierre_juego", {
+		"nivel": _ultimo_nivel if _ultimo_nivel > 0 else "",
+		"duracion_ms": Time.get_ticks_msec() - _sesion_inicio_ms,
+		"detalle": detalle,
+	})
+	correo = ""
+	_sesion = ""
 
 
 func evento_partida(evento: String, slot: int, nivel := 0) -> void:
@@ -168,7 +182,7 @@ func _empezar_nivel(nivel: int) -> void:
 
 
 func _escribir(evento: String, datos: Dictionary) -> void:
-	if correo == "":
+	if correo == "" and evento not in EVENTOS_SIN_CORREO:
 		return
 	var valores := PackedStringArray()
 	for columna in COLUMNAS:
