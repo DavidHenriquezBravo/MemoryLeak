@@ -24,7 +24,8 @@ func _ready() -> void:
 	continuar.visible = false
 
 
-func mostrar(t: String, linea: String, extra: String = "") -> void:
+# espera_minima: segundos en que E todavía no cierra el cartel, para los que no se deben saltar sin leer
+func mostrar(t: String, linea: String, extra: String = "", espera_minima: float = 0.0) -> void:
 	titulo.text = t
 	texto.text = linea
 	detalle.text = extra
@@ -39,6 +40,8 @@ func mostrar(t: String, linea: String, extra: String = "") -> void:
 	var escribir := create_tween()
 	escribir.tween_property(titulo, "visible_ratio", 1.0, 0.9)
 	await escribir.finished
+	if espera_minima > 0.0:
+		await get_tree().create_timer(espera_minima).timeout
 
 	continuar.visible = true
 	var parpadeo := create_tween().set_loops()

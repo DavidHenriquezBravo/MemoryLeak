@@ -179,13 +179,21 @@ func _final() -> void:
 	await Dialogue.say(SISTEMA, final)
 
 	GameState.final_visto_juego = true
-	var banner = load("res://scenes/ui/banner_nivel.tscn").instantiate()
-	add_child(banner)
-	await banner.mostrar("¡RECUPERASTE TU MEMORIA!", "Derrotaste a THE SEGMENTATION FAULT. La Realidad vuelve a estar en orden.",
+	await _cartel("¡RECUPERASTE TU MEMORIA!", "Derrotaste a THE SEGMENTATION FAULT. La Realidad vuelve a estar en orden.",
 		"FIN · Gracias por jugar MemoryLeak")
-	banner.queue_free()
+	# El juego puede estar en cualquier carpeta: se muestra dónde quedó el registro de esta partida
+	var ruta_registro := Analitica.ruta_archivo()
+	if ruta_registro != "":
+		await _cartel("TUS DATOS SE GUARDARON EN:", ruta_registro, "", 3.0)
 	GameState.en_cinematica = false
 	Transicion.ir_a(ProjectSettings.get_setting("application/run/main_scene"))
+
+
+func _cartel(titulo: String, linea: String, extra: String, espera_minima := 0.0) -> void:
+	var banner = load("res://scenes/ui/banner_nivel.tscn").instantiate()
+	add_child(banner)
+	await banner.mostrar(titulo, linea, extra, espera_minima)
+	banner.queue_free()
 
 
 ## Los recuerdos: chispas rosa y cyan que salen del cristal, dan una vuelta y caen sobre el jugador, que brilla

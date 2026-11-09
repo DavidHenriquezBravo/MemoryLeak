@@ -76,6 +76,14 @@ func cerrar_sesion(detalle := "") -> void:
 	_sesion = ""
 
 
+# Ruta completa del archivo para mostrársela al jugador. Vacía si todavía no se escribió nada.
+func ruta_archivo() -> String:
+	if not FileAccess.file_exists(_ruta):
+		return ""
+	var ruta := ProjectSettings.globalize_path(_ruta)
+	return ruta.replace("/", "\\") if OS.get_name() == "Windows" else ruta
+
+
 func evento_partida(evento: String, slot: int, nivel := 0) -> void:
 	_escribir(evento, {"nivel": nivel if nivel > 0 else "", "detalle": "save %d" % slot})
 
