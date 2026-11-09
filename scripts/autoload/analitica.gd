@@ -1,8 +1,8 @@
 extends Node
 
 # Registro local de la partida para analíticas (autoload "Analitica").
-# Guarda un CSV con una fila por evento: inicio y cierre de cada sesión, cada respuesta
-# (correcta o no, con su tiempo) y lo que tardó cada nivel. El correo identifica al jugador.
+# Guarda un CSV con cada respuesta a NPC y jefes (correcta o no, con su tiempo), el resultado
+# de cada intento contra un jefe y lo que tardó cada nivel. El correo identifica al jugador.
 #
 # Una sesión va desde que el jugador ingresa su correo (al elegir un save) hasta que vuelve
 # al menú o cierra el juego. Así varias personas pueden jugar seguidas sin reabrir el juego.
@@ -10,8 +10,7 @@ extends Node
 # Separador ";", UTF-8 con BOM y tiempos en milisegundos enteros: así Excel en español
 # abre las columnas bien. En Python: pandas.read_csv(ruta, sep=";", encoding="utf-8-sig").
 #
-# Sin correo no se escribe nada: las pruebas del editor que entran directo a un stage no ensucian
-# el log. La excepción es borrar un save, que se hace en el menú, antes de que alguien se identifique.
+# Sin correo no se escribe nada: las pruebas del editor que entran directo a un stage no ensucian el log.
 
 const CARPETA := "registros"
 const ARCHIVO := "registro_partidas.csv"
@@ -20,7 +19,9 @@ const COLUMNAS: PackedStringArray = [
 	"fecha_hora", "sesion", "correo", "evento", "nivel", "origen", "id_pregunta", "intento",
 	"respuesta", "correcta", "tiempo_respuesta_ms", "duracion_ms", "detalle",
 ]
-const EVENTOS_SIN_CORREO := ["partida_borrada"]
+# Solo estos eventos llegan al archivo. Los demás (inicio_juego, cierre_juego, nivel_inicio, jefe_intento,
+# partida_nueva/guardada/cargada/borrada) se pueden reactivar agregándolos aquí.
+const EVENTOS_A_REGISTRAR := ["respuesta", "jefe_fin", "nivel_fin"]
 const SIN_RESPUESTA := "(sin responder)"
 # Entrar por primera vez a una de estas escenas empieza el nivel; vencer a su jefe lo termina
 const ESCENAS_NIVEL := {"stage_1": 1, "stage_2": 2, "stage_3": 3}
@@ -182,7 +183,7 @@ func _empezar_nivel(nivel: int) -> void:
 
 
 func _escribir(evento: String, datos: Dictionary) -> void:
-	if correo == "" and evento not in EVENTOS_SIN_CORREO:
+	if correo == "" or evento not in EVENTOS_A_REGISTRAR:
 		return
 	var valores := PackedStringArray()
 	for columna in COLUMNAS:
