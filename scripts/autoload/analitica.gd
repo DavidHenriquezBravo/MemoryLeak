@@ -11,6 +11,9 @@ extends Node
 # abre las columnas bien. En Python: pandas.read_csv(ruta, sep=";", encoding="utf-8-sig").
 #
 # Sin correo no se escribe nada: las pruebas del editor que entran directo a un stage no ensucian el log.
+#
+# Cada fila también se envía a la planilla de Google si envio_registros.gd tiene su URL y clave;
+# el CSV queda igual como respaldo.
 
 const CARPETA := "registros"
 const ARCHIVO := "registro_partidas.csv"
@@ -29,6 +32,7 @@ const ESCENAS_NIVEL := {"stage_1": 1, "stage_2": 2, "stage_3": 3}
 var correo := ""
 
 var _ruta := ""
+var _envio: Node                # envio_registros.gd: manda cada fila a la planilla de Google
 var _sesion := ""
 var _sesion_inicio_ms := 0
 var _inicio_nivel_ms := {}      # nivel -> ticks al empezarlo
@@ -42,6 +46,9 @@ var _marca_addr := RegEx.create_from_string("\\{addr:([^}]*)\\}")
 
 func _ready() -> void:
 	_ruta = _elegir_carpeta().path_join(ARCHIVO)
+	_envio = preload("res://scripts/autoload/envio_registros.gd").new()
+	_envio.carpeta = _ruta.get_base_dir()
+	add_child(_envio)
 	get_tree().scene_changed.connect(_on_escena_cambiada)
 
 
@@ -204,6 +211,10 @@ func _escribir(evento: String, datos: Dictionary) -> void:
 	if archivo != null:
 		archivo.store_csv_line(valores, SEPARADOR)
 		archivo.close()                         # cerrar en cada fila: si el juego se cae, no se pierde nada
+	var fila := {}
+	for i in COLUMNAS.size():
+		fila[COLUMNAS[i]] = valores[i]
+	_envio.encolar(fila)
 
 
 func _abrir_archivo() -> FileAccess:
