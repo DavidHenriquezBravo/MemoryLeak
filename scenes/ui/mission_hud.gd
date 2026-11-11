@@ -16,6 +16,13 @@ const C_GOLD := Color(0.933, 0.659, 0.251)
 const C_GREEN := Color(0.439, 0.902, 0.439)
 const SEGUNDOS_AVISO := 2.5
 const ESCENAS_SIN_HUD := ["menu", "pelea", "game_over", "cinematicas", "nucleo_final", "levels/inicio"]
+# La caja "SIGUIENTE" de un nivel solo sale en sus escenas. Así, al vencer a un jefe, el camino al nivel
+# siguiente (volver al Stage 1, la bajada, la arena, el camino al Núcleo) no adelanta sus misiones.
+const ESCENAS_DEL_NIVEL := {
+	1: ["levels/stage_1"],
+	2: ["levels/stage_2", "levels/biblioteca"],
+	3: ["levels/stage_3"],
+}
 const REGISTRO := preload("res://scenes/ui/registro.gd")
 
 # Cuándo empezó la última misión (lo usa ExercisePanel para no tapar el aviso)
@@ -117,7 +124,7 @@ func _actualizar_sugerencia() -> void:
 		_mostrar_mision(MissionManager.active)      # p. ej. al cargar una partida con misión en curso
 		return
 	var nivel := GameState.nivel_historia()
-	if not GameState.NOMBRES_JEFE.has(nivel):
+	if not GameState.NOMBRES_JEFE.has(nivel) or not _en_escena_del_nivel(nivel):
 		caja.visible = false
 		return
 	var m := MissionManager.siguiente_sugerida()
@@ -135,6 +142,12 @@ func _actualizar_sugerencia() -> void:
 	caja.visible = true
 	await get_tree().process_frame
 	caja.size.y = %Contenido.get_combined_minimum_size().y + 10
+
+
+func _en_escena_del_nivel(nivel: int) -> bool:
+	var escena := get_tree().current_scene
+	var ruta := escena.scene_file_path if escena != null else ""
+	return ESCENAS_DEL_NIVEL.get(nivel, []).any(func(clave: String) -> bool: return ruta.contains(clave))
 
 
 func _mostrar_aviso(titulo: String, texto: String, completa: bool) -> void:
