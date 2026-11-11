@@ -1,10 +1,50 @@
-[gd_resource type="Resource" script_class="MissionData" format=3]
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://b7ijlj5j3utrf"]
 
 [ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
 [ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
 [ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
 [ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
 [ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n308"]
+script = ExtResource("1_cell")
+address = "0x0420"
+value = "45"
+label = "fuerza"
+
+[sub_resource type="Resource" id="Resource_n309"]
+script = ExtResource("1_cell")
+address = "0x0428"
+value = "0x0420"
+label = "p"
+points_to = "0x0420"
+
+[sub_resource type="Resource" id="Resource_n310"]
+script = ExtResource("1_cell")
+address = "0x0430"
+value = "0x0428"
+label = "pp"
+points_to = "0x0428"
+
+[sub_resource type="Resource" id="Resource_n305"]
+script = ExtResource("1_cell")
+address = "0x0400"
+value = "100"
+label = "vida"
+
+[sub_resource type="Resource" id="Resource_n306"]
+script = ExtResource("1_cell")
+address = "0x0408"
+value = "0x0400"
+label = "p"
+points_to = "0x0400"
+
+[sub_resource type="Resource" id="Resource_n307"]
+script = ExtResource("1_cell")
+address = "0x0410"
+value = "0x0408"
+label = "pp"
+points_to = "0x0408"
 
 [sub_resource type="Resource" id="Resource_n301"]
 script = ExtResource("2_opt")
@@ -27,48 +67,7 @@ is_correct = true
 
 [sub_resource type="Resource" id="Resource_n304"]
 script = ExtResource("3_reward")
-stat = 0
 amount = 5.0
-
-[sub_resource type="Resource" id="Resource_n305"]
-script = ExtResource("1_cell")
-address = "0x0400"
-value = "100"
-label = "vida"
-
-[sub_resource type="Resource" id="Resource_n306"]
-script = ExtResource("1_cell")
-address = "0x0408"
-value = "0x0400"
-label = "p"
-points_to = "0x0400"
-
-[sub_resource type="Resource" id="Resource_n307"]
-script = ExtResource("1_cell")
-address = "0x0410"
-value = "0x0408"
-label = "pp"
-points_to = "0x0408"
-
-[sub_resource type="Resource" id="Resource_n308"]
-script = ExtResource("1_cell")
-address = "0x0420"
-value = "45"
-label = "fuerza"
-
-[sub_resource type="Resource" id="Resource_n309"]
-script = ExtResource("1_cell")
-address = "0x0428"
-value = "0x0420"
-label = "p"
-points_to = "0x0420"
-
-[sub_resource type="Resource" id="Resource_n310"]
-script = ExtResource("1_cell")
-address = "0x0430"
-value = "0x0428"
-label = "pp"
-points_to = "0x0428"
 
 [sub_resource type="Resource" id="Resource_n311"]
 script = ExtResource("4_ex")

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="MissionData" format=3]
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://gdabsvuga70o"]
 
 [ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
 [ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
@@ -6,29 +6,31 @@
 [ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
 [ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
 
-[sub_resource type="Resource" id="Resource_n301"]
-script = ExtResource("2_opt")
-text = "Un arreglo de 3 punteros a `char`, cada uno apuntando al inicio de un nombre"
-is_correct = true
+[sub_resource type="Resource" id="Resource_n311"]
+script = ExtResource("1_cell")
+address = "0x0640"
+value = "0x0650"
+label = "lugares[0]"
+points_to = "0x0650"
 
-[sub_resource type="Resource" id="Resource_n302"]
-script = ExtResource("2_opt")
-text = "Un arreglo de 3 caracteres"
-wrong_feedback = "Cada elemento no es una letra: es una placa hacia una cadena completa."
-concept_on_error = "`char *x[3]` es un arreglo de 3 `char *`: cada uno guarda una dirección."
-hint = "Fíjate en el asterisco: cada elemento es un `char *`, no un `char`."
+[sub_resource type="Resource" id="Resource_n312"]
+script = ExtResource("1_cell")
+address = "0x0648"
+value = "0x065A"
+label = "lugares[1]"
+points_to = "0x065A"
 
-[sub_resource type="Resource" id="Resource_n303"]
-script = ExtResource("2_opt")
-text = "Un puntero a un solo texto"
-wrong_feedback = "Hay tres estanterías, no una: el `[3]` arma un arreglo, y cada elemento es una placa."
-concept_on_error = "`char *aldeanos[3]` declara tres punteros, no uno."
-hint = "¿Cuántas placas hay? Mira el `[3]`."
+[sub_resource type="Resource" id="Resource_n313"]
+script = ExtResource("1_cell")
+address = "0x0650"
+value = "\"Nullville\""
+label = "nombre"
 
-[sub_resource type="Resource" id="Resource_n304"]
-script = ExtResource("3_reward")
-stat = 2
-amount = 0.05
+[sub_resource type="Resource" id="Resource_n314"]
+script = ExtResource("1_cell")
+address = "0x065A"
+value = "\"Nucleo\""
+label = "nombre"
 
 [sub_resource type="Resource" id="Resource_n305"]
 script = ExtResource("1_cell")
@@ -69,31 +71,29 @@ address = "0x0630"
 value = "\"Rivera\""
 label = "nombre"
 
-[sub_resource type="Resource" id="Resource_n311"]
-script = ExtResource("1_cell")
-address = "0x0640"
-value = "0x0650"
-label = "lugares[0]"
-points_to = "0x0650"
+[sub_resource type="Resource" id="Resource_n301"]
+script = ExtResource("2_opt")
+text = "Un arreglo de 3 punteros a `char`, cada uno apuntando al inicio de un nombre"
+is_correct = true
 
-[sub_resource type="Resource" id="Resource_n312"]
-script = ExtResource("1_cell")
-address = "0x0648"
-value = "0x065A"
-label = "lugares[1]"
-points_to = "0x065A"
+[sub_resource type="Resource" id="Resource_n302"]
+script = ExtResource("2_opt")
+text = "Un arreglo de 3 caracteres"
+wrong_feedback = "Cada elemento no es una letra: es una placa hacia una cadena completa."
+concept_on_error = "`char *x[3]` es un arreglo de 3 `char *`: cada uno guarda una dirección."
+hint = "Fíjate en el asterisco: cada elemento es un `char *`, no un `char`."
 
-[sub_resource type="Resource" id="Resource_n313"]
-script = ExtResource("1_cell")
-address = "0x0650"
-value = "\"Nullville\""
-label = "nombre"
+[sub_resource type="Resource" id="Resource_n303"]
+script = ExtResource("2_opt")
+text = "Un puntero a un solo texto"
+wrong_feedback = "Hay tres estanterías, no una: el `[3]` arma un arreglo, y cada elemento es una placa."
+concept_on_error = "`char *aldeanos[3]` declara tres punteros, no uno."
+hint = "¿Cuántas placas hay? Mira el `[3]`."
 
-[sub_resource type="Resource" id="Resource_n314"]
-script = ExtResource("1_cell")
-address = "0x065A"
-value = "\"Nucleo\""
-label = "nombre"
+[sub_resource type="Resource" id="Resource_n304"]
+script = ExtResource("3_reward")
+stat = 2
+amount = 0.05
 
 [sub_resource type="Resource" id="Resource_n315"]
 script = ExtResource("4_ex")

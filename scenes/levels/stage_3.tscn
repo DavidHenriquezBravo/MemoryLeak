@@ -1,38 +1,38 @@
-[gd_scene format=4]
+[gd_scene format=4 uid="uid://bh404b8yi22s0"]
 
-[ext_resource type="Texture2D" path="res://Sprites/Mundo/Volcan fondo parallax.png" id="1_jn1sk"]
-[ext_resource type="Texture2D" path="res://Sprites/Mundo/Fondo del abismo parallax.png" id="2_2gg3j"]
-[ext_resource type="TileSet" path="res://Tile_sets/Stage3.tres" id="3_sf0i4"]
-[ext_resource type="Texture2D" path="res://Sprites/Mundo/Torre del Archivista.png" id="4_cqeir"]
-[ext_resource type="Texture2D" path="res://Sprites/Mundo/Casa grande obsidiana.png" id="5_mkqc7"]
-[ext_resource type="Texture2D" path="res://Sprites/Mundo/Censo.png" id="6_osih0"]
-[ext_resource type="Texture2D" path="res://Sprites/Mundo/Monumento de placas.png" id="7_t5hl5"]
-[ext_resource type="Texture2D" path="res://Sprites/Mundo/Arsenal.png" id="8_3tus0"]
-[ext_resource type="Texture2D" path="res://Sprites/Mundo/Laboratorio de bloques.png" id="9_vgdej"]
-[ext_resource type="Texture2D" path="res://Sprites/Mundo/Casa de piedra teja.png" id="10_wgusy"]
-[ext_resource type="Texture2D" path="res://Sprites/Mundo/Casa con azotea.png" id="11_oajyl"]
-[ext_resource type="Texture2D" path="res://Sprites/Mundo/Farol de lava.png" id="12_xp8vw"]
-[ext_resource type="Texture2D" path="res://Sprites/Mundo/Entrada del volcan.png" id="13_cgfun"]
-[ext_resource type="PackedScene" path="res://scenes/actors/player.tscn" id="14_5ydmh"]
+[ext_resource type="Texture2D" uid="uid://dvqiknbn8k4q7" path="res://Sprites/Mundo/Volcan fondo parallax.png" id="1_jn1sk"]
+[ext_resource type="Texture2D" uid="uid://c8iiktub5ts8n" path="res://Sprites/Mundo/Fondo del abismo parallax.png" id="2_2gg3j"]
+[ext_resource type="TileSet" uid="uid://dfxdbsfk72mmj" path="res://Tile_sets/Stage3.tres" id="3_sf0i4"]
+[ext_resource type="Texture2D" uid="uid://pje2rm4e7gub" path="res://Sprites/Mundo/Torre del Archivista.png" id="4_cqeir"]
+[ext_resource type="Texture2D" uid="uid://bs3ti8rkiomay" path="res://Sprites/Mundo/Casa grande obsidiana.png" id="5_mkqc7"]
+[ext_resource type="Texture2D" uid="uid://s1bvitxrga12" path="res://Sprites/Mundo/Censo.png" id="6_osih0"]
+[ext_resource type="Texture2D" uid="uid://duq8igmmtp2s6" path="res://Sprites/Mundo/Monumento de placas.png" id="7_t5hl5"]
+[ext_resource type="Texture2D" uid="uid://crym2tpxljyco" path="res://Sprites/Mundo/Arsenal.png" id="8_3tus0"]
+[ext_resource type="Texture2D" uid="uid://k774ju3prvut" path="res://Sprites/Mundo/Laboratorio de bloques.png" id="9_vgdej"]
+[ext_resource type="Texture2D" uid="uid://b1ult5pfwiymu" path="res://Sprites/Mundo/Casa de piedra teja.png" id="10_wgusy"]
+[ext_resource type="Texture2D" uid="uid://et58iue1vkto" path="res://Sprites/Mundo/Casa con azotea.png" id="11_oajyl"]
+[ext_resource type="Texture2D" uid="uid://c2ow5a1k1b0ol" path="res://Sprites/Mundo/Farol de lava.png" id="12_xp8vw"]
+[ext_resource type="Texture2D" uid="uid://dcdxyuoufag2f" path="res://Sprites/Mundo/Entrada del volcan.png" id="13_cgfun"]
+[ext_resource type="PackedScene" uid="uid://b1ny2grkxsprv" path="res://scenes/actors/player.tscn" id="14_5ydmh"]
 [ext_resource type="PackedScene" path="res://scenes/actors/anciano_guia.tscn" id="15_d4kj5"]
 [ext_resource type="PackedScene" path="res://scenes/actors/archivista.tscn" id="16_mkqc7"]
-[ext_resource type="Texture2D" path="res://Sprites/Mundo/Brasero-Sheet.png" id="16_xqppo"]
-[ext_resource type="Script" path="res://scripts/puerta_escena.gd" id="17_17one"]
-[ext_resource type="Script" path="res://scripts/data/mission_data.gd" id="17_d4kj5"]
+[ext_resource type="Texture2D" uid="uid://bwa2vmjo8kvyv" path="res://Sprites/Mundo/Brasero-Sheet.png" id="16_xqppo"]
+[ext_resource type="Script" uid="uid://dsbbxadbtylxf" path="res://scripts/puerta_escena.gd" id="17_17one"]
+[ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="17_d4kj5"]
 [ext_resource type="PackedScene" path="res://scenes/actors/armero.tscn" id="17_osih0"]
-[ext_resource type="Script" path="res://scripts/parada_historia.gd" id="18_j1nsi"]
+[ext_resource type="Script" uid="uid://xo48iy46qp2d" path="res://scripts/parada_historia.gd" id="18_j1nsi"]
 [ext_resource type="PackedScene" path="res://scenes/actors/bibliotecaria.tscn" id="18_t5hl5"]
-[ext_resource type="Resource" path="res://data/missions/ej_n3_01.tres" id="18_xqppo"]
+[ext_resource type="Resource" uid="uid://b7ijlj5j3utrf" path="res://data/missions/ej_n3_01.tres" id="18_xqppo"]
 [ext_resource type="PackedScene" path="res://scenes/actors/alquimista.tscn" id="19_3tus0"]
-[ext_resource type="Resource" path="res://data/missions/ej_n3_02.tres" id="19_17one"]
-[ext_resource type="Script" path="res://scripts/punto_llegada.gd" id="19_ch3ii"]
-[ext_resource type="Resource" path="res://data/missions/ej_n3_03.tres" id="21_j1nsi"]
-[ext_resource type="Resource" path="res://data/missions/ej_n3_07.tres" id="22_ch3ii"]
-[ext_resource type="Resource" path="res://data/missions/ej_n3_04.tres" id="24_v3iug"]
-[ext_resource type="Resource" path="res://data/missions/ej_n3_08.tres" id="25_2u7wf"]
-[ext_resource type="Resource" path="res://data/missions/ej_n3_05.tres" id="27_k0l3x"]
-[ext_resource type="Resource" path="res://data/missions/ej_n3_06.tres" id="28_d86sq"]
-[ext_resource type="Script" path="res://scripts/entrada_nucleo.gd" id="33_sxqi6"]
+[ext_resource type="Resource" uid="uid://dwbh307ilhjgb" path="res://data/missions/ej_n3_02.tres" id="19_17one"]
+[ext_resource type="Script" uid="uid://joxdwdb658t3" path="res://scripts/punto_llegada.gd" id="19_ch3ii"]
+[ext_resource type="Resource" uid="uid://0mtivc1y1ktn" path="res://data/missions/ej_n3_03.tres" id="21_j1nsi"]
+[ext_resource type="Resource" uid="uid://bbxjat0cbxobb" path="res://data/missions/ej_n3_07.tres" id="22_ch3ii"]
+[ext_resource type="Resource" uid="uid://gdabsvuga70o" path="res://data/missions/ej_n3_04.tres" id="24_v3iug"]
+[ext_resource type="Resource" uid="uid://cgvk1cue3tejy" path="res://data/missions/ej_n3_08.tres" id="25_2u7wf"]
+[ext_resource type="Resource" uid="uid://d0cm3a0nunkq8" path="res://data/missions/ej_n3_05.tres" id="27_k0l3x"]
+[ext_resource type="Resource" uid="uid://dqm0mcaabsess" path="res://data/missions/ej_n3_06.tres" id="28_d86sq"]
+[ext_resource type="Script" uid="uid://8r51pnyiqjyr" path="res://scripts/entrada_nucleo.gd" id="33_sxqi6"]
 [ext_resource type="PackedScene" uid="uid://cv6la82ujg5g5" path="res://scenes/ui/estado_jugador.tscn" id="40_estado"]
 [ext_resource type="AudioStream" uid="uid://c2uikg8yp1pwp" path="res://Musica/Musica_Cueva_vorbis.ogg" id="41_musica"]
 
@@ -556,11 +556,11 @@ limit_top = -260
 limit_right = 1408
 limit_bottom = 960
 
-[node name="UI jugador" type="CanvasLayer" parent="Objetos/Player/Camera2D"]
+[node name="UI jugador" type="CanvasLayer" parent="Objetos/Player/Camera2D" unique_id=1825588225]
 scale = Vector2(1.5, 1.5)
 transform = Transform2D(1.5, 0, 0, 1.5, 0, 0)
 
-[node name="Estado Jugador" parent="Objetos/Player/Camera2D/UI jugador" instance=ExtResource("40_estado")]
+[node name="Estado Jugador" parent="Objetos/Player/Camera2D/UI jugador" unique_id=641415500 instance=ExtResource("40_estado")]
 texture_filter = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -670,13 +670,14 @@ escena_nucleo = "res://scenes/levels/nucleo_final.tscn"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Entrada al Núcleo (Anciano)" unique_id=1154579081]
 shape = SubResource("RectangleShape2D_xqppo")
 
-[node name="Borde oeste" type="StaticBody2D" parent="."]
+[node name="Borde oeste" type="StaticBody2D" parent="." unique_id=1036438430]
 
-[node name="Pared 1" type="CollisionShape2D" parent="Borde oeste"]
+[node name="Pared 1" type="CollisionShape2D" parent="Borde oeste" unique_id=1313414365]
 position = Vector2(-12, 350)
 shape = SubResource("RectangleShape2D_borde_oeste")
 
-[node name="Musica de fondo" type="AudioStreamPlayer" parent="."]
+[node name="Musica de fondo" type="AudioStreamPlayer" parent="." unique_id=228115844]
 stream = ExtResource("41_musica")
 volume_db = -6.0
 autoplay = true
+parameters/looping = true

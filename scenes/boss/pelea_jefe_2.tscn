@@ -1,10 +1,10 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://doav3g623kg10"]
 
-[ext_resource type="PackedScene" path="res://scenes/boss/pelea.tscn" id="1_base"]
-[ext_resource type="Texture2D" path="res://Sprites/Jefe/Jefe Dangling Pointer ataque-Sheet.png" id="3_5h5vo"]
-[ext_resource type="Texture2D" path="res://Sprites/Jefe/Jefe Dangling Pointer recibe dano-Sheet.png" id="4_tdpb8"]
-[ext_resource type="Texture2D" path="res://Sprites/Jefe/Jefe Dangling Pointer reposo-Sheet.png" id="5_kyb63"]
-[ext_resource type="Texture2D" path="res://Sprites/Jefe/Jefe Dangling Pointer derrota-Sheet.png" id="6_bnhy0"]
+[ext_resource type="PackedScene" uid="uid://557rrk0wpwg2" path="res://scenes/boss/pelea.tscn" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://brvg1hbup3es5" path="res://Sprites/Jefe/Jefe Dangling Pointer ataque-Sheet.png" id="3_5h5vo"]
+[ext_resource type="Texture2D" uid="uid://csnumq18vt8qo" path="res://Sprites/Jefe/Jefe Dangling Pointer recibe dano-Sheet.png" id="4_tdpb8"]
+[ext_resource type="Texture2D" uid="uid://wy06ph5s3b4g" path="res://Sprites/Jefe/Jefe Dangling Pointer reposo-Sheet.png" id="5_kyb63"]
+[ext_resource type="Texture2D" uid="uid://dx8vqvijclquv" path="res://Sprites/Jefe/Jefe Dangling Pointer derrota-Sheet.png" id="6_bnhy0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b57tf"]
 atlas = ExtResource("3_5h5vo")
@@ -225,7 +225,7 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="Pelea" instance=ExtResource("1_base")]
+[node name="Pelea" unique_id=683804217 instance=ExtResource("1_base")]
 nivel = 2
 banco_preguntas = "res://data/jefes/banco_jefe_2.gd"
 segundos_pregunta = 12.0
@@ -236,11 +236,14 @@ frase_victoria = "Ninguna placa vuelve a apuntar al vacío."
 prob_ataque = 0.35
 escena_stage = "res://scenes/levels/arena_jefe_2.tscn"
 
-[node name="NombreJefe" parent="CosasJefe" index="0"]
+[node name="NombreJefe" parent="CosasJefe" parent_id_path=PackedInt32Array(1715385692) index="0" unique_id=270603490]
 text = "THE DANGLING POINTER"
 
-[node name="Jefe" parent="CosasJefe" index="1"]
+[node name="Jefe" parent="CosasJefe" parent_id_path=PackedInt32Array(1715385692) index="1" unique_id=81525287]
 sprite_frames = SubResource("SpriteFrames_1kdt8")
 animation = &"default"
 frame = 0
 frame_progress = 0.0
+
+[node name="Musica" parent="." index="6" unique_id=755461984]
+parameters/looping = true

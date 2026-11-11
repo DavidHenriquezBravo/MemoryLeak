@@ -2187,13 +2187,14 @@ origen_ola = NodePath("../Puerta")
 stream = ExtResource("48_rn2fb")
 volume_db = -4.356
 autoplay = true
+parameters/looping = true
 
-[node name="Muralla (colisión)" type="StaticBody2D" parent="."]
+[node name="Muralla (colisión)" type="StaticBody2D" parent="." unique_id=208001071]
 
-[node name="Pared 1" type="CollisionShape2D" parent="Muralla (colisión)"]
+[node name="Pared 1" type="CollisionShape2D" parent="Muralla (colisión)" unique_id=162644407]
 position = Vector2(-160, -218)
 shape = SubResource("RectangleShape2D_muralla0")
 
-[node name="Pared 2" type="CollisionShape2D" parent="Muralla (colisión)"]
+[node name="Pared 2" type="CollisionShape2D" parent="Muralla (colisión)" unique_id=1943274492]
 position = Vector2(224, -218)
 shape = SubResource("RectangleShape2D_muralla1")

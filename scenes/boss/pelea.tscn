@@ -583,3 +583,4 @@ mouse_filter = 2
 stream = ExtResource("5_umc4s")
 volume_db = -8.541
 autoplay = true
+parameters/looping = true

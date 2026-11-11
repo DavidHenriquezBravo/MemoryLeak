@@ -1,10 +1,48 @@
-[gd_resource type="Resource" script_class="MissionData" format=3]
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://dwbh307ilhjgb"]
 
 [ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
 [ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
 [ext_resource type="Script" uid="uid://muguh8b7g2dm" path="res://scripts/data/reward_data.gd" id="3_reward"]
 [ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
 [ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
+
+[sub_resource type="Resource" id="Resource_n308"]
+script = ExtResource("1_cell")
+address = "0x0450"
+value = "'x'"
+label = "a"
+
+[sub_resource type="Resource" id="Resource_n309"]
+script = ExtResource("1_cell")
+address = "0x0451"
+value = "'y'"
+label = "b"
+
+[sub_resource type="Resource" id="Resource_n310"]
+script = ExtResource("1_cell")
+address = "0x0458"
+value = "0x0451"
+label = "letra"
+points_to = "0x0451"
+
+[sub_resource type="Resource" id="Resource_n305"]
+script = ExtResource("1_cell")
+address = "0x0440"
+value = "7"
+label = "cofre"
+
+[sub_resource type="Resource" id="Resource_n306"]
+script = ExtResource("1_cell")
+address = "0x0444"
+value = "9"
+label = "otro"
+
+[sub_resource type="Resource" id="Resource_n307"]
+script = ExtResource("1_cell")
+address = "0x0448"
+value = "0x0440"
+label = "p"
+points_to = "0x0440"
 
 [sub_resource type="Resource" id="Resource_n301"]
 script = ExtResource("2_opt")
@@ -29,44 +67,6 @@ hint = "Un número suelto no lleva a ninguna parte. Necesitas una placa."
 script = ExtResource("3_reward")
 stat = 3
 amount = 20.0
-
-[sub_resource type="Resource" id="Resource_n305"]
-script = ExtResource("1_cell")
-address = "0x0440"
-value = "7"
-label = "cofre"
-
-[sub_resource type="Resource" id="Resource_n306"]
-script = ExtResource("1_cell")
-address = "0x0444"
-value = "9"
-label = "otro"
-
-[sub_resource type="Resource" id="Resource_n307"]
-script = ExtResource("1_cell")
-address = "0x0448"
-value = "0x0440"
-label = "p"
-points_to = "0x0440"
-
-[sub_resource type="Resource" id="Resource_n308"]
-script = ExtResource("1_cell")
-address = "0x0450"
-value = "'x'"
-label = "a"
-
-[sub_resource type="Resource" id="Resource_n309"]
-script = ExtResource("1_cell")
-address = "0x0451"
-value = "'y'"
-label = "b"
-
-[sub_resource type="Resource" id="Resource_n310"]
-script = ExtResource("1_cell")
-address = "0x0458"
-value = "0x0451"
-label = "letra"
-points_to = "0x0451"
 
 [sub_resource type="Resource" id="Resource_n311"]
 script = ExtResource("4_ex")

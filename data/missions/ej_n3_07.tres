@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="MissionData" format=3]
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://bbxjat0cbxobb"]
 
 [ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
 [ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
@@ -6,29 +6,31 @@
 [ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
 [ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
 
-[sub_resource type="Resource" id="Resource_n301"]
-script = ExtResource("2_opt")
-text = "`9 2`"
-wrong_feedback = "Trazaste el golpe con la daga en su posición inicial. Pero la anomalía la movió una línea antes."
-concept_on_error = "`*pp = &b` escribe en `p`: desde ahí, `p` apunta a `b`."
-hint = "Justo antes de `*p = 9`, ¿a quién apunta `p`?"
+[sub_resource type="Resource" id="Resource_n309"]
+script = ExtResource("1_cell")
+address = "0x0560"
+value = "3"
+label = "a"
 
-[sub_resource type="Resource" id="Resource_n302"]
-script = ExtResource("2_opt")
-text = "`1 9`"
-is_correct = true
+[sub_resource type="Resource" id="Resource_n310"]
+script = ExtResource("1_cell")
+address = "0x0564"
+value = "1"
+label = "b"
 
-[sub_resource type="Resource" id="Resource_n303"]
-script = ExtResource("2_opt")
-text = "`9 9`"
-wrong_feedback = "Una daga apunta a una sola casilla a la vez: el golpe cae en una, no en las dos."
-concept_on_error = "`*p = 9` escribe solo en la casilla a la que apunta `p` en ese momento."
-hint = "¿Puede `p` apuntar a dos casillas a la vez?"
+[sub_resource type="Resource" id="Resource_n311"]
+script = ExtResource("1_cell")
+address = "0x0568"
+value = "0x0564"
+label = "p"
+points_to = "0x0564"
 
-[sub_resource type="Resource" id="Resource_n304"]
-script = ExtResource("3_reward")
-stat = 1
-amount = 0.05
+[sub_resource type="Resource" id="Resource_n312"]
+script = ExtResource("1_cell")
+address = "0x0570"
+value = "0x0568"
+label = "pp"
+points_to = "0x0568"
 
 [sub_resource type="Resource" id="Resource_n305"]
 script = ExtResource("1_cell")
@@ -56,31 +58,29 @@ value = "0x0548"
 label = "pp"
 points_to = "0x0548"
 
-[sub_resource type="Resource" id="Resource_n309"]
-script = ExtResource("1_cell")
-address = "0x0560"
-value = "3"
-label = "a"
+[sub_resource type="Resource" id="Resource_n301"]
+script = ExtResource("2_opt")
+text = "`9 2`"
+wrong_feedback = "Trazaste el golpe con la daga en su posición inicial. Pero la anomalía la movió una línea antes."
+concept_on_error = "`*pp = &b` escribe en `p`: desde ahí, `p` apunta a `b`."
+hint = "Justo antes de `*p = 9`, ¿a quién apunta `p`?"
 
-[sub_resource type="Resource" id="Resource_n310"]
-script = ExtResource("1_cell")
-address = "0x0564"
-value = "1"
-label = "b"
+[sub_resource type="Resource" id="Resource_n302"]
+script = ExtResource("2_opt")
+text = "`1 9`"
+is_correct = true
 
-[sub_resource type="Resource" id="Resource_n311"]
-script = ExtResource("1_cell")
-address = "0x0568"
-value = "0x0564"
-label = "p"
-points_to = "0x0564"
+[sub_resource type="Resource" id="Resource_n303"]
+script = ExtResource("2_opt")
+text = "`9 9`"
+wrong_feedback = "Una daga apunta a una sola casilla a la vez: el golpe cae en una, no en las dos."
+concept_on_error = "`*p = 9` escribe solo en la casilla a la que apunta `p` en ese momento."
+hint = "¿Puede `p` apuntar a dos casillas a la vez?"
 
-[sub_resource type="Resource" id="Resource_n312"]
-script = ExtResource("1_cell")
-address = "0x0570"
-value = "0x0568"
-label = "pp"
-points_to = "0x0568"
+[sub_resource type="Resource" id="Resource_n304"]
+script = ExtResource("3_reward")
+stat = 1
+amount = 0.05
 
 [sub_resource type="Resource" id="Resource_n313"]
 script = ExtResource("4_ex")

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="MissionData" format=3]
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://0mtivc1y1ktn"]
 
 [ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
 [ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
@@ -6,29 +6,36 @@
 [ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
 [ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
 
-[sub_resource type="Resource" id="Resource_n301"]
-script = ExtResource("2_opt")
-text = "`20`"
-wrong_feedback = "`p + 2` avanza dos posiciones desde la primera, no desde la segunda. Cuenta desde cero."
-concept_on_error = "`p` apunta a `armas[0]`; `p + 2` apunta a `armas[2]`."
-hint = "La primera arma es la posición 0. ¿Cuál es la posición 2?"
+[sub_resource type="Resource" id="Resource_n310"]
+script = ExtResource("1_cell")
+address = "0x0520"
+value = "2"
+label = "pociones[0]"
 
-[sub_resource type="Resource" id="Resource_n302"]
-script = ExtResource("2_opt")
-text = "La dirección del tercer elemento"
-wrong_feedback = "Avanzaste, pero no entraste: `p + 2` es la dirección; el `*` de afuera abre la casilla."
-concept_on_error = "`p + 2` es una dirección; `*(p + 2)` es el valor guardado ahí."
-hint = "Fíjate en el asterisco que envuelve el paréntesis."
+[sub_resource type="Resource" id="Resource_n311"]
+script = ExtResource("1_cell")
+address = "0x0524"
+value = "4"
+label = "pociones[1]"
 
-[sub_resource type="Resource" id="Resource_n303"]
-script = ExtResource("2_opt")
-text = "`30`"
-is_correct = true
+[sub_resource type="Resource" id="Resource_n312"]
+script = ExtResource("1_cell")
+address = "0x0528"
+value = "6"
+label = "pociones[2]"
 
-[sub_resource type="Resource" id="Resource_n304"]
-script = ExtResource("3_reward")
-stat = 0
-amount = 10.0
+[sub_resource type="Resource" id="Resource_n313"]
+script = ExtResource("1_cell")
+address = "0x052C"
+value = "8"
+label = "pociones[3]"
+
+[sub_resource type="Resource" id="Resource_n314"]
+script = ExtResource("1_cell")
+address = "0x0530"
+value = "0x0520"
+label = "p"
+points_to = "0x0520"
 
 [sub_resource type="Resource" id="Resource_n305"]
 script = ExtResource("1_cell")
@@ -61,36 +68,28 @@ value = "0x0500"
 label = "p"
 points_to = "0x0500"
 
-[sub_resource type="Resource" id="Resource_n310"]
-script = ExtResource("1_cell")
-address = "0x0520"
-value = "2"
-label = "pociones[0]"
+[sub_resource type="Resource" id="Resource_n301"]
+script = ExtResource("2_opt")
+text = "`20`"
+wrong_feedback = "`p + 2` avanza dos posiciones desde la primera, no desde la segunda. Cuenta desde cero."
+concept_on_error = "`p` apunta a `armas[0]`; `p + 2` apunta a `armas[2]`."
+hint = "La primera arma es la posición 0. ¿Cuál es la posición 2?"
 
-[sub_resource type="Resource" id="Resource_n311"]
-script = ExtResource("1_cell")
-address = "0x0524"
-value = "4"
-label = "pociones[1]"
+[sub_resource type="Resource" id="Resource_n302"]
+script = ExtResource("2_opt")
+text = "La dirección del tercer elemento"
+wrong_feedback = "Avanzaste, pero no entraste: `p + 2` es la dirección; el `*` de afuera abre la casilla."
+concept_on_error = "`p + 2` es una dirección; `*(p + 2)` es el valor guardado ahí."
+hint = "Fíjate en el asterisco que envuelve el paréntesis."
 
-[sub_resource type="Resource" id="Resource_n312"]
-script = ExtResource("1_cell")
-address = "0x0528"
-value = "6"
-label = "pociones[2]"
+[sub_resource type="Resource" id="Resource_n303"]
+script = ExtResource("2_opt")
+text = "`30`"
+is_correct = true
 
-[sub_resource type="Resource" id="Resource_n313"]
-script = ExtResource("1_cell")
-address = "0x052C"
-value = "8"
-label = "pociones[3]"
-
-[sub_resource type="Resource" id="Resource_n314"]
-script = ExtResource("1_cell")
-address = "0x0530"
-value = "0x0520"
-label = "p"
-points_to = "0x0520"
+[sub_resource type="Resource" id="Resource_n304"]
+script = ExtResource("3_reward")
+amount = 10.0
 
 [sub_resource type="Resource" id="Resource_n315"]
 script = ExtResource("4_ex")

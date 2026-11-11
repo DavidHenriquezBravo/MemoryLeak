@@ -1,10 +1,58 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://b5inyn1vs6xkq"]
 
-[ext_resource type="PackedScene" path="res://scenes/boss/pelea.tscn" id="1_base"]
-[ext_resource type="Texture2D" path="res://Sprites/Jefe/Jefe Anciano corrupto reposo-Sheet.png" id="2_default"]
-[ext_resource type="Texture2D" path="res://Sprites/Jefe/Jefe Anciano corrupto recibe dano-Sheet.png" id="3_dano"]
-[ext_resource type="Texture2D" path="res://Sprites/Jefe/Jefe Anciano corrupto derrota-Sheet.png" id="4_muerte"]
-[ext_resource type="Texture2D" path="res://Sprites/Jefe/Jefe Anciano corrupto ataque-Sheet.png" id="5_ataque"]
+[ext_resource type="PackedScene" uid="uid://557rrk0wpwg2" path="res://scenes/boss/pelea.tscn" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://514xsx5dx863" path="res://Sprites/Jefe/Jefe Anciano corrupto reposo-Sheet.png" id="2_default"]
+[ext_resource type="Texture2D" uid="uid://g3pyfyu58fs2" path="res://Sprites/Jefe/Jefe Anciano corrupto recibe dano-Sheet.png" id="3_dano"]
+[ext_resource type="Texture2D" uid="uid://cnnxwvos4wsr1" path="res://Sprites/Jefe/Jefe Anciano corrupto derrota-Sheet.png" id="4_muerte"]
+[ext_resource type="Texture2D" uid="uid://cr1i6n7qj2dl2" path="res://Sprites/Jefe/Jefe Anciano corrupto ataque-Sheet.png" id="5_ataque"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_0"]
+atlas = ExtResource("5_ataque")
+region = Rect2(0, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_1"]
+atlas = ExtResource("5_ataque")
+region = Rect2(112, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_2"]
+atlas = ExtResource("5_ataque")
+region = Rect2(224, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_3"]
+atlas = ExtResource("5_ataque")
+region = Rect2(336, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_4"]
+atlas = ExtResource("5_ataque")
+region = Rect2(448, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_5"]
+atlas = ExtResource("5_ataque")
+region = Rect2(560, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_6"]
+atlas = ExtResource("5_ataque")
+region = Rect2(672, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dano_0"]
+atlas = ExtResource("3_dano")
+region = Rect2(0, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dano_1"]
+atlas = ExtResource("3_dano")
+region = Rect2(112, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dano_2"]
+atlas = ExtResource("3_dano")
+region = Rect2(224, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dano_3"]
+atlas = ExtResource("3_dano")
+region = Rect2(336, 0, 112, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dano_4"]
+atlas = ExtResource("3_dano")
+region = Rect2(448, 0, 112, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_default_0"]
 atlas = ExtResource("2_default")
@@ -38,26 +86,6 @@ region = Rect2(672, 0, 112, 96)
 atlas = ExtResource("2_default")
 region = Rect2(784, 0, 112, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dano_0"]
-atlas = ExtResource("3_dano")
-region = Rect2(0, 0, 112, 96)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dano_1"]
-atlas = ExtResource("3_dano")
-region = Rect2(112, 0, 112, 96)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dano_2"]
-atlas = ExtResource("3_dano")
-region = Rect2(224, 0, 112, 96)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dano_3"]
-atlas = ExtResource("3_dano")
-region = Rect2(336, 0, 112, 96)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dano_4"]
-atlas = ExtResource("3_dano")
-region = Rect2(448, 0, 112, 96)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_muerte_0"]
 atlas = ExtResource("4_muerte")
 region = Rect2(0, 0, 112, 96)
@@ -90,36 +118,54 @@ region = Rect2(672, 0, 112, 96)
 atlas = ExtResource("4_muerte")
 region = Rect2(784, 0, 112, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_0"]
-atlas = ExtResource("5_ataque")
-region = Rect2(0, 0, 112, 96)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_1"]
-atlas = ExtResource("5_ataque")
-region = Rect2(112, 0, 112, 96)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_2"]
-atlas = ExtResource("5_ataque")
-region = Rect2(224, 0, 112, 96)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_3"]
-atlas = ExtResource("5_ataque")
-region = Rect2(336, 0, 112, 96)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_4"]
-atlas = ExtResource("5_ataque")
-region = Rect2(448, 0, 112, 96)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_5"]
-atlas = ExtResource("5_ataque")
-region = Rect2(560, 0, 112, 96)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ataque_6"]
-atlas = ExtResource("5_ataque")
-region = Rect2(672, 0, 112, 96)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_jefe3"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ataque_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ataque_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ataque_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ataque_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ataque_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ataque_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ataque_6")
+}],
+"loop": 0,
+"name": &"ataque",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dano_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dano_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dano_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dano_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dano_4")
+}],
+"loop": 0,
+"name": &"dano",
+"speed": 10.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_default_0")
@@ -145,29 +191,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_default_7")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 8.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dano_0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dano_1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dano_2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dano_3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dano_4")
-}],
-"loop": false,
-"name": &"dano",
-"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -194,38 +220,12 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_muerte_7")
 }],
-"loop": false,
+"loop": 0,
 "name": &"muerte",
 "speed": 8.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ataque_0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ataque_1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ataque_2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ataque_3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ataque_4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ataque_5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ataque_6")
-}],
-"loop": false,
-"name": &"ataque",
-"speed": 10.0
 }]
 
-[node name="Pelea" instance=ExtResource("1_base")]
+[node name="Pelea" unique_id=526562280 instance=ExtResource("1_base")]
 nivel = 3
 banco_preguntas = "res://data/jefes/banco_jefe_3.gd"
 segundos_pregunta = 10.0
@@ -236,11 +236,14 @@ frase_victoria = "Recuperaste tu nombre: el Compilador Supremo ha vuelto."
 prob_ataque = 0.4
 escena_stage = "res://scenes/levels/nucleo_final.tscn"
 
-[node name="NombreJefe" parent="CosasJefe" index="0"]
+[node name="NombreJefe" parent="CosasJefe" parent_id_path=PackedInt32Array(1715385692) index="0" unique_id=270603490]
 text = "THE SEGMENTATION FAULT"
 
-[node name="Jefe" parent="CosasJefe" index="1"]
+[node name="Jefe" parent="CosasJefe" parent_id_path=PackedInt32Array(1715385692) index="1" unique_id=81525287]
 sprite_frames = SubResource("SpriteFrames_jefe3")
 animation = &"default"
 frame = 0
 frame_progress = 0.0
+
+[node name="Musica" parent="." index="6" unique_id=755461984]
+parameters/looping = true

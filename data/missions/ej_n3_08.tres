@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="MissionData" format=3]
+[gd_resource type="Resource" script_class="MissionData" format=3 uid="uid://cgvk1cue3tejy"]
 
 [ext_resource type="Script" uid="uid://bxgpuxplri6s0" path="res://scripts/data/memory_cell_data.gd" id="1_cell"]
 [ext_resource type="Script" uid="uid://bjvcfs7rylcj0" path="res://scripts/data/option_data.gd" id="2_opt"]
@@ -6,29 +6,31 @@
 [ext_resource type="Script" uid="uid://smgsvplwwh2a" path="res://scripts/data/exercise_data.gd" id="4_ex"]
 [ext_resource type="Script" uid="uid://cetdn3y26dxha" path="res://scripts/data/mission_data.gd" id="5_mision"]
 
-[sub_resource type="Resource" id="Resource_n301"]
-script = ExtResource("2_opt")
-text = "`1 0`"
-is_correct = true
+[sub_resource type="Resource" id="Resource_n309"]
+script = ExtResource("1_cell")
+address = "0x0680"
+value = "5"
+label = "x"
 
-[sub_resource type="Resource" id="Resource_n302"]
-script = ExtResource("2_opt")
-text = "`1 1`"
-wrong_feedback = "Comparaste el contenido dos veces. La segunda comparación es entre placas, y están en estanterías distintas."
-concept_on_error = "`p == q` compara direcciones; `a` y `b` viven en casillas distintas."
-hint = "`p` y `q` guardan direcciones. ¿Son la misma?"
+[sub_resource type="Resource" id="Resource_n310"]
+script = ExtResource("1_cell")
+address = "0x0684"
+value = "5"
+label = "y"
 
-[sub_resource type="Resource" id="Resource_n303"]
-script = ExtResource("2_opt")
-text = "`0 0`"
-wrong_feedback = "Las dos fichas dicen 7: `a == b` es verdadero."
-concept_on_error = "`a == b` compara valores, y 7 es igual a 7."
-hint = "Mira los valores: ¿7 es igual a 7?"
+[sub_resource type="Resource" id="Resource_n311"]
+script = ExtResource("1_cell")
+address = "0x0688"
+value = "0x0680"
+label = "p"
+points_to = "0x0680"
 
-[sub_resource type="Resource" id="Resource_n304"]
-script = ExtResource("3_reward")
-stat = 2
-amount = 0.05
+[sub_resource type="Resource" id="Resource_n312"]
+script = ExtResource("1_cell")
+address = "0x0690"
+value = "0x0684"
+label = "q"
+points_to = "0x0684"
 
 [sub_resource type="Resource" id="Resource_n305"]
 script = ExtResource("1_cell")
@@ -56,31 +58,29 @@ value = "0x0664"
 label = "q"
 points_to = "0x0664"
 
-[sub_resource type="Resource" id="Resource_n309"]
-script = ExtResource("1_cell")
-address = "0x0680"
-value = "5"
-label = "x"
+[sub_resource type="Resource" id="Resource_n301"]
+script = ExtResource("2_opt")
+text = "`1 0`"
+is_correct = true
 
-[sub_resource type="Resource" id="Resource_n310"]
-script = ExtResource("1_cell")
-address = "0x0684"
-value = "5"
-label = "y"
+[sub_resource type="Resource" id="Resource_n302"]
+script = ExtResource("2_opt")
+text = "`1 1`"
+wrong_feedback = "Comparaste el contenido dos veces. La segunda comparación es entre placas, y están en estanterías distintas."
+concept_on_error = "`p == q` compara direcciones; `a` y `b` viven en casillas distintas."
+hint = "`p` y `q` guardan direcciones. ¿Son la misma?"
 
-[sub_resource type="Resource" id="Resource_n311"]
-script = ExtResource("1_cell")
-address = "0x0688"
-value = "0x0680"
-label = "p"
-points_to = "0x0680"
+[sub_resource type="Resource" id="Resource_n303"]
+script = ExtResource("2_opt")
+text = "`0 0`"
+wrong_feedback = "Las dos fichas dicen 7: `a == b` es verdadero."
+concept_on_error = "`a == b` compara valores, y 7 es igual a 7."
+hint = "Mira los valores: ¿7 es igual a 7?"
 
-[sub_resource type="Resource" id="Resource_n312"]
-script = ExtResource("1_cell")
-address = "0x0690"
-value = "0x0684"
-label = "q"
-points_to = "0x0684"
+[sub_resource type="Resource" id="Resource_n304"]
+script = ExtResource("3_reward")
+stat = 2
+amount = 0.05
 
 [sub_resource type="Resource" id="Resource_n313"]
 script = ExtResource("4_ex")
