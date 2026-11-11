@@ -386,7 +386,9 @@ func _texto_turno_tranquilo() -> void:
 		texto_inferior.text = "* ELIGE: ATACAR, DEFENDER O RECUPERAR."
 		if turno <= 1:
 			if GameState.listo_para_jefe(nivel):
-				texto_superior.text = "* LA BENDICIÓN DEL ANCIANO TE ACOMPAÑA."
+				# En la pelea final el jefe es el Anciano corrupto: ahí queda la frase del jefe
+				if nivel < 3:
+					texto_superior.text = "* LA BENDICIÓN DEL ANCIANO TE ACOMPAÑA."
 			elif GameState.misiones_completadas(nivel) == 0:
 				texto_superior.text = "* %s HUELE TU MEMORIA VACÍA. NO ESTÁS PREPARADO." % nombre
 
