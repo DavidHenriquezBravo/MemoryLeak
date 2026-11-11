@@ -2661,15 +2661,10 @@ scale = Vector2(1.5, 1.5)
 transform = Transform2D(1.5, 0, 0, 1.5, 0, 0)
 
 [node name="Estado Jugador" parent="Player2/Camera2D/UI jugador" unique_id=439299578 instance=ExtResource("4_luimt")]
-visible = false
 texture_filter = 0
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 8.0
-offset_top = -14.0
-offset_right = 8.0
-offset_bottom = -14.0
 grow_horizontal = 1
 grow_vertical = 1
 mouse_filter = 0

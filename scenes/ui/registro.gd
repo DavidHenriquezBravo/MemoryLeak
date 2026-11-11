@@ -4,6 +4,7 @@ extends Control
 #   DIRECCIONES -> lo que se anotó al resolver casillas: [0x0140 | 0 maná] buzón del fondo de Sara
 #   MEMORIAS    -> las memorias perdidas M1–M6; las que faltan salen como "???" con una pista del lugar
 #   GUARDAR     -> los saves de la partida (autoload Guardado); ↑↓ elige, E guarda, X cancela
+#   CONFIGURACIÓN -> volumen del juego (bus Master); ↑↓ sube/baja, E silencia. Se guarda en user://ajustes.cfg
 # Mientras está abierto, el juego queda en pausa. ←→ cambia de pestaña, ↑↓ desplaza, R / X cierra.
 # Coordenadas en el espacio de MissionHud (640×360, escala 2).
 
@@ -14,9 +15,14 @@ const CODIGO := preload("res://Fuentes/codigo.tres")
 const C_CYAN := Color(0.239, 0.894, 0.867)
 const C_GOLD := Color(0.933, 0.659, 0.251)
 const C_DIM := Color(0.61, 0.61, 0.77)
-const PESTANAS := ["DIRECCIONES", "MEMORIAS", "GUARDAR"]
+const PESTANAS := ["DIRECCIONES", "MEMORIAS", "GUARDAR", "CONFIGURACIÓN"]
 const PESTANA_GUARDAR := 2
+const PESTANA_CONFIG := 3
 const PASO_SCROLL := 24
+
+const ARCHIVO_AJUSTES := "user://ajustes.cfg"
+const VOLUMEN_INICIAL := 0.7       # un poco más bajo que el volumen original de cada pista
+const PASO_VOLUMEN := 0.1
 
 var is_open := false
 var _pestana := 0
@@ -27,6 +33,8 @@ var _ayuda: Label
 var _slot_elegido := 1
 var _confirmando := false     # el save elegido tiene datos: falta confirmar que se sobrescribe
 var _mensaje := ""
+var volumen := VOLUMEN_INICIAL      # 0..1
+var silencio := false
 
 
 func _ready() -> void:
@@ -36,6 +44,7 @@ func _ready() -> void:
 	visible = false
 	_crear_accion()
 	_armar()
+	_cargar_ajustes()                 # el Registro se crea al abrir el juego: el volumen se aplica desde el menú
 
 
 # La acción "registro" (R y Tab) se crea aquí para no tener que tocar project.godot
@@ -82,7 +91,7 @@ func _armar() -> void:
 		et.add_theme_font_size_override("font_size", 11)
 		add_child(et)
 		_etiquetas.append(et)
-		x += 130.0
+		x += 112.0
 
 	var linea := ColorRect.new()
 	linea.color = Color(0.306, 0.306, 0.69)
@@ -122,6 +131,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			abrir()
 		return
 	var en_guardar := _pestana == PESTANA_GUARDAR
+	var en_config := _pestana == PESTANA_CONFIG
 	if event.is_action_pressed(&"registro"):
 		cerrar()
 	elif event.is_action_pressed(&"ui_cancel") or (InputMap.has_action(&"cancelar") and event.is_action_pressed(&"cancelar")):
@@ -137,15 +147,22 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed(&"ui_down"):
 		if en_guardar:
 			_mover_slot(1)
+		elif en_config:
+			_cambiar_volumen(-PASO_VOLUMEN)
 		else:
 			_scroll.scroll_vertical += PASO_SCROLL
 	elif event.is_action_pressed(&"ui_up"):
 		if en_guardar:
 			_mover_slot(-1)
+		elif en_config:
+			_cambiar_volumen(PASO_VOLUMEN)
 		else:
 			_scroll.scroll_vertical -= PASO_SCROLL
 	elif en_guardar and (event.is_action_pressed(&"interact") or event.is_action_pressed(&"ui_accept")):
 		_guardar()
+	elif en_config and (event.is_action_pressed(&"interact") or event.is_action_pressed(&"ui_accept")):
+		silencio = not silencio
+		_aplicar_ajustes(true)
 	else:
 		return
 	get_viewport().set_input_as_handled()
@@ -178,6 +195,41 @@ func _guardar() -> void:
 	_refrescar()
 
 
+# --- Volumen ---
+func _cambiar_volumen(paso: float) -> void:
+	volumen = clampf(snappedf(volumen + paso, PASO_VOLUMEN), 0.0, 1.0)
+	silencio = false
+	_aplicar_ajustes(true)
+
+
+func _aplicar_ajustes(guardar: bool) -> void:
+	AudioServer.set_bus_volume_db(0, linear_to_db(volumen))
+	AudioServer.set_bus_mute(0, silencio or volumen <= 0.0)
+	if guardar:
+		var cfg := ConfigFile.new()
+		cfg.set_value("audio", "volumen", volumen)
+		cfg.set_value("audio", "silencio", silencio)
+		cfg.save(ARCHIVO_AJUSTES)
+		if is_open:
+			_refrescar()
+
+
+func _cargar_ajustes() -> void:
+	var cfg := ConfigFile.new()
+	if cfg.load(ARCHIVO_AJUSTES) == OK:
+		volumen = clampf(float(cfg.get_value("audio", "volumen", VOLUMEN_INICIAL)), 0.0, 1.0)
+		silencio = bool(cfg.get_value("audio", "silencio", false))
+	_aplicar_ajustes(false)
+
+
+func _texto_config() -> String:
+	var llenas := roundi(volumen * 10)
+	var barra := "[color=#3de4dd]%s[/color][color=#4e4eb0]%s[/color]" % ["■".repeat(llenas), "■".repeat(10 - llenas)]
+	var estado := "[color=#e0679d]SILENCIADO[/color]" if silencio or volumen <= 0.0 else "%d %%" % roundi(volumen * 100)
+	return ("[color=#eea840]▸ VOLUMEN[/color]\n\n%s   %s\n\n" % [barra, estado]
+		+ "[color=#9c9cc4]↑ subir    ↓ bajar    E silenciar / activar\nSe guarda en este computador para las próximas partidas.[/color]")
+
+
 func _puede_abrir() -> bool:
 	return get_parent().visible and not (Dialogue.is_open or ExercisePanel.is_open or GameState.en_cinematica)
 
@@ -205,7 +257,7 @@ func cerrar() -> void:
 
 func _refrescar() -> void:
 	var nombres := ["DIRECCIONES %d" % GameState.revealed.size(),
-			"MEMORIAS %d/%d" % [GameState.memorias.size(), Memorias.TOTAL], "GUARDAR"]
+			"MEMORIAS %d/%d" % [GameState.memorias.size(), Memorias.TOTAL], "GUARDAR", "CONFIGURACIÓN"]
 	for i in _etiquetas.size():
 		_etiquetas[i].text = ("▸ " if i == _pestana else "  ") + nombres[i]
 		_etiquetas[i].add_theme_color_override("font_color", C_GOLD if i == _pestana else C_DIM)
@@ -214,9 +266,17 @@ func _refrescar() -> void:
 			_contenido.text = _texto_direcciones()
 		1:
 			_contenido.text = _texto_memorias()
+		PESTANA_CONFIG:
+			_contenido.text = _texto_config()
 		_:
 			_contenido.text = _texto_guardar()
-	_ayuda.text = "←→ pestaña    ↑↓ elegir    E guardar    R cerrar" if _pestana == PESTANA_GUARDAR else "←→ pestaña    ↑↓ mover    R cerrar"
+	match _pestana:
+		PESTANA_GUARDAR:
+			_ayuda.text = "←→ pestaña    ↑↓ elegir    E guardar    R cerrar"
+		PESTANA_CONFIG:
+			_ayuda.text = "←→ pestaña    ↑↓ volumen    E silenciar    R cerrar"
+		_:
+			_ayuda.text = "←→ pestaña    ↑↓ mover    R cerrar"
 	_scroll.scroll_vertical = 0
 
 

@@ -33,6 +33,8 @@
 [ext_resource type="Resource" path="res://data/missions/ej_n3_05.tres" id="27_k0l3x"]
 [ext_resource type="Resource" path="res://data/missions/ej_n3_06.tres" id="28_d86sq"]
 [ext_resource type="Script" path="res://scripts/entrada_nucleo.gd" id="33_sxqi6"]
+[ext_resource type="PackedScene" uid="uid://cv6la82ujg5g5" path="res://scenes/ui/estado_jugador.tscn" id="40_estado"]
+[ext_resource type="AudioStream" uid="uid://c2uikg8yp1pwp" path="res://Musica/Musica_Cueva_vorbis.ogg" id="41_musica"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_10bu1"]
 size = Vector2(48, 20)
@@ -554,6 +556,18 @@ limit_top = -260
 limit_right = 1408
 limit_bottom = 960
 
+[node name="UI jugador" type="CanvasLayer" parent="Objetos/Player/Camera2D"]
+scale = Vector2(1.5, 1.5)
+transform = Transform2D(1.5, 0, 0, 1.5, 0, 0)
+
+[node name="Estado Jugador" parent="Objetos/Player/Camera2D/UI jugador" instance=ExtResource("40_estado")]
+texture_filter = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
+
 [node name="Anciano" parent="Objetos" unique_id=302908514 instance=ExtResource("15_d4kj5")]
 position = Vector2(20, 462)
 
@@ -661,3 +675,8 @@ shape = SubResource("RectangleShape2D_xqppo")
 [node name="Pared 1" type="CollisionShape2D" parent="Borde oeste"]
 position = Vector2(-12, 350)
 shape = SubResource("RectangleShape2D_borde_oeste")
+
+[node name="Musica de fondo" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("41_musica")
+volume_db = -6.0
+autoplay = true
