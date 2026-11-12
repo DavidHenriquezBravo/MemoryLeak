@@ -10,6 +10,48 @@ const CARPETA := "user://saves"
 var slot_actual := 0      # el save en que se está jugando (0 = ninguno, p. ej. con F6 en el editor)
 
 
+# Autoguardado en el save en que se está jugando, para no perder la partida si el juego se cierra
+# o se queda pegado: al terminar cada misión, al llegar a otra escena del mapa y al cerrar el juego
+# (manteniendo Esc o con la X de la ventana).
+func _ready() -> void:
+	EventBus.mission_completed.connect(func(_m: MissionData): autoguardar.call_deferred())
+	get_tree().scene_changed.connect(_on_escena_cambiada)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		autoguardar()
+
+
+func _on_escena_cambiada() -> void:
+	# Dos cuadros: primero se coloca al jugador (punto_llegada o el save recién cargado)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	autoguardar()
+
+
+## Guarda en slot_actual solo donde también se podría guardar a mano: en el mapa, con el jugador
+## presente (no en peleas, menús, cinemáticas ni el inicio). Devuelve true si guardó.
+func autoguardar() -> bool:
+	if slot_actual <= 0 or not _se_puede_autoguardar():
+		return false
+	return guardar(slot_actual)
+
+
+func _se_puede_autoguardar() -> bool:
+	# En plena animación no se guarda: queda el último autoguardado, que es de justo antes
+	# (p. ej. al terminar la misión del Anciano, antes de la bajada al pozo).
+	if GameState.en_cinematica:
+		return false
+	var escena := get_tree().current_scene
+	if escena == null or get_tree().get_first_node_in_group("player") == null:
+		return false
+	for clave: String in MissionHud.ESCENAS_SIN_HUD:
+		if escena.scene_file_path.contains(clave):
+			return false
+	return true
+
+
 # {} si está vacío, {"danado": true} si no se pudo leer, o {"fecha", "nivel", "nv"}
 func resumen(slot: int) -> Dictionary:
 	if not FileAccess.file_exists(_ruta(slot)):

@@ -31,6 +31,7 @@ func _process(delta: float) -> void:
 	_barra.value = _tiempo / SEGUNDOS_PARA_CERRAR
 	if _tiempo >= SEGUNDOS_PARA_CERRAR:
 		set_process(false)
+		Guardado.autoguardar()      # la partida queda guardada al salir
 		get_tree().quit()
 
 
