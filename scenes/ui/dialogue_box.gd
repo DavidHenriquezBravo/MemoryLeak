@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 signal advance_pressed
+signal cerrado
 
 const CHARS_PER_SECOND := 40.0
 const REGISTRO_OK := preload("res://Sprites/UI/Cajas/pestana_registro_ok_9slice.png")
@@ -28,6 +29,11 @@ func _ready() -> void:
 
 # API pública: lo único que llaman los demás
 func say(npc: NpcData, lines: Array[String], registro: String = "") -> void:
+	# Un diálogo a la vez: si ya hay uno abierto, este espera su turno.
+	# (Dos a la vez compartían la caja: el primero en terminar la cerraba y el otro
+	# quedaba esperando una E que ya no llegaba; así se colgaba la bajada al jefe 2.)
+	while is_open:
+		await cerrado
 	is_open = true
 	_set_name(npc.display_name)
 	portrait.texture = npc.portrait
@@ -39,6 +45,7 @@ func say(npc: NpcData, lines: Array[String], registro: String = "") -> void:
 
 	box.visible = false
 	is_open = false
+	cerrado.emit()
 
 # La pestaña del nombre crece con el texto (como en los bocetos)
 func _set_name(text: String) -> void:

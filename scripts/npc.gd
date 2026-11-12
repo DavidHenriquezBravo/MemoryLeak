@@ -46,6 +46,9 @@ func _process(_delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if player_near == null or _hablando or Dialogue.is_open or ExercisePanel.is_open:
 		return
+	# Durante una cinemática o el fundido a otra escena no se habla con nadie
+	if GameState.en_cinematica or Transicion.ocupado:
+		return
 	if event.is_action_pressed("interact"):
 		# Importante: marcar el evento como usado, si no el cuadro de diálogo
 		# recibe esa misma pulsación de E y salta la primera frase.
