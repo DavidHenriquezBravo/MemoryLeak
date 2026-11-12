@@ -18,6 +18,15 @@ func _ready() -> void:
 func _on_body_entered(body: Node) -> void:
 	if _usada or escena == "" or not body.is_in_group("player"):
 		return
+	# Si el jugador recién llega y el fundido todavía no termina, Transicion ignoraría el pedido
+	# y la puerta quedaría marcada como usada para siempre: se espera a que termine.
+	while Transicion.ocupado:
+		await get_tree().process_frame
+		if not is_inside_tree():
+			return
+	# Mientras tanto pudo alejarse (o ya entró por otra llamada)
+	if _usada or not is_instance_valid(body) or not overlaps_body(body):
+		return
 	_usada = true
 	GameState.punto_entrada = punto_llegada
 	Transicion.ir_a(escena)
